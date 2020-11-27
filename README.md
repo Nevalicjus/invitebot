@@ -13,20 +13,20 @@ If you want to make changes to the names of files, or change the prefix the bot 
 You don't need to fill the uses file, but you need to 'complete' the invites file, or it's going to give errors as it doesn't know the invites a member uses
 The way they are written there is pretty modular;
 
-    {
-      "Invite_Code": {
-      "role1": "Role_Name",
-      "role2": "Role_Name"
-     },
-     "Invite_Code: {
-     "role1": "Role_Name",
-     "role2": "Role_Name"
-      }
-    }
+``{
+  "Invite_Code": {
+  "role1": "Role_Name",
+  "role2": "Role_Name"
+  },
+  "Invite_Code: {
+  "role1": "Role_Name",
+  "role2": "Role_Name"
+  }
+}``
 
-- There is *theoreticallly* no limit to the amount of roles added on one invite, and invite codes you can add
-- Remember about commas
-- The names of the keys (role1, role2, role3 etc.) don't really matter, they're just there to be there
+There is *theoreticallly* no limit to the amount of roles added on one invite, and invite codes you can add
+Remember about commas
+The names of the keys (role1, role2, role3 etc.) don't really matter, they're just there to be there
 
 The bot prints on the console it's actions, and also writes them to a file 'log.txt', so you can view them later.
 
