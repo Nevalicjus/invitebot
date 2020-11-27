@@ -3,7 +3,9 @@ A simple discord.py bot that connects invites to roles, and adds then on_member_
 
 ## How to
 I didn't add a viaDiscord way of setting it up, so you have to do it manually
+
 Go to config.json and fill the DiscordToken slot
+
 If you want to make changes to the names of files, or change the prefix the bot uses, you can do it there too
 
 1. Create a bot application on [Discord Developer Website](https://discord.com/developers)
@@ -25,7 +27,9 @@ The way they are written there is pretty modular;
 }</pre>
 
 There is *theoreticallly* no limit to the amount of roles added on one invite, and invite codes you can add
+
 Remember about commas
+
 The names of the keys (role1, role2, role3 etc.) don't really matter, they're just there to be there
 
 The bot prints on the console it's actions, and also writes them to a file 'log.txt', so you can view them later.
