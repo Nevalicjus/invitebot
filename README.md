@@ -6,7 +6,7 @@ I didn't add a viaDiscord way of setting it up, so you have to do it manually
 Go to config.json and fill the DiscordToken slot
 If you want to make changes to the names of files, or change the prefix the bot uses, you can do it there too
 
-- Setup a bot application on [Discord Developer Website](https://discord.com/developers)
+- Create a bot application on [Discord Developer Website](https://discord.com/developers)
 - Add the bot to your server
 - Move the bot's role bove the role's you want to be able to add on_join
 - Setup the invites.
@@ -31,4 +31,4 @@ The names of the keys (role1, role2, role3 etc.) don't really matter, they're ju
 The bot prints on the console it's actions, and also writes them to a file 'log.txt', so you can view them later.
 
 ### Thanks
-Great thanks to Piotr Młynarski who donated large part of the code to me
+Great thanks to Piotr Młynarski who donated a large part of the code
