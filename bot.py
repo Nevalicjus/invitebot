@@ -59,7 +59,7 @@ async def find_used_invite(member):
                 found_code = invite.code
 
     with open(usesfile, 'w') as f:
-        json.dump(uses, f); f.truncate()
+        json.dump(uses, f)
 
     return found_code
 
