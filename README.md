@@ -6,10 +6,10 @@ I didn't add a viaDiscord way of setting it up, so you have to do it manually
 Go to config.json and fill the DiscordToken slot
 If you want to make changes to the names of files, or change the prefix the bot uses, you can do it there too
 
-- Create a bot application on [Discord Developer Website](https://discord.com/developers)
-- Add the bot to your server
-- Move the bot's role bove the role's you want to be able to add on_join
-- Setup the invites.
+1. Create a bot application on [Discord Developer Website](https://discord.com/developers)
+2. Add the bot to your server
+3. Move the bot's role above the role's you want to be able to add on_join
+4. Setup the invites.
 You don't need to fill the uses file, but you need to 'complete' the invites file, or it's going to give errors as it doesn't know the invites a member uses
 The way they are written there is pretty modular;
 
