@@ -1,0 +1,7 @@
+{
+   "DiscordToken":"",
+   "Prefix":"inv!",
+   "LogFile": "log.txt",
+   "InvitesFile": "invites.json",
+   "UsesFile": "uses.json"
+}
