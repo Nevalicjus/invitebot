@@ -2,7 +2,8 @@
 A simple discord.py bot that connects invites to roles, and adds then on_member_join
 
 ## How to
-I didn't add a viaDiscord way of setting it up, so you have to do it manually
+~~I didn't add a viaDiscord way of setting it up, so you have to do it manually~~
+I've added a 'viaDiscord' way of setting up invites to roles, but I still advise to do it manually and use the commands to update the dictionary
 
 Go to config.json and fill the DiscordToken slot
 
@@ -13,6 +14,7 @@ If you want to make changes to the names of files, or change the prefix the bot 
 3. Move the bot's role above the role's you want to be able to add on_join
 4. Setup the invites.
 You don't need to fill the uses file, but you need to 'complete' the invites file, or it's going to give errors as it doesn't know the invites a member uses
+
 The way they are written there is pretty modular;
 
 <pre>{
