@@ -83,13 +83,17 @@ async def add(ctx, role: discord.Role, invite: discord.Invite):
     try:
         length = len(inv_roles[f"{invite.code}"])
         inv_roles[f"{invite.code}"][f"role{length + 1}"] = f"{role.name}"
+        log(f'Added role {role.name} to invite {invite.code}')
 
     except KeyError:
         inv_roles[f"{invite.code}"] = {}
         inv_roles[f"{invite.code}"]["role1"] = f"{role.name}"
+        log(f'Added invite {invite.code} with a starting role {role.name}')
 
     with open('dbs/invites.json', 'w') as f:
         json.dump(inv_roles, f)
+
+    await ctx.message.delete(delay=5)
 
 @client.command(help="Removes an invite-key from dictionary (!remove invite)")
 @commands.has_permissions(administrator=True)
@@ -101,6 +105,9 @@ async def remove(ctx, invite: discord.Invite):
 
     with open('dbs/invites.json', 'w') as f:
         json.dump(inv_roles, f)
+    log(f'Deleted {invite.code} invite')
+
+    await ctx.message.delete(delay=5)
 
 @client.command(help="Shows the invites with connected roles. Only first 25 tho")
 @commands.has_permissions(administrator=True)
