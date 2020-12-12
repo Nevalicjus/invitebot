@@ -14,6 +14,7 @@ If you want to make changes to the names of files, or change the prefix the bot 
 3. Move the bot's role above the role's you want to be able to add on_join
 4. Setup the invites.
 You don't need to fill the uses file, but you need to 'complete' the invites file, or it's going to give errors as it doesn't know the invites a member uses
+
 The way they are written there is pretty modular;
 
 <pre>{
