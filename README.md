@@ -28,8 +28,6 @@ The way they are written there is pretty modular;
   }
 }</pre>
 
-There is *theoreticallly* no limit to the amount of roles added on one invite, and invite codes you can add
-
 Remember about commas
 
 The names of the keys (role1, role2, role3 etc.) don't really matter, they're just there to be there
