@@ -28,15 +28,17 @@ async def on_member_join(member):
 async def add_inv_roles(invite, member):
     with open(invfile, 'r') as f:
         inv_roles = json.load(f)
-    for x in inv_roles[invite]:
-        try:
-            role = discord.utils.get(member.guild.roles, name=inv_roles[invite][x])
-            log(f'Found invite role: {inv_roles[invite][x]}')
-            await member.add_roles(role)
-            log(f'Role added')
-        except KeyError:
-            log(f'No role for invite {invite}')
-
+    try:
+        for x in inv_roles[invite]:
+            try:
+                role = discord.utils.get(member.guild.roles, name=inv_roles[invite][x])
+                log(f'Found invite role: {inv_roles[invite][x]}')
+                await member.add_roles(role)
+                log(f'Role added')
+            except KeyError:
+                log(f'No role for invite {invite}')
+    except KeyError:
+        return
 
 async def find_used_invite(member):
     found_code = ''
@@ -55,7 +57,7 @@ async def find_used_invite(member):
                 log(f'New invite: {invite.code}')
                 continue
             else:
-                log(f'User joined with new invite: {invite.code}')
+                log(f'User {member.name} joined with new invite: {invite.code}')
                 found_code = invite.code
 
     with open(usesfile, 'w') as f:
