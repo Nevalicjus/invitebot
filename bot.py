@@ -77,7 +77,7 @@ async def get_current_invite_uses():
 @client.command(help="Adds a role to an invite-key in dictionary (!add role invite)")
 @commands.has_permissions(administrator=True)
 async def add(ctx, role: discord.Role, invite: discord.Invite):
-    with open('dbs/invites.json', 'r') as f:
+    with open(invfile, 'r') as f:
         inv_roles = json.load(f)
 
     try:
@@ -90,7 +90,7 @@ async def add(ctx, role: discord.Role, invite: discord.Invite):
         inv_roles[f"{invite.code}"]["role1"] = f"{role.name}"
         log(f'Added invite {invite.code} with a starting role {role.name}')
 
-    with open('dbs/invites.json', 'w') as f:
+    with open(invfile, 'w') as f:
         json.dump(inv_roles, f)
 
     await ctx.message.delete(delay=5)
@@ -98,12 +98,12 @@ async def add(ctx, role: discord.Role, invite: discord.Invite):
 @client.command(help="Removes an invite-key from dictionary (!remove invite)")
 @commands.has_permissions(administrator=True)
 async def remove(ctx, invite: discord.Invite):
-    with open('dbs/invites.json', 'r') as f:
+    with open(invfile, 'r') as f:
         inv_roles = json.load(f)
 
     del inv_roles[invite.code]
 
-    with open('dbs/invites.json', 'w') as f:
+    with open(invfile, 'w') as f:
         json.dump(inv_roles, f)
     log(f'Deleted {invite.code} invite')
 
@@ -112,7 +112,7 @@ async def remove(ctx, invite: discord.Invite):
 @client.command(help="Shows the invites with connected roles. Only first 25 tho")
 @commands.has_permissions(administrator=True)
 async def listinvs(ctx):
-    with open('dbs/invites.json', 'r') as f:
+    with open(invfile, 'r') as f:
         inv_roles = json.load(f)
 
     embed = discord.Embed(title = f"**Invite List**", color = discord.Colour.from_rgb(119, 137, 218))
