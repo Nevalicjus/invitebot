@@ -21,6 +21,32 @@ async def on_ready():
     log(f"InviteBot ready")
 
 @client.event
+async def on_guild_join(guild):
+    with open(f'dbs/{invfile}', 'r') as f:
+        inv_roles = json.load(f)
+
+    log(f"Succesfully joined guild {guild.name} {guild.id}")
+    inv_roles[f"{guild.id}"] = {}
+    log(f"Succesfully added guild's {guild.name} key to dictionaries")
+
+    with open(f'dbs/{invfile}', 'w') as f:
+        json.dump(inv_roles, f, indent = 4)
+
+
+@client.event
+async def on_invite_delete(invite):
+    with open(f'dbs/{invfile}', 'r') as f:
+        inv_roles = json.load(f)
+
+    del inv_roles[f"{invite.guild.id}"][invite.code]
+    guilds[f"{invite.guild.id}"]["InvitesNow"] -= 1
+
+    with open(f'dbs/{invfile}', 'w') as f:
+        json.dump(inv_roles, f, indent = 4)
+
+    log(f'Deleted {invite.code} invite in guild {invite.guild.name}')
+
+@client.event
 async def on_member_join(member):
     await add_inv_roles(await find_used_invite(member), member)
 
@@ -123,6 +149,31 @@ async def listinvs(ctx):
             about += inv_roles[inv][invrole]
             about += "\n"
         embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
+
+    await ctx.message.delete(delay=5)
+
+@client.command(help="Creates an invite from specified channel")
+@commands.has_permissions(administrator=True)
+async def make(ctx, channel: discord.TextChannel, role: discord.Role, age: int = 0, uses: int = 0):
+
+    invite = await channel.create_invite(max_age = age, max_uses = uses)
+    log(f"{ctx.author} created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
+
+    with open(f'dbs/{invfile}', 'r') as f:
+        inv_roles = json.load(f)
+
+    try:
+        inv_roles[f"{ctx.guild.id}"][f"{invite.code}"][f"role{invnow + 1}"] = role.id
+        log(f'Added role {role.name} to invite {invite.code} in {ctx.guild.name}')
+
+    except KeyError:
+        inv_roles[f"{ctx.guild.id}"][f"{invite.code}"] = {}
+        inv_roles[f"{ctx.guild.id}"][f"{invite.code}"]["role1"] = role.id
+        log(f'Added invite {invite.code} in {ctx.guild.name} with a starting role {role.name} {role.id}')
+
+    with open(f'dbs/{invfile}', 'w') as f:
+        json.dump(inv_roles, f, indent = 4)
+
 
     await ctx.message.delete(delay=5)
 
