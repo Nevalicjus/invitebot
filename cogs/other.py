@@ -59,6 +59,8 @@ class Other(commands.Cog):
                 config['General']['AdminRoles'] = admin_roles
                 with open(f'configs/{ctx.guild.id}', 'w') as f:
                     json.dump(config, f, indent = 4)
+                embed = self.constructResponseEmbedBase(f"Added role {role.name} as an admin role")
+                await ctx.send(embed = embed)
                 await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
 
 
@@ -85,6 +87,8 @@ class Other(commands.Cog):
                 config['General']['AdminRoles'] = admin_roles
                 with open(f'configs/{ctx.guild.id}', 'w') as f:
                     json.dump(config, f, indent = 4)
+                embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
+                await ctx.send(embed = embed)
                 await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
 
             else:
@@ -194,7 +198,8 @@ class Other(commands.Cog):
             await ctx.message.delete(delay=3)
 
         self.log(ctx.guild.id, f"Invite to the bot requested by {ctx.message.author}[{ctx.message.author.id}] on {ctx.message.channel}")
-        await ctx.send('**Invite the bot here ->** https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot')
+        embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot")
+        await ctx.send(embed = embed)
 
 
     def log(self, guild_id, log_msg: str):
