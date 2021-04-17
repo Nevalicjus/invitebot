@@ -5,7 +5,7 @@ A simple discord.py bot that connects invites to roles, and adds then on_member_
 
 If you want to use the bot 'out of the box', I host it publically [here](https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot)
 
-If you want to selfhost:
+### If you want to selfhost:
 
   1. Clone the Bot
   2. Create a bot application on [Discord Developer Website](https://discord.com/developers)
