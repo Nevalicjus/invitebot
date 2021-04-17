@@ -33,17 +33,17 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
   8. Move the bot above the roles you want to give on invites.
   9. Setup the invites.
 
-- Invites for the specific servers will be listed in the 'config files', under Invites.
+- Invites for the specific servers will be listed in the 'config files', under [Invites](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L7)
 
-- If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememebr, then the member x can have a misgiven role.
+- If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememebr, then the member x can have a misgiven role
 
-- If you enable log, which isn't enabled on default, the bot will log some of his actions onto a discord channel.
+- If you enable [log](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L5), which isn't enabled on default, the bot will log some of his actions onto a discord channel
 
-- If you add any Admin Roles, they will appear under General > AdminRoles.
+- If you add any Admin Roles, they will appear under General > [AdminRoles](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L4)
 
-- If you choose to Delete Invocations on normal commands, it is sever specific and can be found under General > DeleteInvocations  
+- If you choose to Delete Invocations on normal commands, it is sever specific and can be found under General > [DeleteInvocations](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L3)  
 
-The bot prints it's actions on the console, and also writes them to a file 'log.txt', so you can view them later.
+The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L4), so you can view them later
 
 ## Contributing
 
