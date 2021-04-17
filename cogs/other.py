@@ -202,13 +202,16 @@ class Other(commands.Cog):
 
 
     def log(self, guild_id, log_msg: str):
+        with open('config.json', 'r') as f:
+            config = json.load(f)
+            logfile = config['LogFile']
         if guild_id == 0:
             print(f"[{datetime.datetime.now()}] [\033[34mOTHER\033[0m]: " + log_msg)
-            with open('log.txt', 'a') as f:
+            with open(f'{logfile}', 'a') as f:
                 f.write(f"[{datetime.datetime.now()}] [OTHER]: " + log_msg + "\n")
         else:
             print(f"[{datetime.datetime.now()}] [{guild_id}] [\033[34mOTHER\033[0m]: " + log_msg)
-            with open('log.txt', 'a') as f:
+            with open(f'{logfile}', 'a') as f:
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: " + log_msg + "\n")
 
     def checkPerms(self, user_id, guild_id):
