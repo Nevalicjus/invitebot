@@ -11,11 +11,6 @@ class Invs(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    with open('config.json', 'r') as f:
-        config = json.load(f)
-        admin_roles = config['AdminRoles']
-        delinvos = config['DeleteInvocations']
-
     @commands.Cog.listener()
     async def on_invite_create(self, invite):
         with open(f'configs/{invite.guild.id}.json', 'r') as f:
