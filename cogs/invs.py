@@ -102,8 +102,8 @@ class Invs(commands.Cog):
 
 
     @commands.command(aliases = ['inva'])
-    async def invadd(self, ctx, invite: discord.Invite, role: discord.Role):
-        if checkInvos(ctx.guild.id) = 1:
+    async def add(self, ctx, invite: discord.Invite, role: discord.Role):
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
@@ -132,8 +132,8 @@ class Invs(commands.Cog):
 
 
     @commands.command(aliases = ['invdel', 'invrem', 'invr'])
-    async def invremove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
-        if checkInvos(ctx.guild.id) = 1:
+    async def remove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
@@ -203,8 +203,8 @@ class Invs(commands.Cog):
 
 
     @commands.command(aliases = ['invm'])
-    async def invmake(self, ctx, channel: discord.TextChannel, role: discord.Role, uses: int = 0, age: int = 0):
-        if checkInvos(ctx.guild.id) = 1:
+    async def make(self, ctx, channel: discord.TextChannel, role: discord.Role, uses: int = 0, age: int = 0):
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
