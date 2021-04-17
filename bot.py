@@ -15,6 +15,7 @@ with open('config.json', 'r') as f:
     usesfile = config['UsesFile']
 
 client = commands.Bot(command_prefix=prefix, intents=intents)
+client.remove_command('help')
 
 @client.event
 async def on_ready():
