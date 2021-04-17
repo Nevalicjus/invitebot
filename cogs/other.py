@@ -193,7 +193,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         self.log(ctx.guild.id, f"Invite to the bot requested by {ctx.message.author}[{ctx.message.author.id}] on {ctx.message.channel}")

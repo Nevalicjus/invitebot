@@ -106,7 +106,7 @@ class Invs(commands.Cog):
         if checkInvos(ctx.guild.id) = 1:
             await ctx.message.delete(delay=3)
 
-        if checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -136,7 +136,7 @@ class Invs(commands.Cog):
         if checkInvos(ctx.guild.id) = 1:
             await ctx.message.delete(delay=3)
 
-        if checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -207,7 +207,7 @@ class Invs(commands.Cog):
         if checkInvos(ctx.guild.id) = 1:
             await ctx.message.delete(delay=3)
 
-        if checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
