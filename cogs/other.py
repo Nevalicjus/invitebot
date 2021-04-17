@@ -38,6 +38,11 @@ class Other(commands.Cog):
         with open(f'configs/{guild.id}', 'w') as f:
             json.dump(config, f, indent = 4)
 
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        self.log(guild.id, f"Left guild - {guild.name}")
+        os.system(f"rm configs/{guild.id}.json")
+
     @commands.command()
     async def addmod(self, ctx, role: discord.Role):
         if checkInvos(ctx.guild.id) = 1:
