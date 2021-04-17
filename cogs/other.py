@@ -143,9 +143,9 @@ class Other(commands.Cog):
             await ctx.send("You are not permitted to run this command")
             return
 
-        if choice == 'true' or choice == 'yes' or choice == 'y' or choice == 'allow' or choice == 'enable':
+        if choice == 'true' or choice == 'yes' or choice == 'y' or choice == 'allow' or choice == 'enable' or choice == '1':
             choice = 1
-        if choice == 'false' or choice == 'no' or choice == 'n' or choice == 'deny' or choice == 'disable':
+        if choice == 'false' or choice == 'no' or choice == 'n' or choice == 'deny' or choice == 'disable' or choice == '0':
             choice = 0
         if choice not in [0,1]:
             embed = self.constructResponseEmbedBase("This is not a valid input")
