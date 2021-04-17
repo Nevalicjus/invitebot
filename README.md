@@ -6,11 +6,9 @@ Add the bot - https://discord.com/api/oauth2/authorize?client_id=788044126242603
 Discord Support Server - https://discord.gg/wsEU32a3ke
 
 ## Usage
-
 If you want to use the bot 'out of the box', I host it publically [here](https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot)
 
 ### If you want to selfhost:
-
   1. Clone the Bot
   2. Create a bot application on [Discord Developer Website](https://discord.com/developers)
   3. Go to config.json and fill the [DiscordToken](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L2).
@@ -46,9 +44,10 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L4), so you can view them later
 
 ## Contributing
-
 If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see #contributing.
 
+## Contact
+You can contact me on Discord - find me on the Support Server/[Twitter](https://twitter.com/maciejbromirski)
 
 ## Thanks
 Great thanks to Piotr Młynarski
