@@ -15,14 +15,16 @@ class Other(commands.Cog):
     async def on_guild_join(self, guild):
         self.log(guild.id, f"Joined new guild - {guild.name}")
         braces = "{}"
+        #creates config file
         os.system(f"touch configs/{guild.id}.json && echo {braces} > configs/{guild.id}.json")
         await asyncio.sleep(5)
         try:
             with open(f'configs/{guild.id}.json', 'r') as f:
                 config = json.load(f)
         except FileNotFoundError:
-            self.log()
+            self.log(0, f"Config for guild {guild.name}[{guild.id}] couldn't be created.")
 
+        #creates config data
         config['General'] = {}
         config['Invites'] = {}
 
@@ -41,19 +43,23 @@ class Other(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         self.log(guild.id, f"Left guild - {guild.name}")
+        #removes config file on guild leave
         os.system(f"rm configs/{guild.id}.json")
 
     @commands.command()
     async def addmod(self, ctx, role: discord.Role):
+        #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
+        #checks for owner
         if ctx.author.id == ctx.guild.owner_id:
             with open(f'configs/{ctx.guild.id}.json', 'r') as f:
                 config = json.load(f)
 
             admin_roles = config['General']['AdminRoles']
 
+            #appends role to admin roles if it wasn't there before
             if role.id not in admin_roles:
                 admin_roles.append(role.id)
                 config['General']['AdminRoles'] = admin_roles
