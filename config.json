@@ -1,6 +1,6 @@
 {
    "DiscordToken":"",
-   "Prefix":"inv!",
+   "Prefix":"i!",
    "LogFile": "log.txt",
    "OwnerUsers": [],
    "DeleteOwnerCommandsInvos": 0
