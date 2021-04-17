@@ -226,11 +226,15 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
-
     def log(self, guild_id, log_msg: str):
-        print(f"[{datetime.datetime.now()}] [{guild_id}] [\033[33mINVROLES\033[0m]: " + log_msg)
-        with open('log.txt', 'a') as f:
-            f.write(f"[{datetime.datetime.now()}] : " + log_msg + "\n")
+        if guild_id == 0:
+            print(f"[{datetime.datetime.now()}] [\033[33mINVROLES\033[0m]: " + log_msg)
+            with open('log.txt', 'a') as f:
+                f.write(f"[{datetime.datetime.now()}] [INVROLES]: " + log_msg + "\n")
+        else:
+            print(f"[{datetime.datetime.now()}] [{guild_id}] [\033[33mINVROLES\033[0m]: " + log_msg)
+            with open('log.txt', 'a') as f:
+                f.write(f"[{datetime.datetime.now()}] [{guild_id}] [INVROLES]: " + log_msg + "\n")
 
     def checkPerms(self, user_id, guild_id):
         with open(f'configs/{guild_id}.json', 'r') as f:
