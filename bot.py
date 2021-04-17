@@ -17,6 +17,7 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
+    await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="inv!help | https://discord.gg/wsEU32a3ke"))
     log(f"InviteBot ready")
 
 
