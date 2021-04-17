@@ -16,7 +16,8 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
   3. Go to config.json and fill the DiscordToken.
   4. If you want to host it for more than one server, I advise adding your Discord User ID to OwnerUsers in the config.json file.
   5. If you want to change the prefix/logfile name/if bot should delete owner command invocations, change it in the config.json also.
-  6. Add the bot to your server/servers. I advise giving him at least these permissions:
+  6. Start the bot (I've included [start.sh](https://github.com/Nevalicjus/invitebot/blob/main/start.sh) if you want to run it a screen)
+  7. Add the bot to your server/servers. I advise giving him at least these permissions:
      - Manage Server
      - Manage Roles
      - Manage Channels
@@ -29,8 +30,8 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
      - Add Reactions
      or just the Administrator Permission.
      You should see files with server ids' appear in the configs/ directory.
-  7. Move the bot above the roles you want to give on invites.
-  8. Setup the invites.
+  8. Move the bot above the roles you want to give on invites.
+  9. Setup the invites.
 
 - Invites for the specific servers will be listed in the 'config files', under Invites.
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-screen -S python3 bot.py
+screen -S invbot python3 bot.py
