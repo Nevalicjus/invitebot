@@ -13,10 +13,15 @@ class Other(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        self.log(guild.id f"Joined new guild - {guild.name}")
-        os.system(f'touch configs/{guild.id}.json')
-        with open(f'configs/{guild.id}.json', 'r') as f:
-            config = json.load(f)
+        self.log(guild.id, f"Joined new guild - {guild.name}")
+        braces = "{}"
+        os.system(f"touch configs/{guild.id}.json && echo {braces} > configs/{guild.id}.json")
+        await asyncio.sleep(5)
+        try:
+            with open(f'configs/{guild.id}.json', 'r') as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            self.log()
 
         config['General'] = {}
         config['Invites'] = {}
