@@ -49,6 +49,8 @@ class Other(commands.Cog):
                 config['General']['AdminRoles'] = admin_roles
                 with open(f'configs/{ctx.guild.id}', 'w') as f:
                     json.dump(config, f, indent = 4)
+                await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
+
 
             else:
                 embed = self.constructResponseEmbedBase("This role wasn't an admin role")
@@ -73,6 +75,8 @@ class Other(commands.Cog):
                 config['General']['AdminRoles'] = admin_roles
                 with open(f'configs/{ctx.guild.id}', 'w') as f:
                     json.dump(config, f, indent = 4)
+                await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
+
             else:
                 embed = self.constructResponseEmbedBase("This role wasn't an admin role")
                 await ctx.send(embed = embed)
@@ -141,9 +145,11 @@ class Other(commands.Cog):
         if choice == 1:
             embed = self.constructResponseEmbedBase("You've successfully enabled Invocation Deletion")
             await ctx.send(embed = embed)
+            await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been enabled")
         if choice == 0:
             embed = self.constructResponseEmbedBase("You've successfully disabled Invocation Deletion")
             await ctx.send(embed = embed)
+            await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been disabled")
 
         with open(f'configs/{ctx.guild.id}', 'w') as f:
             json.dump(config, f, indent = 4)
@@ -230,6 +236,33 @@ class Other(commands.Cog):
 
         return embed
 
+    async def serverLog(self, guild_id, type, log_msg):
+        with open(f'configs/{guild_id}.json', 'r') as f:
+            config = json.load(f)
+            log_channel_id = config['General']['ServerLog']
+        if log_channel_id == 0:
+            return
+
+        if type in ["mod_added"]:
+            em_color = discord.Colour.from_rgb(67, 181, 129)
+        if type in ["delinvos"]:
+            em_color = discord.Colour.from_rgb(250, 166, 26)
+        if type in ["mod_deleted"]:
+            em_color = discord.Colour.from_rgb(240, 71, 71)
+
+        embed = discord.Embed(title = f"**InviteBot Logging**", color = em_color)
+        now = datetime.datetime.now()
+        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+        if type == "mod_added":
+            embed.add_field(name = "Admin Role Added", value = log_msg, inline = False)
+        if type == "delinvos":
+            embed.add_field(name = "Invocation Deletion", value = log_msg, inline = False)
+        if type == "mod_deleted":
+            embed.add_field(name = "Admin Role Removed", value = log_msg, inline = False)
+
+        log_channel = self.client.get_channel(log_channel_id)
+        await log_channel.send(embed = embed)
 
 def setup(client):
     client.add_cog(Other(client))
