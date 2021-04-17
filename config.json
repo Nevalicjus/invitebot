@@ -2,7 +2,6 @@
    "DiscordToken":"",
    "Prefix":"inv!",
    "LogFile": "log.txt",
-   "InvitesFile": "invites.json",
    "OwnerUsers": [],
    "DeleteOwnerCommandsInvos": 0
 }
