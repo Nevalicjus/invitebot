@@ -1,7 +1,9 @@
-## Invitebot
+# InviteBot
 A simple discord.py bot that connects invites to roles, and adds then on_member_join
+Add the bot - https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot
+Discord Support Server - https://discord.gg/wsEU32a3ke
 
-## Using
+## Usage
 
 If you want to use the bot 'out of the box', I host it publically [here](https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot)
 
@@ -28,13 +30,22 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
   7. Move the bot above the roles you want to give on invites.
   8. Setup the invites.
 
-Invites for the specific servers will be listed in the 'config files', under Invites.
-If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememebr, then the member x can have a misgiven role.
-If you enable log, which isn't enabled on default, the bot will log some of his actions onto a discord channel.
-If you add any Admin Roles, they will appear under General > AdminRoles.
-If you choose to Delete Invocations on normal commands, it is sever specific and can be found under General > DeleteInvocations  
+- Invites for the specific servers will be listed in the 'config files', under Invites.
+
+- If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememebr, then the member x can have a misgiven role.
+
+- If you enable log, which isn't enabled on default, the bot will log some of his actions onto a discord channel.
+
+- If you add any Admin Roles, they will appear under General > AdminRoles.
+
+- If you choose to Delete Invocations on normal commands, it is sever specific and can be found under General > DeleteInvocations  
 
 The bot prints it's actions on the console, and also writes them to a file 'log.txt', so you can view them later.
 
-### Thanks
+## Contributing
+
+If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see #contributing.
+
+
+## Thanks
 Great thanks to Piotr Młynarski
