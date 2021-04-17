@@ -21,7 +21,8 @@ class Invs(commands.Cog):
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
-        self.log(invite.guild.id, f'Invite {invite.code} was created in guild {invite.guild.name}[{invite.guild.id}]')
+        self.log(invite.guild.id, f'Invite {invite.code} was created')
+        await self.serverLog(invite.guild.id, "inv_created", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Max Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.max_uses))
 
     @commands.Cog.listener()
     async def on_invite_delete(self, invite):
@@ -33,7 +34,8 @@ class Invs(commands.Cog):
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
-        self.log(invite.guild.id, f'Invite {invite.code} was deleted in guild {invite.guild.name}[{invite.guild.id}]')
+        self.log(invite.guild.id, f'Invite {invite.code} was deleted')
+        await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -68,6 +70,8 @@ class Invs(commands.Cog):
             try:
                 if uses[f"{invite.code}"] != curr_uses[f"{invite.code}"]:
                     self.log(invite.guild.id, f"User {member.name}[{member.id}] joined with invite {invite.code}")
+                    await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}`".format(member.id, member.id, invite.code))
+
                     found_code = invite.code
             except KeyError:
                 with open(f'configs/{invite.guild.id}.json', 'r') as f:
@@ -113,6 +117,8 @@ class Invs(commands.Cog):
             inv_roles = invites['Invites'][f"{invite.code}"]["roles"]
             inv_roles.append(role.id)
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] added role {role.name} to invite {invite.code}")
+            await self.serverLog(ctx.guild.id, "inv_added", "{0}[`{1}`] linked {2}[`{3}`] to {4}".format(ctx.author, ctx.author.id, role.name, role.id, invite.code))
+
 
         except KeyError:
             invites['Invites'][f"{invite.code}"] = {"roles": [role.id], "uses": 0}
@@ -214,6 +220,8 @@ class Invs(commands.Cog):
 
         await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
         self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
+        await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite in {2} with {3} on join, age: {4} and uses: {5}".format(ctx.author.id, ctx.author.id, channel, role, invite.max_age, invite.max_uses))
+
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
