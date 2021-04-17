@@ -3,5 +3,6 @@
    "Prefix":"inv!",
    "LogFile": "log.txt",
    "InvitesFile": "invites.json",
-   "OwnerUsers": []
+   "OwnerUsers": [],
+   "DeleteOwnerCommandsInvos": 0
 }
