@@ -182,7 +182,7 @@ class Other(commands.Cog):
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
         now = datetime.datetime.now()
-        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+        embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         embed.add_field(name = "inv!**addmod @role**", value = "**Only for Server Owner**\nAdds @role to Admin Roles", inline = False)
         embed.add_field(name = "inv!**delmod @role**", value = "**Only for Server Owner**\nRemoves @role from Admin Roles", inline = False)
