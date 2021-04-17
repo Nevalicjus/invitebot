@@ -11,8 +11,6 @@ with open('config.json', 'r') as f:
     prefix = config['Prefix']
     token = config['DiscordToken']
     logfile = config['LogFile']
-    invfile = config['InvitesFile']
-    usesfile = config['UsesFile']
 
 client = commands.Bot(command_prefix=prefix, intents=intents)
 client.remove_command('help')
