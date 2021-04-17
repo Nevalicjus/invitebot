@@ -67,9 +67,10 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-def log(string: str):
-        print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: " + string)
-        with open('log.txt', 'a') as f:
-            f.write(f"[{datetime.datetime.now()}] : " + string + "\n")
+def log(log_msg: str):
+    print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: " + log_msg)
+    with open('log.txt', 'a') as f:
+        f.write(f"[{datetime.datetime.now()}] [INTERNAL]: " + log_msg + "\n")
+
 
 client.run(token)
