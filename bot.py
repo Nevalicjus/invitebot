@@ -11,6 +11,7 @@ with open('config.json', 'r') as f:
     prefix = config['Prefix']
     token = config['DiscordToken']
     logfile = config['LogFile']
+    delinvos = config['DeleteOwnerCommandsInvos']
 
 client = commands.Bot(command_prefix=prefix, intents=intents)
 client.remove_command('help')
@@ -59,7 +60,7 @@ async def reload(ctx, extension):
         await ctx.send(f'{extension} was reloaded')
         log(f'{extension} was reloaded')
     #deleting invo
-    if delinvos == True:
+    if delinvos == 1:
         await ctx.message.delete(delay=5)
 
 for filename in os.listdir('./cogs'):
