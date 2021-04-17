@@ -203,7 +203,7 @@ class Other(commands.Cog):
             isAble += 1
         if user_id == guild.owner_id:
             isAble += 1
-        for role in cmember.roles:
+        for role in member.roles:
             if role.id in admin_roles:
                 isAble += 1
 
