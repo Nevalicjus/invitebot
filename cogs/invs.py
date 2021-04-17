@@ -143,12 +143,16 @@ class Invs(commands.Cog):
             invites['Invites'][f"{invite.code}"]["roles"] = inv_roles
 
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] removed link from invite {invite.code} to role {role.name}")
+            await self.serverLog(ctx.guild.id, "inv_removed", "{0}[`{1}`] removed the link of {2}[`{3}`] to {4}".format(ctx.author, ctx.author.id, role.name, role.id))
+
             await ctx.send(f"Removed link from invite {invite.code} to {role.name}")
 
         else:
             invites['Invites'][f"{invite.code}"]["roles"] = []
 
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] removed all links to invite {invite.code}")
+            await self.serverLog(ctx.guild.id, "inv_removed", "{0}[`{1}`] removed all role links to {2}".format(ctx.author, ctx.author.id, invite.code))
+
             await ctx.send(f"Removed all links from invite {invite.code}")
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
@@ -156,11 +160,11 @@ class Invs(commands.Cog):
 
 
     @commands.command(aliases = ['invlist', 'invls'])
-    async def listinvs(self, ctx):
-        if checkInvos(ctx.guild.id) = 1:
+    async def list(self, ctx):
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -263,6 +267,41 @@ class Invs(commands.Cog):
         embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         return embed
+
+    async def serverLog(self, guild_id, type, log_msg):
+        with open(f'configs/{guild_id}.json', 'r') as f:
+            config = json.load(f)
+            log_channel_id = config['General']['ServerLog']
+        if log_channel_id == 0:
+            return
+
+        if type in ["inv_created", "inv_added", "inv_made"]:
+            em_color = discord.Colour.from_rgb(67, 181, 129)
+        if type in ["member_joined"]:
+            em_color = discord.Colour.from_rgb(250, 166, 26)
+        if type in ["inv_deleted", "inv_removed"]:
+            em_color = discord.Colour.from_rgb(240, 71, 71)
+
+        embed = discord.Embed(title = f"**InviteBot Logging**", color = em_color)
+        now = datetime.datetime.now()
+        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+
+        if type == "inv_created":
+            embed.add_field(name = "Invite Created", value = log_msg, inline = False)
+        if type == "inv_added":
+            embed.add_field(name = "Invite-Role Link Added", value = log_msg, inline = False)
+        if type == "inv_made":
+            embed.add_field(name = "Invite Made", value = log_msg, inline = False)
+        if type == "member_joined":
+            embed.add_field(name = "Member Joined", value = log_msg, inline = False)
+        if type == "inv_deleted":
+            embed.add_field(name = "Invite Deleted", value = log_msg, inline = False)
+        if type == "inv_removed":
+            embed.add_field(name = "Invite-Role Link Removed", value = log_msg, inline = False)
+
+        log_channel = self.client.get_channel(log_channel_id)
+        await log_channel.send(embed = embed)
 
 def setup(client):
     client.add_cog(Invs(client))
