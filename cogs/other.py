@@ -35,7 +35,7 @@ class Other(commands.Cog):
             config['Invites'][f'{invite.code}']['roles'] = []
             config['Invites'][f'{invite.code}']['uses'] = invite.uses
 
-        with open(f'configs/{guild.id}', 'w') as f:
+        with open(f'configs/{guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
 
     @commands.Cog.listener()
@@ -45,7 +45,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def addmod(self, ctx, role: discord.Role):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if ctx.author.id == ctx.guild.owner_id:
@@ -54,10 +54,10 @@ class Other(commands.Cog):
 
             admin_roles = config['General']['AdminRoles']
 
-            if role.id in admin_roles:
+            if role.id not in admin_roles:
                 admin_roles.append(role.id)
                 config['General']['AdminRoles'] = admin_roles
-                with open(f'configs/{ctx.guild.id}', 'w') as f:
+                with open(f'configs/{ctx.guild.id}.json', 'w') as f:
                     json.dump(config, f, indent = 4)
                 embed = self.constructResponseEmbedBase(f"Added role {role.name} as an admin role")
                 await ctx.send(embed = embed)
@@ -65,7 +65,7 @@ class Other(commands.Cog):
 
 
             else:
-                embed = self.constructResponseEmbedBase("This role wasn't an admin role")
+                embed = self.constructResponseEmbedBase("This role was already an admin role")
                 await ctx.send(embed = embed)
         else:
             embed = self.constructResponseEmbedBase("You are not the server owner")
@@ -73,7 +73,7 @@ class Other(commands.Cog):
 
     @commands.command()
     async def delmod(self, ctx, role: discord.Role):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if ctx.author.id == ctx.guild.owner_id:
@@ -85,7 +85,7 @@ class Other(commands.Cog):
             if role.id in admin_roles:
                 admin_roles.remove(role.id)
                 config['General']['AdminRoles'] = admin_roles
-                with open(f'configs/{ctx.guild.id}', 'w') as f:
+                with open(f'configs/{ctx.guild.id}.json', 'w') as f:
                     json.dump(config, f, indent = 4)
                 embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
                 await ctx.send(embed = embed)
@@ -100,7 +100,7 @@ class Other(commands.Cog):
 
     @commands.command(aliases = ['elog'])
     async def enablelog(self, ctx, channel: discord.TextChannel):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if ctx.author.id == ctx.guild.owner_id:
@@ -109,7 +109,7 @@ class Other(commands.Cog):
 
             config['General']['ServerLog'] = channel.id
             await ctx.send(f"Enabled log on channel {channel}")
-            with open(f'configs/{ctx.guild.id}', 'w') as f:
+            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
                 json.dump(config, f, indent = 4)
 
         else:
@@ -118,7 +118,7 @@ class Other(commands.Cog):
 
     @commands.command(aliases = ['dlog'])
     async def disablelog(self, ctx):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         if ctx.author.id == ctx.guild.owner_id:
@@ -127,7 +127,7 @@ class Other(commands.Cog):
 
             config['General']['ServerLog'] = 0
             await ctx.send(f"Disabled log")
-            with open(f'configs/{ctx.guild.id}', 'w') as f:
+            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
                 json.dump(config, f, indent = 4)
 
         else:
@@ -136,10 +136,10 @@ class Other(commands.Cog):
 
     @commands.command()
     async def delinvos(self, ctx, choice):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -165,12 +165,12 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been disabled")
 
-        with open(f'configs/{ctx.guild.id}', 'w') as f:
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
 
     @commands.command()
     async def help(self, ctx):
-        if checkInvos(ctx.guild.id) = 1:
+        if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
@@ -192,7 +192,6 @@ class Other(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command()
-    @commands.check_any(commands.has_any_role(*owner_roles), commands.is_owner())
     async def invite(self, ctx):
         if checkInvos(ctx.guild.id) = 1:
             await ctx.message.delete(delay=3)
@@ -208,7 +207,7 @@ class Other(commands.Cog):
             f.write(f"[{datetime.datetime.now()}] : " + log_msg + "\n")
 
     def checkPerms(self, user_id, guild_id):
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             admin_roles = config['General']['AdminRoles']
         with open(f'config.json', 'r') as f:
@@ -234,7 +233,7 @@ class Other(commands.Cog):
             return False
 
     def checkInvos(self, guild_id):
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             delinvos = config['General']['DeleteInvocations']
 

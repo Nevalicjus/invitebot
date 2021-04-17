@@ -42,7 +42,7 @@ class Invs(commands.Cog):
         await self.add_inv_roles(await self.find_used_invite(member), member)
 
     async def add_inv_roles(self, invite, member):
-        with open(f'configs/{invite.guild.id}.json', 'r') as f:
+        with open(f'configs/{member.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
         for x in invites['Invites'][f"{invite}"]["roles"]:
@@ -58,11 +58,11 @@ class Invs(commands.Cog):
         invite_list = await member.guild.invites()
         uses = {}
 
-        with open(f'configs/{invite.guild.id}.json', 'r') as f:
+        with open(f'configs/{member.guild.id}.json', 'r') as f:
             invites = json.load(f)
         curr_uses = {}
 
-        for invite in invites:
+        for invite in invites['Invites']:
             curr_uses[f"{invite}"] = invites['Invites'][f"{invite}"]["uses"]
 
         for invite in invite_list:
@@ -74,7 +74,7 @@ class Invs(commands.Cog):
 
                     found_code = invite.code
             except KeyError:
-                with open(f'configs/{invite.guild.id}.json', 'r') as f:
+                with open(f'configs/{member.guild.id}.json', 'r') as f:
                     invites = json.load(f)
                 if uses[f"{invite.code}"] == 0:
                     try:
@@ -83,7 +83,7 @@ class Invs(commands.Cog):
                         invites['Invites'][f"{invite.code}"] = {"roles": [], "uses": 0}
                     self.log(invite.guild.id, f"New Invite {invite.code}")
 
-                with open(f'configs/{invite.guild.id}.json', 'w') as f:
+                with open(f'configs/{member.guild.id}.json', 'w') as f:
                     json.dump(invites, f, indent = 4)
 
         for invite_code in uses:
@@ -184,7 +184,7 @@ class Invs(commands.Cog):
         now = datetime.datetime.now()
         embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
-        for inv in invites:
+        for inv in invites['Invites']:
             about = ''
             for invrole in invites['Invites'][f"{inv}"]["roles"]:
                 role = ctx.guild.get_role(invrole)
@@ -216,7 +216,7 @@ class Invs(commands.Cog):
 
         invite = await channel.create_invite(max_age = age, max_uses = uses)
 
-        invites['Invite'][f"{invite.code}"] = {"roles": [role.id], "uses": 0}
+        invites['Invites'][f"{invite.code}"] = {"roles": [role.id], "uses": 0}
 
         await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
         self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
@@ -233,7 +233,7 @@ class Invs(commands.Cog):
             f.write(f"[{datetime.datetime.now()}] : " + log_msg + "\n")
 
     def checkPerms(self, user_id, guild_id):
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             admin_roles = config['General']['AdminRoles']
         with open(f'config.json', 'r') as f:
@@ -259,7 +259,7 @@ class Invs(commands.Cog):
             return False
 
     def checkInvos(self, guild_id):
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             delinvos = config['General']['DeleteInvocations']
 
