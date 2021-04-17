@@ -26,7 +26,8 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
      - Embed Links
      - Attach Files
      - Add Reactions
-     or just the Administrator Permission.
+     (so weight 268487921)
+     or just the Administrator Permission (weight 8).
      You should see files with server ids' appear in the configs/ directory.
   8. Move the bot above the roles you want to give on invites.
   9. Setup the invites.
