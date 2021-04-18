@@ -52,17 +52,6 @@ async def load(ctx, extension):
         await ctx.send(f'There was a problem loading {extension}')
         log(f'There was a problem loading {extension}')
 
-@client.command()
-@commands.is_owner()
-async def err(ctx):
-    with open('file.txt', 'r') as f:
-        file = json.load(f)
-
-    #deleting invo
-    if delinvos == True:
-        await ctx.message.delete(delay=5)
-
-
 @client.command(help="Unloads a cog.")
 @commands.is_owner()
 async def unload(ctx, extension):
