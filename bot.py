@@ -4,6 +4,8 @@ from discord.ext import commands
 import json
 import asyncio
 import datetime
+import traceback
+import sys
 intents = discord.Intents.default()
 intents.members = True
 
@@ -23,6 +25,18 @@ async def on_ready():
     client.loop.create_task(status_task())
     log("Status service started")
     log(f"InviteBot ready")
+
+@client.event
+async def on_command_error(ctx, exception):
+    with open('main-config.json', 'r') as f:
+        config = json.load(f)
+        owners = config['OwnerUsers']
+    log(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}]\n caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n")
+    traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
+    print("\n")
+    for owner in owners:
+        recipient = client.get_user(owner)
+        await recipient.send(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}] caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n {exception}")
 
 @client.command(help="Loads a cog.")
 @commands.is_owner()
