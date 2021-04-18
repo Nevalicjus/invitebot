@@ -1,7 +1,6 @@
 <a target="https://n3v.live/invitebot" href="https://n3v.live/invitebot"><img src="https://n3v.live/icons/bot-invite-blue.svg"></a>
 <a href="https://discord.gg/wsEU32a3ke"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
 <img src="https://n3v.live/icons/license-MIT-yellow.svg">
-[![Bot Invite](https://n3v.live/icons/bot-invite-blue.svg)(https://n3v.live/invitebot)]
 
 # InviteBot
 InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
