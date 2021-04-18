@@ -34,9 +34,12 @@ async def on_command_error(ctx, exception):
     log(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}]\n caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n")
     traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
     print("\n")
+    trace = ""
+    for line in traceback.format_exception(type(exception), exception, exception.__traceback__):
+        trace += line
     for owner in owners:
         recipient = client.get_user(owner)
-        await recipient.send(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}] caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n {exception}")
+        await recipient.send(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}] caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n ```{trace}```")
 
 @client.command(help="Loads a cog.")
 @commands.is_owner()
