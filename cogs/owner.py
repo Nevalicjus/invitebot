@@ -57,10 +57,13 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def leave(self, ctx, guild: discord.Guild = "None"):
-        if guild == "None":
+    async def leave(self, ctx, guild_id: int = 0):
+        if guild_id == 0:
             guild = ctx.message.guild
+        else:
+            guild = self.client.get_guild(guild_id)
         self.log(guild.id, f"Leaving guild due to request by {ctx.message.author}[{ctx.message.author.id}]")
+        await guild.leave()
 
     @commands.command()
     @commands.is_owner()
