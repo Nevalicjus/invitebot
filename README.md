@@ -3,7 +3,7 @@ InviteBot is a simple discord.py bot that connects invites to roles, and adds th
 
 Add the bot - https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot
 
-Discord Support Server - https://discord.gg/wsEU32a3ke
+<a href="https://discord.gg/wsEU32a3ke"><img src="https://discordapp.com/api/guilds/788042409799712788/widget.png?style=banner2" alt="Discord Banner 2"/></a>
 
 If you run into a bug please report it to me :)
 
