@@ -1,9 +1,11 @@
 import discord
-from discord.ext import commands
-import datetime
-import json
 import os
+from discord.ext import commands
+import json
 import asyncio
+import datetime
+import traceback
+import sys
 intents = discord.Intents.default()
 intents.members = True
 
