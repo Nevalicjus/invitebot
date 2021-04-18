@@ -15,6 +15,9 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
+    #------------------------------
+    #Get info of certain server
+    #------------------------------
     async def serverinfo(self, ctx, guild: discord.Guild = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -48,6 +51,9 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
+    #------------------------------
+    #Ping the bot
+    #------------------------------
     async def ping(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -57,6 +63,9 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
+    #------------------------------
+    #Leave specified or current guild
+    #------------------------------
     async def leave(self, ctx, guild_id: int = 0):
         if guild_id == 0:
             guild = ctx.message.guild
@@ -67,12 +76,18 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
+    #------------------------------
+    #Generate file not found error
+    #------------------------------
     async def err(ctx):
         with open('file.txt', 'r') as f:
             file = json.load(f)
 
     @commands.command(help="logs x")
     @commands.is_owner()
+    #------------------------------
+    #Add an entry to log
+    #------------------------------
     async def alog(self, ctx, log_entry):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
