@@ -224,7 +224,7 @@ class Other(commands.Cog):
             await ctx.message.delete(delay=3)
 
         self.log(ctx.guild.id, f"Invite to the bot requested by {ctx.message.author}[{ctx.message.author.id}] on {ctx.message.channel}")
-        embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot")
+        embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://n3v.live/invitebot")
         await ctx.send(embed = embed)
 
 

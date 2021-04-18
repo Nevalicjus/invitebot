@@ -43,7 +43,7 @@ class Owner(commands.Cog):
         if guild.description != None:
             embed.add_field(name = "**Guild Description**", value = guild.description, inline = True)
         now = datetime.datetime.now()
-        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')}  |  Protokolant made with \u2764\ufe0f by Maciej Bromirski")
+        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')}  |  InviteBot made with \u2764\ufe0f by Nevalicjus")
         await ctx.send(embed = embed)
 
     @commands.command()
