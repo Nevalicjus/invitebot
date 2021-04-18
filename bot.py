@@ -18,6 +18,7 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
+    client.loop.create_task(status_task())
     await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="inv!help | https://discord.gg/wsEU32a3ke"))
     log(f"InviteBot ready")
 
@@ -71,6 +72,16 @@ def log(log_msg: str):
     print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: " + log_msg)
     with open('log.txt', 'a') as f:
         f.write(f"[{datetime.datetime.now()}] [INTERNAL]: " + log_msg + "\n")
+
+async def status_task():
+    while True:
+        members = 0
+        for guild in client.guilds:
+            members += guild.member_count
+        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members total"))
+        await asyncio.sleep(20)
+        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="inv!help | https://discord.gg/wsEU32a3ke"))
+        await asyncio.sleep(20)
 
 
 client.run(token)
