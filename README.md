@@ -1,7 +1,7 @@
 <p align="center>
-    <a href="https://n3v.live/invitebot"><img src="https://img.shields.io/badge/bot-invite-blue?style=flat&logo=discord"></a>
+    <img href="https://n3v.live/invitebot" src="https://n3v.live/icons/bot-invite-blue.svg">
     <a href="https://discord.gg/wsEU32a3ke"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
-    <img src="https://img.shields.io/badge/license-MIT-yellow">
+    <img src="https://n3v.live/icons/license-MIT-yellow.svg">
 </p>
 
 # InviteBot
