@@ -2,6 +2,7 @@ import discord
 import os
 from discord.ext import commands
 import json
+import asyncio
 import datetime
 intents = discord.Intents.default()
 intents.members = True
@@ -18,8 +19,9 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
+    log("InviteBot started")
     client.loop.create_task(status_task())
-    await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="inv!help | https://discord.gg/wsEU32a3ke"))
+    log("Status service started")
     log(f"InviteBot ready")
 
 @client.command(help="Loads a cog.")
@@ -37,9 +39,13 @@ async def load(ctx, extension):
 @client.command(help="Unloads a cog.")
 @commands.is_owner()
 async def unload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-    await ctx.send(f'{extension} was unloaded')
-    log(f'{extension} was unloaded')
+    try:
+        client.unload_extension(f'cogs.{extension}')
+        await ctx.send(f'{extension} was unloaded')
+        log(f'{extension} was unloaded')
+    except ExtensionNotLoaded:
+        await ctx.send(f'There was a problem unloading {extension}')
+        log(f'There was a problem unloading {extension}')
 
     #deleting invo
     if delinvos == True:
