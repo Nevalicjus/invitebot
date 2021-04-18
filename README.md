@@ -1,5 +1,5 @@
 # InviteBot
-A simple discord.py bot that connects invites to roles, and adds then on_member_join
+InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
 
 Add the bot - https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot
 
