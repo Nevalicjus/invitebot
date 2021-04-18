@@ -13,9 +13,8 @@ class Owner(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
-    @commands.command(help="Get Server Data")
-    @commands.check_any(commands.has_any_role(*owner_roles, *admin_roles, *mod_roles), commands.is_owner())
+    @commands.command()
+    @commands.is_owner()
     async def serverinfo(self, ctx, guild: discord.Guild = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
