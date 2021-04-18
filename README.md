@@ -5,6 +5,8 @@ Add the bot - https://discord.com/api/oauth2/authorize?client_id=788044126242603
 
 Discord Support Server - https://discord.gg/wsEU32a3ke
 
+If you run into a bug please report it to me :)
+
 ## Usage
 If you want to use the bot 'out of the box', I host it publically [here](https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot)
 
