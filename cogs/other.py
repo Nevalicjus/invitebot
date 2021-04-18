@@ -184,18 +184,37 @@ class Other(commands.Cog):
         now = datetime.datetime.now()
         embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
-        embed.add_field(name = "i!**addmod @role**", value = "**Only for Server Owner**\nAdds @role to Admin Roles", inline = False)
-        embed.add_field(name = "i!**delmod @role**", value = "**Only for Server Owner**\nRemoves @role from Admin Roles", inline = False)
-        embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
-        embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
-        embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
-        embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
-        embed.add_field(name = "i!**make #channel @role (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
-        embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
-        embed.add_field(name = "i!**enablelog #channel**", value = "**Only for Server Owner**\nAliases - elog\nEnables log on #channel", inline = False)
-        embed.add_field(name = "i!**disablelog**", value = "**Only for Server Owner**\nAliases - dlog\nDisables log", inline = False)
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+            embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            await ctx.send(embed = embed)
+            return
 
-        await ctx.send(embed = embed)
+        if ctx.message.author.id == ctx.guild.owner_id:
+            embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
+            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
+            embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
+            embed.add_field(name = "i!**make #channel @role (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**addmod @role**", value = "**Only for Server Owner**\nAdds @role to Admin Roles", inline = False)
+            embed.add_field(name = "i!**delmod @role**", value = "**Only for Server Owner**\nRemoves @role from Admin Roles", inline = False)
+            embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
+            embed.add_field(name = "i!**enablelog #channel**", value = "**Only for Server Owner**\nAliases - elog\nEnables log on #channel", inline = False)
+            embed.add_field(name = "i!**disablelog**", value = "**Only for Server Owner**\nAliases - dlog\nDisables log", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            await ctx.send(embed = embed)
+            return
+
+        else:
+            embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
+            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
+            embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
+            embed.add_field(name = "i!**make #channel @role (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            await ctx.send(embed = embed)
 
     @commands.command()
     async def invite(self, ctx):
