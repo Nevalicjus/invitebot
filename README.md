@@ -34,7 +34,7 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
 
 - Invites for the specific servers will be listed in the 'config files', under [Invites](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L7)
 
-- If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememebr, then the member x can have a misgiven role
+- If the bot falls out of sync with uses for certain invite, he should correct himself on the next member - member x - but rememeber, then the member x can have a misgiven role
 
 - If you enable [log](https://github.com/Nevalicjus/invitebot/blob/main/configs/example-config.json#L5), which isn't enabled on default, the bot will log some of his actions onto a discord channel
 
