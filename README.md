@@ -1,9 +1,9 @@
 <p align="center>
-    <a href="https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot"><img src="https://img.shields.io/badge/bot-invite-blue?style=flat&logo=discord"/></a>
+    <a href="https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot"><img src="https://img.shields.io/badge/bot-invite-blue?style=flat&logo=discord"></a>
     <a href="https://discord.gg/wsEU32a3ke"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
     <img src="https://img.shields.io/badge/license-MIT-yellow">
 </p>
-          
+
 # InviteBot
 InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
 
