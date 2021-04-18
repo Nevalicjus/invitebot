@@ -288,7 +288,7 @@ class Invs(commands.Cog):
             config = json.load(f)
             log_channel_id = config['General']['ServerLog']
         if log_channel_id == 0:
-            return
+            return False
 
         if type in ["inv_created", "inv_added", "inv_made"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
