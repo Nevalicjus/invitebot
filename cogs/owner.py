@@ -58,6 +58,13 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
+    async def leave(self, ctx, guild: discord.Guild = "None"):
+        if guild == "None":
+            guild = ctx.message.guild
+        self.log(guild.id, f"Leaving guild due to request by {ctx.message.author}[{ctx.message.author.id}]")
+
+    @commands.command()
+    @commands.is_owner()
     async def err(ctx):
         with open('file.txt', 'r') as f:
             file = json.load(f)
