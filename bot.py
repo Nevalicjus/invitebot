@@ -27,9 +27,13 @@ async def on_ready():
 @client.command(help="Loads a cog.")
 @commands.is_owner()
 async def load(ctx, extension):
-    client.load_extension(f'cogs.{extension}')
-    await ctx.send(f'{extension} was loaded')
-    log(f'{extension} was loaded')
+    try:
+        client.load_extension(f'cogs.{extension}')
+        await ctx.send(f'{extension} was loaded')
+        log(f'{extension} was loaded')
+    except ExtensionNotLoaded:
+        await ctx.send(f'There was a problem loading {extension}')
+        log(f'There was a problem loading {extension}')
 
     #deleting invo
     if delinvos == True:
