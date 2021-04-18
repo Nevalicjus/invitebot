@@ -6,7 +6,7 @@ import datetime
 intents = discord.Intents.default()
 intents.members = True
 
-with open('config.json', 'r') as f:
+with open('main-config.json', 'r') as f:
     config = json.load(f)
     prefix = config['Prefix']
     token = config['DiscordToken']

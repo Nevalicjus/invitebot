@@ -227,7 +227,7 @@ class Invs(commands.Cog):
             json.dump(invites, f, indent = 4)
 
     def log(self, guild_id, log_msg: str):
-        with open('config.json', 'r') as f:
+        with open('main-config.json', 'r') as f:
             config = json.load(f)
             logfile = config['LogFile']
         if guild_id == 0:
@@ -243,7 +243,7 @@ class Invs(commands.Cog):
         with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             admin_roles = config['General']['AdminRoles']
-        with open(f'config.json', 'r') as f:
+        with open(f'main-config.json', 'r') as f:
             main_config = json.load(f)
             owners = main_config['OwnerUsers']
 
