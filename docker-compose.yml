@@ -1,8 +1,0 @@
-version: '2'
-services:
-  invbot:
-    container_name: InviteBot
-    build: .
-    command: bash -c 'python3 -u bot.py'
-    restart: always
-    network_mode: bridge
