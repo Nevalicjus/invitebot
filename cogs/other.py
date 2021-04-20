@@ -47,7 +47,7 @@ class Other(commands.Cog):
 
     @commands.Cog.listener()
     #------------------------------
-    #Delete the config file when leaving guild
+    # Delete the config file when leaving guild
     #------------------------------
     async def on_guild_remove(self, guild):
         self.log(guild.id, f"Left guild - {guild.name}")
@@ -56,7 +56,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    #Add role.id to adminroles for permission verification
+    # Add role.id to adminroles for permission verification
     #------------------------------
     async def addmod(self, ctx, role: discord.Role):
         #checks for invo deletion
@@ -90,7 +90,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    #Remove role.id from adminrole for no further permission verification
+    # Remove role.id from adminrole for no further permission verification
     #------------------------------
     async def delmod(self, ctx, role: discord.Role):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -120,7 +120,7 @@ class Other(commands.Cog):
 
     @commands.command(aliases = ['elog'])
     #------------------------------
-    #Enable server logging
+    # Enable server logging
     #------------------------------
     async def enablelog(self, ctx, channel: discord.TextChannel):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -141,7 +141,7 @@ class Other(commands.Cog):
 
     @commands.command(aliases = ['dlog'])
     #------------------------------
-    #Disable server logging
+    # Disable server logging
     #------------------------------
     async def disablelog(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -162,7 +162,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    #Change deletion-o-invocations setting
+    # Change deletion-o-invocations setting
     #------------------------------
     async def delinvos(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -199,7 +199,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    #Request help
+    # Request help
     #------------------------------
     async def help(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -244,7 +244,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    #Sends you the bot invite
+    # Sends you the bot invite
     #------------------------------
     async def invite(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
