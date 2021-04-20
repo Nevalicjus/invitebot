@@ -222,7 +222,7 @@ class Invs(commands.Cog):
 
         await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
         self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
-        await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite in {2} with {3} on join, age: {4} and uses: {5}".format(ctx.author.id, ctx.author.id, channel, role, invite.max_age, invite.max_uses))
+        await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3} with {4} on join, age: {5} and uses: {6}".format(ctx.author.id, invite.code, ctx.author.id, channel, role, invite.max_age, invite.max_uses))
 
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
