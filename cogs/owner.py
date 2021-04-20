@@ -14,13 +14,14 @@ class Owner(commands.Cog):
         self.client = client
 
     @commands.command()
-    @commands.is_owner()
     #------------------------------
-    #Get info of certain server
+    # Get info of certain server
     #------------------------------
     async def serverinfo(self, ctx, guild: discord.Guild = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
+        if checkOwner(ctx.message.author.id) == False:
+            return
 
         self.log(f"{ctx.author} requested server info for {ctx.guild.name}[{ctx.guild.id}]")
         if guild == "None":
@@ -50,23 +51,26 @@ class Owner(commands.Cog):
         await ctx.send(embed = embed)
 
     @commands.command()
-    @commands.is_owner()
     #------------------------------
-    #Ping the bot
+    # Ping the bot
     #------------------------------
     async def ping(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
+        if checkOwner(ctx.message.author.id) == False:
+            return
 
         self.log(ctx.guild.id, f"{ctx.message.author} pinged me on {ctx.message.channel}. Latency was equal to {round(self.client.latency * 1000)}ms")
         await ctx.send(f'Pong! Latency equals {round(self.client.latency * 1000)}ms')
 
     @commands.command()
-    @commands.is_owner()
     #------------------------------
-    #Leave specified or current guild
+    # Leave specified or current guild
     #------------------------------
     async def leave(self, ctx, guild_id: int = 0):
+        if checkOwner(ctx.message.author.id) == False:
+            return
+
         if guild_id == 0:
             guild = ctx.message.guild
         else:
@@ -75,20 +79,24 @@ class Owner(commands.Cog):
         await guild.leave()
 
     @commands.command()
-    @commands.is_owner()
     #------------------------------
-    #Generate file not found error
+    # Generate file not found error
     #------------------------------
     async def err(ctx):
+        if checkOwner(ctx.message.author.id) == False:
+            return
+
         with open('file.txt', 'r') as f:
             file = json.load(f)
 
     @commands.command(help="logs x")
-    @commands.is_owner()
     #------------------------------
-    #Add an entry to log
+    # Add an entry to log
     #------------------------------
     async def alog(self, ctx, log_entry):
+        if checkOwner(ctx.message.author.id) == False:
+            return
+            
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
@@ -109,28 +117,12 @@ class Owner(commands.Cog):
             with open(f'{logfile}', 'a') as f:
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OWNER-UTILITES]: " + log_msg + "\n")
 
-    def checkPerms(self, user_id, guild_id):
-        with open(f'configs/{guild_id}.json', 'r') as f:
-            config = json.load(f)
-            admin_roles = config['General']['AdminRoles']
+    def checkOwner(self, user_id):
         with open(f'main-config.json', 'r') as f:
             main_config = json.load(f)
             owners = main_config['OwnerUsers']
 
-        isAble = 0
-
-        guild = self.client.get_guild(guild_id)
-        member = guild.get_member(user_id)
-
         if user_id in owners:
-            isAble += 1
-        if user_id == guild.owner_id:
-            isAble += 1
-        for role in member.roles:
-            if role.id in admin_roles:
-                isAble += 1
-
-        if isAble >= 1:
             return True
         else:
             return False
