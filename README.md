@@ -47,7 +47,7 @@ If you want to use the bot 'out of the box', I host it publically [here](https:/
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/config.json#L4), so you can view them later
 
 ## Contributing
-If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see #contributing.
+If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
 
 ## Contact
 You can contact me on Discord - find me on the Support Server/[Twitter](https://twitter.com/maciejbromirski)
