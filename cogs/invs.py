@@ -41,6 +41,8 @@ class Invs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        if member.bot == True:
+            return
         await self.add_inv_roles(await self.find_used_invite(member), member)
 
     async def add_inv_roles(self, invite, member):
