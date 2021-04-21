@@ -16,7 +16,17 @@ with open('main-config.json', 'r') as f:
     logfile = config['LogFile']
     delinvos = config['DeleteOwnerCommandsInvos']
 
-client = commands.Bot(command_prefix=prefix, intents=intents)
+def get_prefix(client, message):
+    try:
+        with open(f'{message.guild.id}.json', 'r') as f:
+            config = json.load(f)
+            prefix = config['General']['Prefix']
+    except:
+        prefix = "i!"
+
+    return prefix
+
+client = commands.Bot(command_prefix= get_prefix, intents=intents)
 client.remove_command('help')
 
 @client.event
