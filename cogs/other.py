@@ -36,6 +36,7 @@ class Other(commands.Cog):
         config['General']['DeleteInvocations'] = 0
         config['General']['AdminRoles'] = []
         config['General']['ServerLog'] = 0
+        config['General']['Prefix'] = "i!"
 
         for invite in await guild.invites():
             config['Invites'][f'{invite.code}'] = {}
@@ -193,6 +194,35 @@ class Other(commands.Cog):
             embed = self.constructResponseEmbedBase("You've successfully disabled Invocation Deletion")
             await ctx.send(embed = embed)
             await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been disabled")
+
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
+
+    @commands.command()
+    #------------------------------
+    # Change deletion-o-invocations setting
+    #------------------------------
+    async def prefix(self, ctx, new_prefix: str = "None"):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        if new_prefix == "None":
+            embed = self.constructResponseEmbedBase(f"Your current prefix is {config['General']['Prefix']}")
+            await ctx.send(embed = embed)
+
+        
+        config['General']['Prefix'] = new_prefix
+
+        embed = self.constructResponseEmbedBase(f"You've successfully changed the prefix to {new_prefix}")
+        await ctx.send(embed = embed)
+        await self.serverLog(ctx.guild.id, "prefix_change", f"Prefix was changed to {new_prefix}")
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
@@ -368,7 +398,7 @@ class Other(commands.Cog):
 
         if type in ["mod_added"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["delinvos"]:
+        if type in ["delinvos", "prefix_change"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
         if type in ["mod_deleted"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
