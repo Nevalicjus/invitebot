@@ -18,7 +18,7 @@ with open('main-config.json', 'r') as f:
 
 def get_prefix(client, message):
     try:
-        with open(f'{message.guild.id}.json', 'r') as f:
+        with open(f'configs/{message.guild.id}.json', 'r') as f:
             config = json.load(f)
             prefix = config['General']['Prefix']
     except:
@@ -26,7 +26,7 @@ def get_prefix(client, message):
 
     return prefix
 
-client = commands.Bot(command_prefix= get_prefix, intents=intents)
+client = commands.Bot(command_prefix = get_prefix, intents=intents)
 client.remove_command('help')
 
 @client.event
@@ -112,7 +112,7 @@ async def status_task():
             members += guild.member_count
         await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members total"))
         await asyncio.sleep(20)
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="inv!help | https://discord.gg/wsEU32a3ke"))
+        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://discord.gg/wsEU32a3ke"))
         await asyncio.sleep(20)
 
 
