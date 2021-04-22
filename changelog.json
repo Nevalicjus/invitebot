@@ -1,5 +1,6 @@
 {
   "1.0": ["Semi-bugless core release"],
   "1.1": ["Added server logging", "Added owner utilities", "Changed bot prefix"],
-  "1.2": ["Added stylish comments", "Added fallback for bot members", "Added changelog"]
+  "1.2": ["Added stylish comments", "Added fallback for bot members", "Added changelog"],
+  "1.2.1": ["Added custom prefixes"]
 }
