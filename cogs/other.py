@@ -230,6 +230,30 @@ class Other(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
 
+    #@commands.Cog.listener()
+    #------------------------------
+    # Reset the server's prefix to original if you don't remember it
+    #------------------------------
+    #async def on_message(self, message):
+    #    if str(message.mentions[0]) == "InviteBot#9675":
+    #        if message.author.id != message.guild.owner_id:
+    #            embed = self.constructResponseEmbedBase("You are not the server owner")
+    #            await message.channel.send(embed = embed)
+    #            return
+    #
+    #        with open(f'configs/{message.guild.id}.json', 'r') as f:
+    #            config = json.load(f)
+    #
+    #        config['General']['Prefix'] = "i!"
+    #
+    #        embed = self.constructResponseEmbedBase(f"You've successfully changed the prefix back to `i!`")
+    #        await message.channel.send(embed = embed)
+    #
+    #        with open(f'configs/{message.guild.id}.json', 'w') as f:
+    #            json.dump(config, f, indent = 4)
+    #    else:
+    #        return
+
     @commands.command()
     #------------------------------
     # Request help
