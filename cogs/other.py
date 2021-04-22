@@ -97,27 +97,29 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
-
-            admin_roles = config['General']['AdminRoles']
-
-            if role.id in admin_roles:
-                admin_roles.remove(role.id)
-                config['General']['AdminRoles'] = admin_roles
-                with open(f'configs/{ctx.guild.id}.json', 'w') as f:
-                    json.dump(config, f, indent = 4)
-                embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
-                await ctx.send(embed = embed)
-                await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
-
-            else:
-                embed = self.constructResponseEmbedBase("This role wasn't an admin role")
-                await ctx.send(embed = embed)
-        else:
+        if ctx.author.id != ctx.guild.owner_id:
             embed = self.constructResponseEmbedBase("You are not the server owner")
             await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        admin_roles = config['General']['AdminRoles']
+
+        if role.id in admin_roles:
+            admin_roles.remove(role.id)
+            config['General']['AdminRoles'] = admin_roles
+            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+                json.dump(config, f, indent = 4)
+            embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
+            await ctx.send(embed = embed)
+            await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
+
+        else:
+            embed = self.constructResponseEmbedBase("This role wasn't an admin role")
+            await ctx.send(embed = embed)
+
 
     @commands.command(aliases = ['elog'])
     #------------------------------
@@ -200,7 +202,7 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
-    # Change deletion-o-invocations setting
+    # Change bot's server-prefix
     #------------------------------
     async def prefix(self, ctx, new_prefix: str = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -214,13 +216,14 @@ class Other(commands.Cog):
             config = json.load(f)
 
         if new_prefix == "None":
-            embed = self.constructResponseEmbedBase(f"Your current prefix is {config['General']['Prefix']}")
+            embed = self.constructResponseEmbedBase(f"Your current prefix is `{config['General']['Prefix']}`")
             await ctx.send(embed = embed)
+            return
 
-        
+
         config['General']['Prefix'] = new_prefix
 
-        embed = self.constructResponseEmbedBase(f"You've successfully changed the prefix to {new_prefix}")
+        embed = self.constructResponseEmbedBase(f"You've successfully changed the prefix to `{new_prefix}`")
         await ctx.send(embed = embed)
         await self.serverLog(ctx.guild.id, "prefix_change", f"Prefix was changed to {new_prefix}")
 
