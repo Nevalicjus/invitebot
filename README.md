@@ -8,7 +8,8 @@ InviteBot is a simple discord.py bot that connects invites to roles, and adds th
 If you run into a bug please report it to me :)
 
 ## Usage
-If you want to use the bot 'out of the box', I host it publically [here](https://discord.com/api/oauth2/authorize?client_id=788044126242603070&permissions=268487921&scope=bot)
+If you want to use the bot 'out of the box', I host it publically [here](https://n3v.live/invitebot).</br>
+Be aware that as the bot is under developement, some issues can arise if you use the public version hosted by me (up to when it's 'finished').
 
 ### If you want to selfhost:
   1. Clone the Bot
