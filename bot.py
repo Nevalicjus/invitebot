@@ -110,7 +110,7 @@ async def status_task():
         members = 0
         for guild in client.guilds:
             members += guild.member_count
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members total"))
+        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
         await asyncio.sleep(20)
         await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://discord.gg/wsEU32a3ke"))
         await asyncio.sleep(20)
