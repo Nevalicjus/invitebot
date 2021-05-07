@@ -57,6 +57,39 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
+    # Saves the current config
+    #------------------------------
+    async def savecnfg(self, ctx):
+        #checks for invo deletion
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        #checks for owner
+        if ctx.author.id == ctx.guild.owner_id:
+            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+                config = json.load(f)
+
+        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+
+        if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+
+        with open(f'main-config.json', 'r') as f:
+            config = json.load(f)
+
+        if len(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}')) >= config['MaxSavedConfigs']:
+            embed = self.constructResponseEmbedBase(f"Saved Config couldn't be created, Max Saved Configurations number: {config['MaxSavedConfigs']} reached.")
+            await ctx.send(embed = embed)
+            return
+
+        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
+
+        embed = self.constructResponseEmbedBase(f"Your Saved Config was created, created at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')}")
+        await ctx.send(embed = embed)
+
+    @commands.command()
+    #------------------------------
     # Add role.id to adminroles for permission verification
     #------------------------------
     async def addmod(self, ctx, role: discord.Role):
