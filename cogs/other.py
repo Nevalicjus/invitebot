@@ -90,6 +90,85 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
+    # Lists Saved Configs
+    #------------------------------
+    async def lscnfgs(self, ctx, specific: int = 0):
+        #checks for invo deletion
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        #checks for owner
+        if ctx.author.id == ctx.guild.owner_id:
+            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+                config = json.load(f)
+
+        if specific != 0:
+            guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+
+            if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+                os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+                embed = self.constructResponseEmbedBase(f"You had no configurations saved")
+                await ctx.send(embed = embed)
+                return
+
+            guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True)
+            fetched_config = guilds_configs[specific - 1]
+
+            with open(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{fetched_config}', 'r') as f:
+                saved_config = json.load(f)
+
+            embed = discord.Embed(title = f"**Saved Config\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+            for setting in saved_config['General']:
+                embed.add_field(name = f"{setting}:", value = f"{saved_config['General'][setting]}", inline = False)
+
+            await ctx.send(embed = embed)
+
+            embed = discord.Embed(title = f"**Saved Config's Invites\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+            no_fields = 0
+            for inv in saved_config['Invites']:
+                about = ''
+                for invrole in saved_config['Invites'][f"{inv}"]["roles"]:
+                    role = ctx.guild.get_role(invrole)
+                    about += f"{role.name}\n"
+                about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
+                if about != '':
+                    embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
+                    no_fields +=1
+                if no_fields == 25:
+                    await ctx.send(embed = embed)
+                    no_fields = 0
+                    for i in range(25):
+                        embed.remove_field(0)
+            if no_fields != 0:
+                await ctx.send(embed = embed)
+
+            return
+
+        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+
+        if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+
+        embed = discord.Embed(title = f"**Saved Configs**", color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+        embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+        i = 0
+        for config in sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True):
+            i += 1
+            config_name: str = config
+            embed.add_field(name = f"Config {i} saved on:", value = f"{config_name[11:13]}:{config_name[14:16]}:{config_name[17:19]} | {config_name[8:10]}/{config_name[5:7]}/{config_name[0:4]}", inline = False)
+
+        await ctx.send(embed = embed)
+
+    @commands.command()
+    #------------------------------
     # Add role.id to adminroles for permission verification
     #------------------------------
     async def addmod(self, ctx, role: discord.Role):
