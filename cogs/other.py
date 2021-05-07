@@ -209,6 +209,43 @@ class Other(commands.Cog):
 
     @commands.command()
     #------------------------------
+    # Saves the current config
+    #------------------------------
+    async def switchcnfg(self, ctx, target_config: int = 0):
+        #checks for invo deletion
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        #checks for owner
+        if ctx.author.id == ctx.guild.owner_id:
+            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+                config = json.load(f)
+
+        if target_config == 0:
+            embed = self.constructResponseEmbedBase(f"You didn't pick any config to delete. To view configs use `i!lscnfgs`")
+            await ctx.send(embed = embed)
+            return
+
+        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+
+        if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+            embed = self.constructResponseEmbedBase(f"You had no configurations saved")
+            await ctx.send(embed = embed)
+            return
+
+        guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True)
+
+        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
+
+        os.system(f'mv {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]} {os.getenv("PWD")}/configs/{ctx.guild.id}.json && rm {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]}')
+
+        embed = self.constructResponseEmbedBase(f"Your Current Config was switched, for the one created on:\n{guilds_configs[target_config - 1][11:13]}:{guilds_configs[target_config - 1][14:16]}:{guilds_configs[target_config - 1][17:19]} | {guilds_configs[target_config - 1][8:10]}/{guilds_configs[target_config - 1][5:7]}/{guilds_configs[target_config - 1][0:4]},\n and previous Current Config was saved")
+        await ctx.send(embed = embed)
+
+    @commands.command()
+    #------------------------------
     # Add role.id to adminroles for permission verification
     #------------------------------
     async def addmod(self, ctx, role: discord.Role):
