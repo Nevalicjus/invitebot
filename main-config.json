@@ -3,5 +3,6 @@
    "Prefix":"i!",
    "LogFile": "log.txt",
    "OwnerUsers": [],
-   "DeleteOwnerCommandsInvos": 0
+   "DeleteOwnerCommandsInvos": 0,
+   "MaxSavedConfigs": 10
 }
