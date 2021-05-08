@@ -52,6 +52,14 @@ class Other(commands.Cog):
     #------------------------------
     async def on_guild_remove(self, guild):
         self.log(guild.id, f"Left guild - {guild.name}")
+
+        if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+
+        #saves config
+        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        os.system(f'cp {os.getenv("PWD")}/configs/{guild.id}.json {os.getenv("PWD")}/saved-configs/{guild.id}/{savefp}.json')
+
         #removes config file on guild leave
         os.system(f"rm configs/{guild.id}.json")
 
