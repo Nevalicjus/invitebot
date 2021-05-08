@@ -91,9 +91,10 @@ class Other(commands.Cog):
             return
 
         savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
+        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
 
-        embed = self.constructResponseEmbedBase(f"Your Saved Config was created, created at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')}")
+        await self.serverLog(ctx.guild.id, "cnfg_save", "Saved Config was created, at {0} by {1}[`{2}`]".format(datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y'), ctx.author, ctx.author.id))
+        embed = self.constructResponseEmbedBase(f"Your Saved Config was created, at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')}")
         await ctx.send(embed = embed)
 
     @commands.command()
@@ -185,7 +186,7 @@ class Other(commands.Cog):
                 for invrole in config['Invites'][f"{inv}"]["roles"]:
                     role = ctx.guild.get_role(invrole)
                     about += f"{role.name}\n"
-                about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
+                about += f"Uses - {config['Invites'][inv]['uses']}\n"
                 if about != '':
                     embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
                     no_fields +=1
@@ -248,6 +249,7 @@ class Other(commands.Cog):
 
         try:
             os.system(f'rm {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]}')
+            await self.serverLog(ctx.guild.id, "cnfg_del", "Saved Config {0} was deleted by {1}[`{2}`]".format(guilds_configs[target_config - 1], ctx.author, ctx.author.id))
             embed = self.constructResponseEmbedBase(f"Saved Config {guilds_configs[target_config - 1]} was successfully deleted")
             await ctx.send(embed = embed)
             return
@@ -289,8 +291,9 @@ class Other(commands.Cog):
         savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
         os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
 
-        os.system(f'mv {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]} {os.getenv("PWD")}/configs/{ctx.guild.id}.json && rm {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]}')
+        os.system(f'mv {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]} {os.getenv("PWD")}/configs/{ctx.guild.id}.json')
 
+        await self.serverLog(ctx.guild.id, "cnfg_switch", "{0}[`{1}`], switched current config for the one created on:\n{2}:{3}:{4} | {5}/{6}/{7}, and the previous config was saved".format(ctx.message.author, ctx.message.author.id, guilds_configs[target_config - 1][11:13], guilds_configs[target_config - 1][14:16], guilds_configs[target_config - 1][17:19], guilds_configs[target_config - 1][8:10], guilds_configs[target_config - 1][5:7], guilds_configs[target_config - 1][0:4]))
         embed = self.constructResponseEmbedBase(f"Your Current Config was switched, for the one created on:\n{guilds_configs[target_config - 1][11:13]}:{guilds_configs[target_config - 1][14:16]}:{guilds_configs[target_config - 1][17:19]} | {guilds_configs[target_config - 1][8:10]}/{guilds_configs[target_config - 1][5:7]}/{guilds_configs[target_config - 1][0:4]},\n and previous Current Config was saved")
         await ctx.send(embed = embed)
 
@@ -358,7 +361,6 @@ class Other(commands.Cog):
         else:
             embed = self.constructResponseEmbedBase("This role wasn't an admin role")
             await ctx.send(embed = embed)
-
 
     @commands.command(aliases = ['elog'])
     #------------------------------
@@ -655,7 +657,7 @@ class Other(commands.Cog):
 
         return embed
 
-    async def serverLog(self, guild_id, type, log_msg):
+    async def serverLog(self, guild_id, type: str, log_msg):
         with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             log_channel_id = config['General']['ServerLog']
@@ -679,6 +681,14 @@ class Other(commands.Cog):
             embed.add_field(name = "Invocation Deletion", value = log_msg, inline = False)
         if type == "mod_deleted":
             embed.add_field(name = "Admin Role Removed", value = log_msg, inline = False)
+        if type == "prefix_change":
+            embed.add_field(name = "Prefix Changed", value = log_msg, inline = False)
+        if type == "cnfg_save":
+            embed.add_field(name = "Saved Config Created", value = log_msg, inline = False)
+        if type == "cnfg_switch":
+            embed.add_field(name = "Current Config Switch", value = log_msg, inline = False)
+        if type == "cnfg_del":
+            embed.add_field(name = "Saved Config Deleted", value = log_msg, inline = False)
 
         log_channel = self.client.get_channel(log_channel_id)
         await log_channel.send(embed = embed)
