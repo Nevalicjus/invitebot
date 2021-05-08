@@ -142,6 +142,25 @@ class Other(commands.Cog):
             for inv in saved_config['Invites']:
                 about = ''
                 for invrole in saved_config['Invites'][f"{inv}"]["roles"]:
+                    try:
+                        role = ctx.guild.get_role(invrole)
+                        about += f"{role.name}\n"
+                    except:
+                        about += f"ErrorFetchingRole\n"
+                about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
+                if about != '':
+                    embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
+                    no_fields +=1
+                if no_fields == 25:
+                    await ctx.send(embed = embed)
+                    no_fields = 0
+                    for i in range(25):
+                        embed.remove_field(0)
+            if no_fields != 0:
+                await ctx.send(embed = embed)
+
+            return
+
         if specific == 0:
 
             with open(f'{os.getenv("PWD")}/configs/{ctx.guild.id}.json', 'r') as f:
