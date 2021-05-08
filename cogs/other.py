@@ -664,11 +664,11 @@ class Other(commands.Cog):
         if log_channel_id == 0:
             return
 
-        if type in ["mod_added"]:
+        if type in ["mod_added", "cnfg_save"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["delinvos", "prefix_change"]:
+        if type in ["delinvos", "prefix_change", "cnfg_switch"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
-        if type in ["mod_deleted"]:
+        if type in ["mod_deleted", "cnfg_del"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
 
         embed = discord.Embed(title = f"**InviteBot Logging**", color = em_color)
