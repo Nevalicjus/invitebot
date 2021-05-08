@@ -100,7 +100,7 @@ class Other(commands.Cog):
     #------------------------------
     # Lists Saved Configs
     #------------------------------
-    async def lscnfgs(self, ctx, specific: int = 0):
+    async def lscnfgs(self, ctx, specific: int = -1):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -110,7 +110,7 @@ class Other(commands.Cog):
             with open(f'configs/{ctx.guild.id}.json', 'r') as f:
                 config = json.load(f)
 
-        if specific != 0:
+        if specific not in [-1, 0]:
             guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
 
             if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
@@ -142,6 +142,28 @@ class Other(commands.Cog):
             for inv in saved_config['Invites']:
                 about = ''
                 for invrole in saved_config['Invites'][f"{inv}"]["roles"]:
+        if specific == 0:
+
+            with open(f'{os.getenv("PWD")}/configs/{ctx.guild.id}.json', 'r') as f:
+                config = json.load(f)
+
+            embed = discord.Embed(title = f"**Current Config**", color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+            for setting in config['General']:
+                embed.add_field(name = f"{setting}:", value = f"{config['General'][setting]}", inline = False)
+
+            await ctx.send(embed = embed)
+
+            embed = discord.Embed(title = f"**Current Config's Invites**", color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+            no_fields = 0
+            for inv in config['Invites']:
+                about = ''
+                for invrole in config['Invites'][f"{inv}"]["roles"]:
                     role = ctx.guild.get_role(invrole)
                     about += f"{role.name}\n"
                 about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
@@ -166,6 +188,7 @@ class Other(commands.Cog):
         embed = discord.Embed(title = f"**Saved Configs**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
         embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+        embed.add_field(name = f"Config 0", value = f"Currently used Config", inline = False)
 
         i = 0
         for config in sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True):
