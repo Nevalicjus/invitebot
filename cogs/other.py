@@ -18,7 +18,7 @@ class Other(commands.Cog):
     # Create config file for guild on guild join
     #------------------------------
     async def on_guild_join(self, guild):
-        self.log(guild.id, f"Joined new guild - {guild.name}")
+        self.log(guild.id, f"Joined new guild - {guild.name} [{guild.id}]")
         braces = "{}"
         #creates config file
         os.system(f"touch configs/{guild.id}.json && echo {braces} > configs/{guild.id}.json")
@@ -51,10 +51,10 @@ class Other(commands.Cog):
     # Delete the config file when leaving guild
     #------------------------------
     async def on_guild_remove(self, guild):
-        self.log(guild.id, f"Left guild - {guild.name}")
+        self.log(guild.id, f"Left guild - {guild.name} [{guild.id}]")
 
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {guild.id}')
 
         #saves config
         savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
