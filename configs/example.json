@@ -2,7 +2,8 @@
   "General": {
     "DeleteInvocations": 0,
     "AdminRoles": [],
-    "ServerLog": 0
+    "ServerLog": 0,
+    "Prefix": "i!"
   },
   "Invites": {
     "example-invite-code": {
