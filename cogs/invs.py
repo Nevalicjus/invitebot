@@ -104,7 +104,6 @@ class Invs(commands.Cog):
 
         return found_code
 
-
     @commands.command(aliases = ['inva'])
     async def add(self, ctx, invite: discord.Invite, role: discord.Role):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -132,8 +131,6 @@ class Invs(commands.Cog):
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
-
-
 
     @commands.command(aliases = ['invdel', 'invrem', 'invr'])
     async def remove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
@@ -167,7 +164,6 @@ class Invs(commands.Cog):
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
-
 
     @commands.command(aliases = ['invlist', 'invls'])
     async def list(self, ctx):
@@ -204,7 +200,6 @@ class Invs(commands.Cog):
                     embed.remove_field(0)
         if no_fields != 0:
             await ctx.send(embed = embed)
-
 
     @commands.command(aliases = ['invm'])
     async def make(self, ctx, channel: discord.TextChannel, role: discord.Role, uses: int = 0, age: int = 0):
