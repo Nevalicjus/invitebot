@@ -1,0 +1,13 @@
+{
+  "General": {
+    "DeleteInvocations": 0,
+    "AdminRoles": [],
+    "ServerLog": 0
+  },
+  "Invites": {
+    "example-invite-code": {
+      "roles": [0, 1],
+      "uses": 0
+    }
+  }
+}
