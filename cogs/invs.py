@@ -53,9 +53,9 @@ class Invs(commands.Cog):
             try:
                 role = member.guild.get_role(x)
                 await member.add_roles(role)
-                self.log(invite.guild.id, f"Found invite role: {role.name} and role was added")
+                self.log(member.guild.id, f"Found invite role: {role.name} and role was added")
             except KeyError:
-                self.log(invite.guild.id, f"No role for invite {invite}")
+                self.log(member.guild.id, f"No role for invite {invite}")
 
     async def find_used_invite(self, member):
         found_code = ''
