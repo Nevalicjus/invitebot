@@ -525,6 +525,11 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**enablelog #channel**", value = "**Only for Server Owner**\nAliases - elog\nEnables log on #channel", inline = False)
             embed.add_field(name = "i!**disablelog**", value = "**Only for Server Owner**\nAliases - dlog\nDisables log", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
+            embed.add_field(name = "i!**saveconfig**", value = "**Only for Server Owner**\nAliases - savecnfg, sconf\nSaves current full-server config to saved configs", inline = False)
+            embed.add_field(name = "i!**listconfigs**", value = "**Only for Server Owner**\nAliases - lscnfgs, lsconf\nLists your saved configs", inline = False)
+            embed.add_field(name = "i!**deleteconfig**", value = "**Only for Server Owner**\nAliases - removeconfig, delcnfg, delconf, remconf\nDeletes a saved config", inline = False)
+            embed.add_field(name = "i!**switchconfig**", value = "**Only for Server Owner**\nAliases - switchcnfg, switchconf\nLoads a saved config in place of the current one, after saving the currently used config", inline = False)
+            embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             await ctx.send(embed = embed)
             return
