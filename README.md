@@ -13,7 +13,7 @@ Be aware that as the bot is under developement, some issues can arise if you use
 
 ### If you want to selfhost:
   1. Clone the Bot
-  2. Create a bot application on [Discord Developer Website](https://discord.com/developers)
+  2. Create a bot application on [Discord Developer Website](https://discord.com/developers). Your bot application has to have Members Intent enabled, you can find this setting on the same page where the bot's token is.
   3. Go to [config.json](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json) and fill the [DiscordToken](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L2).
   4. If you want to host it for more than one server, I advise adding your Discord User ID to [OwnerUsers](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L5) in the config.json file.
   5. If you want to change the [prefix](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L3)/[logfile name](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L4)/[if bot should delete owner command invocations](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L6), change it in the config.json also.
