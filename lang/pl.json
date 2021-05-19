@@ -1,1 +1,129 @@
-{}
+{
+  "missing_perms":"",
+  "not_owner":"",
+
+  "inv_created_log":"",
+  "inv_created_log_title":"",
+  "inv_deleted_log":"",
+  "inv_deleted_log_title":"",
+
+  "member_join_log":"",
+  "member_join_log_title":"",
+
+  "invrole_add_log":"",
+  "invrole_add_log_title":"",
+  "invrole_add_resp":"",
+
+  "invrole_del_one_log":"",
+  "invrole_del_one_resp":"",
+  "invrole_del_all_log":"",
+  "invrole_del_all_resp":"",
+  "invrole_del_log_title":"",
+
+  "invrole_list_embed_title":"",
+
+  "invrole_make_log":"",
+  "invrole_make_resp":"",
+  "invrole_make_log_title":"",
+
+
+  "config_max_reached":"",
+
+  "saved_config_created_log":"",
+  "saved_config_created_log_title":"",
+  "saved_config_created":"",
+
+  "config_list_no_configs":"",
+  "config_list_saved_setting_embed_title":"",
+  "config_list_saved_invites_embed_title":"",
+
+  "config_list_current_setting_embed_title":"",
+  "config_list_current_invites_embed_title":"",
+
+  "config_list_embed_title":"",
+  "config_list_embed_current_title":"",
+  "config_list_embed_current_desc":"",
+  "config_list_embed_field_title":"",
+  "config_list_embed_field_desc":"",
+
+  "saved_config_del_missing_selection":"",
+  "saved_config_del_no_configs":"",
+  "saved_config_del_log":"",
+  "saved_config_del_log_title":"",
+  "saved_config_del_resp":"",
+  "saved_config_del_missing":"",
+
+  "saved_config_switch_missing_selection":"",
+  "saved_config_switch_no_configs":"",
+  "saved_config_switch_log":"",
+  "saved_config_switch_log_title":"",
+  "saved_config_switch_resp":"",
+
+
+  "mod_add_resp":"",
+  "mod_add_log":"",
+  "mod_add_log_title":"",
+  "mod_add_already":"",
+
+  "mod_del_resp":"",
+  "mod_del_log":"",
+  "mod_del_log_title":"",
+  "mod_del_wasnever":"",
+
+  "log_enabled":"",
+  "log_disabled":"",
+
+  "delinvos_invalid_input":"",
+  "delinvos_enabled_resp":"",
+  "delinvos_enabled_log":"",
+  "delinvos_disabled_resp":"",
+  "delinvos_disabled_log":"",
+  "delinvos_log_title":"",
+
+  "prefix_current":"",
+  "prefix_change_resp":"",
+  "prefix_change_log":"",
+  "prefix_change_log_title":"",
+
+  "help_embed_title":"",
+
+  "help_add_title":"",
+  "help_add_desc":"",
+  "help_remove_title":"",
+  "help_remove_desc":"",
+  "help_list_title":"",
+  "help_list_desc":"",
+  "help_make_title":"",
+  "help_make_desc":"",
+
+  "help_addmod_title":"",
+  "help_addmod_desc":"",
+  "help_delmod_title":"",
+  "help_delmod_desc":"",
+  "help_delinvos_title":"",
+  "help_delinvos_desc":"",
+  "help_enablelog_title":"",
+  "help_enablelog_desc":"",
+  "help_disablelog_title":"",
+  "help_disablelog_desc":"",
+
+  "help_saveconfig_title":"",
+  "help_saveconfig_desc":"",
+  "help_listconfigs_title":"",
+  "help_listconfigs_desc":"",
+  "help_deleteconfig_title":"",
+  "help_deleteconfig_desc":"",
+  "help_switchconfig_title":"",
+  "help_switchconfig_desc":"",
+
+  "help_invite_title":"",
+  "help_invite_desc":"",
+
+  "invite_log":"",
+  "invite_resp":"",
+
+  "changelog_embed_title":"",
+  "changelog_error_title":"",
+  "changelog_error_desc":"",
+  "changelog_all":"",
+}
