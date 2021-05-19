@@ -17,15 +17,18 @@ class Owner(commands.Cog):
     #------------------------------
     # Get info of certain server
     #------------------------------
-    async def serverinfo(self, ctx, guild: discord.Guild = "None"):
+    async def serverinfo(self, ctx, guild_id: int = 0):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
-        if checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) == False:
             return
 
-        self.log(f"{ctx.author} requested server info for {ctx.guild.name}[{ctx.guild.id}]")
-        if guild == "None":
-            guild = ctx.message.guild
+        if guild_id == 0:
+            guild: discord.Guild = ctx.message.guild
+        else:
+            guild: discord.Guild = self.client.get_guild(guild_id)
+
+        self.log(0, f"{ctx.author} requested server info for {guild.name}[{guild.id}]")
 
         embed = discord.Embed(title = f"**Server {guild.name}**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url=guild.icon_url_as(format="png"))
@@ -57,7 +60,7 @@ class Owner(commands.Cog):
     async def ping(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
-        if checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) == False:
             return
 
         self.log(ctx.guild.id, f"{ctx.message.author} pinged me on {ctx.message.channel}. Latency was equal to {round(self.client.latency * 1000)}ms")
@@ -68,7 +71,7 @@ class Owner(commands.Cog):
     # Leave specified or current guild
     #------------------------------
     async def leave(self, ctx, guild_id: int = 0):
-        if checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) == False:
             return
 
         if guild_id == 0:
@@ -83,7 +86,7 @@ class Owner(commands.Cog):
     # Generate file not found error
     #------------------------------
     async def err(ctx):
-        if checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) == False:
             return
 
         with open('file.txt', 'r') as f:
@@ -94,9 +97,9 @@ class Owner(commands.Cog):
     # Add an entry to log
     #------------------------------
     async def alog(self, ctx, log_entry):
-        if checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) == False:
             return
-            
+
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
