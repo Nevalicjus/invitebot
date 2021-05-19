@@ -274,7 +274,7 @@ class Other(commands.Cog):
                 config = json.load(f)
 
         if target_config == 0:
-            embed = self.constructResponseEmbedBase(f"You didn't pick any config to delete. To view configs use `i!lscnfgs`")
+            embed = self.constructResponseEmbedBase(f"You didn't pick any config to switch. To view configs use `i!lscnfgs`")
             await ctx.send(embed = embed)
             return
 
