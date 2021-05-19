@@ -306,30 +306,27 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        #checks for owner
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
-
-            admin_roles = config['General']['AdminRoles']
-
-            #appends role to admin roles if it wasn't there before
-            if role.id not in admin_roles:
-                admin_roles.append(role.id)
-                config['General']['AdminRoles'] = admin_roles
-                with open(f'configs/{ctx.guild.id}.json', 'w') as f:
-                    json.dump(config, f, indent = 4)
-                embed = self.constructResponseEmbedBase(f"Added role {role.name} as an admin role")
-                await ctx.send(embed = embed)
-                await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
-
-
-            else:
-                embed = self.constructResponseEmbedBase("This role was already an admin role")
-                await ctx.send(embed = embed)
-        else:
+        if ctx.author.id != ctx.guild.owner_id:
             embed = self.constructResponseEmbedBase("You are not the server owner")
             await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        admin_roles = config['General']['AdminRoles']
+
+        if role.id in admin_roles:
+            embed = self.constructResponseEmbedBase("This role was already an admin role")
+            await ctx.send(embed = embed)
+
+        admin_roles.append(role.id)
+        config['General']['AdminRoles'] = admin_roles
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
+        embed = self.constructResponseEmbedBase(f"Added role {role.name} as an admin role")
+        await ctx.send(embed = embed)
+        await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
 
     @commands.command()
     #------------------------------
@@ -349,18 +346,17 @@ class Other(commands.Cog):
 
         admin_roles = config['General']['AdminRoles']
 
-        if role.id in admin_roles:
-            admin_roles.remove(role.id)
-            config['General']['AdminRoles'] = admin_roles
-            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
-                json.dump(config, f, indent = 4)
-            embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
-            await ctx.send(embed = embed)
-            await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
-
-        else:
+        if role.id not in admin_roles:
             embed = self.constructResponseEmbedBase("This role wasn't an admin role")
             await ctx.send(embed = embed)
+
+        admin_roles.remove(role.id)
+        config['General']['AdminRoles'] = admin_roles
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
+        embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
+        await ctx.send(embed = embed)
+        await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
 
     @commands.command(aliases = ['elog'])
     #------------------------------
@@ -370,18 +366,17 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
-
-            config['General']['ServerLog'] = channel.id
-            await ctx.send(f"Enabled log on channel {channel}")
-            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
-                json.dump(config, f, indent = 4)
-
-        else:
+        if ctx.author.id != ctx.guild.owner_id:
             embed = self.constructResponseEmbedBase("You are not the server owner")
             await ctx.send(embed = embed)
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        config['General']['ServerLog'] = channel.id
+        await ctx.send(f"Enabled log on channel {channel}")
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
 
     @commands.command(aliases = ['dlog'])
     #------------------------------
@@ -391,18 +386,17 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
-
-            config['General']['ServerLog'] = 0
-            await ctx.send(f"Disabled log")
-            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
-                json.dump(config, f, indent = 4)
-
-        else:
+        if ctx.author.id != ctx.guild.owner_id:
             embed = self.constructResponseEmbedBase("You are not the server owner")
             await ctx.send(embed = embed)
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        config['General']['ServerLog'] = 0
+        await ctx.send(f"Disabled log")
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
 
     @commands.command()
     #------------------------------
