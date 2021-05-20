@@ -53,7 +53,7 @@ class Other(commands.Cog):
     async def on_guild_remove(self, guild):
         self.log(guild.id, f"Left guild - {guild.name} [{guild.id}]")
 
-        if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
+        if str(guild.id) not in guilds_with_saved_cnfgs:
             os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {guild.id}')
 
         #saves config
