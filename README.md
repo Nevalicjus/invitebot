@@ -49,7 +49,7 @@ Be aware that as the bot is under developement, some issues can arise if you use
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L4), so you can view them later
 
 ## Contributing
-If you want to contribute message join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
+If you want to contribute, join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
 
 ## Contact
 You can contact me on Discord - find me on the Support Server/[Twitter](https://twitter.com/maciejbromirski)
