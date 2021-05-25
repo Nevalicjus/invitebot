@@ -3,12 +3,15 @@
     "DeleteInvocations": 0,
     "AdminRoles": [],
     "ServerLog": 0,
-    "Prefix": "i!"
+    "Prefix": "i!",
+    "WelcomeMessage": "None"
   },
   "Invites": {
     "example-invite-code": {
+      "name": "None",
       "roles": [0, 1],
-      "uses": 0
+      "uses": 0,
+      "welcome": "None"
     }
   }
 }
