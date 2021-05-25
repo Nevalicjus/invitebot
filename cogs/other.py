@@ -40,8 +40,10 @@ class Other(commands.Cog):
 
         for invite in await guild.invites():
             config['Invites'][f'{invite.code}'] = {}
+            config['Invites'][f'{invite.code}']['name'] = "None"
             config['Invites'][f'{invite.code}']['roles'] = []
             config['Invites'][f'{invite.code}']['uses'] = invite.uses
+            config['Invites'][f'{invite.code}']['welcome'] = "None"
 
         with open(f'configs/{guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
@@ -150,7 +152,10 @@ class Other(commands.Cog):
                         about += f"ErrorFetchingRole\n"
                 about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
                 if about != '':
-                    embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
+                    if saved_config['Invites'][f'{inv}']['name'] != "None":
+                        embed.add_field(name = f"{saved_config['Invites'][inv]['name']}", value = about, inline = True)
+                    else:
+                        embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
                     no_fields +=1
                 if no_fields == 25:
                     await ctx.send(embed = embed)
@@ -188,7 +193,10 @@ class Other(commands.Cog):
                     about += f"{role.name}\n"
                 about += f"Uses - {config['Invites'][inv]['uses']}\n"
                 if about != '':
-                    embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
+                    if config['Invites'][f'{inv}']['name'] != "None":
+                        embed.add_field(name = f"{config['Invites'][inv]['name']}", value = about, inline = True)
+                    else:
+                        embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
                     no_fields +=1
                 if no_fields == 25:
                     await ctx.send(embed = embed)
@@ -511,7 +519,7 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
             embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
-            embed.add_field(name = "i!**make #channel @role (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
+            embed.add_field(name = "i!**make #channel (name) (@role) (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**addmod @role**", value = "**Only for Server Owner**\nAdds @role to Admin Roles", inline = False)
             embed.add_field(name = "i!**delmod @role**", value = "**Only for Server Owner**\nRemoves @role from Admin Roles", inline = False)
