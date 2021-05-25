@@ -37,6 +37,7 @@ class Other(commands.Cog):
         config['General']['AdminRoles'] = []
         config['General']['ServerLog'] = 0
         config['General']['Prefix'] = "i!"
+        config['General']['WelcomeMessage'] = "None"
 
         for invite in await guild.invites():
             config['Invites'][f'{invite.code}'] = {}
