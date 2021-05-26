@@ -192,7 +192,7 @@ class Invs(commands.Cog):
             invites['Invites'][f"{invite.code}"]["roles"] = inv_roles
 
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] removed link from invite {invite.code} to role {role.name}")
-            await self.serverLog(ctx.guild.id, "inv_removed", "{0}[`{1}`] removed the link of role {2}[`{3}`] to {4}".format(ctx.author, ctx.author.id, role.name, role.id))
+            await self.serverLog(ctx.guild.id, "inv_removed", "{0}[`{1}`] removed the link of role {2}[`{3}`] to {4}".format(ctx.author, ctx.author.id, role.name, role.id, invite.code))
 
             await ctx.send(f"Removed link from invite {invite.code} to {role.name}")
 
