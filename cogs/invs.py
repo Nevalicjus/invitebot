@@ -271,21 +271,21 @@ class Invs(commands.Cog):
 
         if name == "None":
             if role == 0:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel}, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel}n, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel}, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel}n, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3} with {4} on join, age: {5} and uses: {6}".format(ctx.author.id, invite.code, ctx.author.id, channel, role, invite.max_age, invite.max_uses))
             else:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3}, age: {4} and uses: {5}".format(ctx.author.id, invite.code, ctx.author.id, channel, invite.max_age, invite.max_uses))
         else:
             if role == 0:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite named {name} in {channel}, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite named {name} in {channel}, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4}, age: {5} and uses: {6}".format(ctx.author.id, invite.code, name, ctx.author.id, channel, invite.max_age, invite.max_uses))
             else:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4} with {5} on join, age: {6} and uses: {7}".format(ctx.author.id, invite.code, ctx.author.id, name, channel, role, invite.max_age, invite.max_uses))
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
