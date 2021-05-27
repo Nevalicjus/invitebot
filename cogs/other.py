@@ -270,7 +270,7 @@ class Other(commands.Cog):
 
     @commands.command(aliases = ['switchcnfg', 'switchconf'])
     #------------------------------
-    # Saves the current config
+    # Switch the chosen config with the current one
     #------------------------------
     async def switchconfig(self, ctx, target_config: int = 0):
         #checks for invo deletion
