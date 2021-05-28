@@ -31,6 +31,15 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
+    ascii = """
+ ______                 _____            ______
+|  ___ \               (_____)          (____  \       _
+| |   | | ____ _   _      _   ____ _   _ ____)  ) ___ | |_
+| |   | |/ _  ) | | |    | | |  _ \ | | |  __  ( / _ \|  _)
+| |   | ( (/ / \ V /    _| |_| | | \ V /| |__)  ) |_| | |__
+|_|   |_|\____) \_/    (_____)_| |_|\_/ |______/ \___/ \___)
+    """
+    print(f"\033[34m{ascii}\033[0m")
     log("InviteBot started")
     client.loop.create_task(status_task())
     log("Status service started")
