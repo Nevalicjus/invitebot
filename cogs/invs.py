@@ -83,7 +83,7 @@ class Invs(commands.Cog):
                         await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named".format(member.id, member.id, invite.code, invites['Invites'][invite.code]['name']))
 
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -91,7 +91,7 @@ class Invs(commands.Cog):
                             await recipient.send(embed = embed)
 
                         elif invites['General']['WelcomeMessage'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -103,7 +103,7 @@ class Invs(commands.Cog):
                         await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}`".format(member.id, member.id, invite.code))
 
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -111,7 +111,7 @@ class Invs(commands.Cog):
                             await recipient.send(embed = embed)
 
                         elif invites['General']['WelcomeMessage'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
