@@ -560,54 +560,6 @@ class Other(commands.Cog):
         embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://n3v.live/invitebot")
         await ctx.send(embed = embed)
 
-    @commands.command()
-    #------------------------------
-    # Sends you the changelog
-    #------------------------------
-    async def changelog(self, ctx, *, version = "None"):
-        if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
-
-        embed = discord.Embed(title = f"**InviteBot Changelog**", color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
-        now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
-
-        with open('changelog.json', 'r') as f:
-            changelog = json.load(f)
-
-        if version == "None":
-            last = list(changelog.keys())
-            last.reverse()
-            for ver in last[0:5]:
-                desc = ""
-                for line in changelog[f"{ver}"]:
-                    desc += f"- {line}\n"
-                embed.add_field(name = f"Version {ver}", value = f"{desc}", inline = False)
-
-        else:
-            desc = ""
-            try:
-                for line in changelog[f"{version}"]:
-                    desc += f"- {line}\n"
-                embed.add_field(name = f"Version {ver}", value = f"{desc}", inline = False)
-            except KeyError:
-                embed.add_field(name = f"Error", value = f"This version was never released", inline = False)
-
-        desc = ""
-        last_ver = "1"
-        for ver in list(changelog.keys()):
-            if last_ver[0] != ver[0]:
-                desc += "\n"
-            elif last_ver != "1":
-                desc += " | "
-            desc += f"{ver}"
-            last_ver = ver
-        embed.add_field(name = f"All versions released:", value = f"{desc}", inline = False)
-
-        await ctx.send(embed = embed)
-
-
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
             config = json.load(f)
