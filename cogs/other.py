@@ -503,8 +503,13 @@ class Other(commands.Cog):
     # Request help
     #------------------------------
     async def help(self, ctx):
-        if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+        try:
+            if self.checkInvos(ctx.guild.id) == 1:
+                await ctx.message.delete(delay=3)
+        except:
+            pass
+
+        failsafe = 0
 
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
@@ -516,7 +521,7 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        if ctx.message.author.id == ctx.guild.owner_id:
+        elif ctx.message.author.id == ctx.guild.owner_id:
             embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
             embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
@@ -548,6 +553,7 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             await ctx.send(embed = embed)
 
+
     @commands.command()
     #------------------------------
     # Sends you the bot invite
@@ -577,6 +583,7 @@ class Other(commands.Cog):
         with open(f'configs/{guild_id}.json', 'r') as f:
             config = json.load(f)
             admin_roles = config['General']['AdminRoles']
+
         with open(f'main-config.json', 'r') as f:
             main_config = json.load(f)
             owners = main_config['OwnerUsers']
@@ -600,14 +607,18 @@ class Other(commands.Cog):
             return False
 
     def checkInvos(self, guild_id):
-        with open(f'configs/{guild_id}.json', 'r') as f:
-            config = json.load(f)
-            delinvos = config['General']['DeleteInvocations']
+        try:
+            with open(f'configs/{guild_id}.json', 'r') as f:
+                config = json.load(f)
+                delinvos = config['General']['DeleteInvocations']
 
-        if delinvos == 1:
-            return True
-        else:
-            return False
+            if delinvos == 1:
+                return True
+            else:
+                return False
+
+        except KeyError:
+            self.failSaveConfig
 
     def constructResponseEmbedBase(self, desc):
         embed = discord.Embed(title = f"**InviteBot**", description = desc, color = discord.Colour.from_rgb(119, 137, 218))
@@ -652,6 +663,47 @@ class Other(commands.Cog):
 
         log_channel = self.client.get_channel(log_channel_id)
         await log_channel.send(embed = embed)
+
+    async def failSafeConfig(self, guild_id):
+        try:
+            if str(guild_id) not in guilds_with_saved_cnfgs:
+                os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {guild_id}')
+
+            savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+            os.system(f'cp {os.getenv("PWD")}/configs/{guild_id}.json {os.getenv("PWD")}/saved-configs/{guild_id}/{savefp}.json')
+
+        except:
+            self.log(guild_id, f"failSaveConfig failed to create a saved config.")
+
+        braces = "{}"
+
+        os.system(f"touch configs/{guild_id}.json && echo {braces} > configs/{guild_id}.json")
+        await asyncio.sleep(3)
+        try:
+            with open(f'configs/{guild_id}.json', 'r') as f:
+                config = json.load(f)
+        except:
+            self.log(guild_id, f"failSafeConvig couldn't be created.")
+
+        #creates config data
+        config['General'] = {}
+        config['Invites'] = {}
+
+        config['General']['DeleteInvocations'] = 0
+        config['General']['AdminRoles'] = []
+        config['General']['ServerLog'] = 0
+        config['General']['Prefix'] = "i!"
+        config['General']['WelcomeMessage'] = "None"
+
+        for invite in await guild.invites():
+            config['Invites'][f'{invite.code}'] = {}
+            config['Invites'][f'{invite.code}']['name'] = "None"
+            config['Invites'][f'{invite.code}']['roles'] = []
+            config['Invites'][f'{invite.code}']['uses'] = invite.uses
+            config['Invites'][f'{invite.code}']['welcome'] = "None"
+
+        with open(f'configs/{guild_id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
 
 def setup(client):
     client.add_cog(Other(client))
