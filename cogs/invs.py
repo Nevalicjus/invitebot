@@ -37,7 +37,7 @@ class Invs(commands.Cog):
             json.dump(invites, f, indent = 4)
 
         if invites['Invites'][f"{invite.code}"]['name'] != "None":
-            self.log(invite.guild.id, f'Invite {invites['Invites'][invite.code]['name']} - {invite.code} was deleted')
+            self.log(invite.guild.id, f"Invite {invites['Invites'][invite.code]['name']} - {invite.code} was deleted")
             await self.serverLog(invite.guild.id, "inv_deleted", "Invite {0} - https://discord.gg/{1} | Invite Channel - <#{2}>\nInviter - {3}\nMax Age - {4} | Uses - {5}".format(invites['Invites'][f"{invite.code}"]['name'], invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
         else:
             self.log(invite.guild.id, f'Invite {invite.code} was deleted')
@@ -83,7 +83,7 @@ class Invs(commands.Cog):
                         await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named".format(member.id, member.id, invite.code, invites['Invites'][invite.code]['name']))
 
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -91,7 +91,7 @@ class Invs(commands.Cog):
                             await recipient.send(embed = embed)
 
                         elif invites['General']['WelcomeMessage'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -103,7 +103,7 @@ class Invs(commands.Cog):
                         await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}`".format(member.id, member.id, invite.code))
 
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -111,7 +111,7 @@ class Invs(commands.Cog):
                             await recipient.send(embed = embed)
 
                         elif invites['General']['WelcomeMessage'] != "None":
-                            recipient = self.get_user(member.id)
+                            recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
                             embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
                             now = datetime.datetime.now()
@@ -271,21 +271,21 @@ class Invs(commands.Cog):
 
         if name == "None":
             if role == 0:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel}, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel}n, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel}, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel}n, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3} with {4} on join, age: {5} and uses: {6}".format(ctx.author.id, invite.code, ctx.author.id, channel, role, invite.max_age, invite.max_uses))
             else:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite in {channel} with {role} on join, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3}, age: {4} and uses: {5}".format(ctx.author.id, invite.code, ctx.author.id, channel, invite.max_age, invite.max_uses))
         else:
             if role == 0:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite named {name} in {channel}, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite named {name} in {channel}, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4}, age: {5} and uses: {6}".format(ctx.author.id, invite.code, name, ctx.author.id, channel, invite.max_age, invite.max_uses))
             else:
-                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
-                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
                 await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4} with {5} on join, age: {6} and uses: {7}".format(ctx.author.id, invite.code, ctx.author.id, name, channel, role, invite.max_age, invite.max_uses))
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:

@@ -15,7 +15,7 @@ Be aware that as the bot is under developement, some issues can arise if you use
 ### If you want to selfhost:
   1. Clone the Bot
   2. Create a bot application on [Discord Developer Website](https://discord.com/developers). Your bot application has to have Members Intent enabled, you can find this setting on the same page where the bot's token is.
-  3. Go to [config.json](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json) and fill the [DiscordToken](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L2).
+  3. Go to [main-config.json](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json) and fill the [DiscordToken](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L2).
   4. If you want to host it for more than one server, I advise adding your Discord User ID to [OwnerUsers](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L5) in the config.json file.
   5. If you want to change the [prefix](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L3)/[logfile name](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L4)/[if bot should delete owner command invocations](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L6), change it in the config.json also.
   6. Start the bot (I've included [start.sh](https://github.com/Nevalicjus/invitebot/blob/main/start.sh) if you want to run it as a screen)
@@ -53,7 +53,7 @@ The bot prints it's actions on the console, and also writes them to a [logfile](
 If you want to contribute, join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
 
 ## Contact
-You can contact me on Discord - find me on the Support Server/[Twitter](https://twitter.com/maciejbromirski)
+You can contact me on Discord - find me on the [Support Server](https://discord.gg/wsEU32a3ke)/[Twitter](https://twitter.com/maciejbromirski)
 
 ## Thanks
-Great thanks to Piotr Młynarski
+Great thanks to Piotr Młynarski for the first version of the algorithm

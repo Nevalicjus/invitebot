@@ -31,6 +31,15 @@ client.remove_command('help')
 
 @client.event
 async def on_ready():
+    ascii = """
+ ______                 _____            ______
+|  ___ \               (_____)          (____  \       _
+| |   | | ____ _   _      _   ____ _   _ ____)  ) ___ | |_
+| |   | |/ _  ) | | |    | | |  _ \ | | |  __  ( / _ \|  _)
+| |   | ( (/ / \ V /    _| |_| | | \ V /| |__)  ) |_| | |__
+|_|   |_|\____) \_/    (_____)_| |_|\_/ |______/ \___/ \___)
+    """
+    print(f"\033[34m{ascii}\033[0m")
     log("InviteBot started")
     client.loop.create_task(status_task())
     log("Status service started")
@@ -58,7 +67,7 @@ async def load(ctx, extension):
         client.load_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was loaded')
         log(f'{extension} was loaded')
-    except ExtensionNotLoaded:
+    except:
         await ctx.send(f'There was a problem loading {extension}')
         log(f'There was a problem loading {extension}')
 
@@ -69,7 +78,7 @@ async def unload(ctx, extension):
         client.unload_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was unloaded')
         log(f'{extension} was unloaded')
-    except ExtensionNotLoaded:
+    except:
         await ctx.send(f'There was a problem unloading {extension}')
         log(f'There was a problem unloading {extension}')
 
