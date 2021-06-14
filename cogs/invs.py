@@ -290,7 +290,7 @@ class Invs(commands.Cog):
             about += f"Uses - {invites['Invites'][inv]['uses']}\n"
             if about != '':
                 if invites['Invites'][f'{inv}']['name'] != "None":
-                    embed.add_field(name = f"{invites['Invites'][inv]['name']}", value = about, inline = True)
+                    embed.add_field(name = f"{invites['Invites'][inv]['name']}", value = f"https://discord.gg/{inv}\n{about}", inline = True)
                 else:
                     embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
                 no_fields +=1
