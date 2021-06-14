@@ -207,6 +207,62 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
+    @commands.command(aliases = ['invn', 'rename'])
+    async def name(self, ctx, invite: discord.Invite, name: str):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            invites = json.load(f)
+
+        try:
+            old_name = invites['Invites'][f"{invite.code}"]["name"]
+            invites['Invites'][f"{invite.code}"]["name"] = name
+            self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] renamed invite {invite.code} from {old_name} to {name}")
+            await self.serverLog(ctx.guild.id, "inv_rename", "{0}[`{1}`] renamed invite {2} from {3} to {4}".format(ctx.author, ctx.author.id, invite.code, old_name, name))
+
+
+        except KeyError:
+            invites['Invites'][f"{invite.code}"] = {"name": f"{name}", "roles": [], "uses": 0, "welcome": "None"}
+            self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to rename a non-existent in db invite, so it was created")
+
+        await ctx.send(f"Renamed {invite.code} from {old_name} to {name}")
+
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(invites, f, indent = 4)
+
+    @commands.command(aliases = ['invw'])
+    async def welcome(self, ctx, invite: discord.Invite, welcome: str):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            invites = json.load(f)
+
+        try:
+            old_welcome = invites['Invites'][f"{invite.code}"]["welcome"]
+            invites['Invites'][f"{invite.code}"]["welcome"] = welcome
+            self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] changed the welcome message of invite {invite.code} from {old_welcome} to {welcome}")
+            await self.serverLog(ctx.guild.id, "inv_welcome", "{0}[`{1}`] changed the welcome message of invite {2} from {3} to {4}".format(ctx.author, ctx.author.id, invite.code, old_welcome, welcome))
+
+
+        except KeyError:
+            invites['Invites'][f"{invite.code}"] = {"name": f"None", "roles": [], "uses": 0, "welcome": f"{welcome}"}
+            self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to change the welcome message of a non-existent in db invite, so it was created")
+
+        await ctx.send(f"Changed the welcome message of invite {invite.code} from {old_welcome} to {welcome}")
+
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(invites, f, indent = 4)
+
     @commands.command(aliases = ['invlist', 'invls'])
     async def list(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -357,7 +413,7 @@ class Invs(commands.Cog):
 
         if type in ["inv_created", "inv_added", "inv_made"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["member_joined"]:
+        if type in ["member_joined", "inv_rename", "inv_welcome"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
         if type in ["inv_deleted", "inv_removed"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
@@ -375,6 +431,10 @@ class Invs(commands.Cog):
             embed.add_field(name = "Invite Made", value = log_msg, inline = False)
         if type == "member_joined":
             embed.add_field(name = "Member Joined", value = log_msg, inline = False)
+        if type == "inv_rename":
+            embed.add_field(name = "Invite Renamed", value = log_msg, inline = False)
+        if type == "inv_welcome":
+            embed.add_field(name = "Invite Changed Welcome Message", value = log_msg, inline = False)
         if type == "inv_deleted":
             embed.add_field(name = "Invite Deleted", value = log_msg, inline = False)
         if type == "inv_removed":
