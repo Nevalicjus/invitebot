@@ -166,7 +166,7 @@ class Invs(commands.Cog):
 
 
         except KeyError:
-            invites['Invites'][f"{invite.code}"] = {"name": "None", "roles": [role.id], "uses": 0, "welcoe": "None"}
+            invites['Invites'][f"{invite.code}"] = {"name": "None", "roles": [role.id], "uses": 0, "welcome": "None"}
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to add role {role.name} to non-existent in db invite, so it was created with starting role {role.name}")
 
         await ctx.send(f"Added role {role.name} to invite {invite.code}")
