@@ -1,5 +1,5 @@
 <a target="https://n3v.live/invitebot" href="https://n3v.live/invitebot"><img src="https://n3v.live/icons/bot-invite-blue.svg"></a>
-<a href="https://discord.gg/wsEU32a3ke"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
+<a href="https://discord.gg/96vwUWGddh"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
 <img src="https://n3v.live/icons/license-MIT-yellow.svg">
 <a target="https://docs.n3v.live" href="https://docs.n3v.live"><img src="https://n3v.live/icons/read-the-docs-00BDD6.svg"></a>
 
@@ -50,10 +50,10 @@ Be aware that as the bot is under developement, some issues can arise if you use
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L4), so you can view them later
 
 ## Contributing
-If you want to contribute, join the [discord server](https://discord.gg/wsEU32a3ke) and see **§ Contributing** on #info📜.
+If you want to contribute, join the [Discord Support Server](https://n3v.live/inviebot-dc) and see **§ Contributing** on #info📜.
 
 ## Contact
-You can contact me on Discord - find me on the [Support Server](https://discord.gg/wsEU32a3ke)/[Twitter](https://twitter.com/maciejbromirski)
+You can contact me on Discord - find me on the [Support Server](https://n3v.live/invitebot-dc)/[Twitter](https://twitter.com/maciejbromirski)
 
 ## Thanks
 Great thanks to Piotr Młynarski for the first version of the algorithm

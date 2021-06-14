@@ -67,7 +67,7 @@ async def load(ctx, extension):
         client.load_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was loaded')
         log(f'{extension} was loaded')
-    except ExtensionNotLoaded:
+    except:
         await ctx.send(f'There was a problem loading {extension}')
         log(f'There was a problem loading {extension}')
 
@@ -78,7 +78,7 @@ async def unload(ctx, extension):
         client.unload_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was unloaded')
         log(f'{extension} was unloaded')
-    except ExtensionNotLoaded:
+    except:
         await ctx.send(f'There was a problem unloading {extension}')
         log(f'There was a problem unloading {extension}')
 
