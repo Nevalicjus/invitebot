@@ -578,6 +578,29 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             await ctx.send(embed = embed)
 
+    @commands.command()
+    #------------------------------
+    # Get info
+    #------------------------------
+    async def info(self, ctx):
+        try:
+            if self.checkInvos(ctx.guild.id) == 1:
+                await ctx.message.delete(delay=3)
+        except:
+            pass
+
+        embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+        now = datetime.datetime.now()
+        embed.set_footer(text = f"Support Server - https://n3v.live/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
+
+        embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+        embed.add_field(name = "i!**help**", value = "Sends you the bot's help page", inline = False)
+        embed.add_field(name = "i!**info**", value = "Sends you this message", inline = False)
+        embed.add_field(name = "[https://n3v.live/]", value = "Bot's Main Page", inline = False)
+        embed.add_field(name = "[https://docs.n3v.live/]", value = "Bot's Documentation Page", inline = False)
+        embed.add_field(name = "[https://n3v.live/invitebot-gh]", value = "Bot's GitHub page", inline = False)
+        await ctx.send(embed = embed)
 
     @commands.command()
     #------------------------------
