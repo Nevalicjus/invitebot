@@ -523,7 +523,7 @@ class Other(commands.Cog):
     #    else:
     #        return
 
-    @commands.command()
+    @commands.command(aliases = ['h'])
     #------------------------------
     # Request help
     #------------------------------
