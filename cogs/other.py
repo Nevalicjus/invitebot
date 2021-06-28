@@ -605,9 +605,13 @@ class Other(commands.Cog):
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: " + log_msg + "\n")
 
     def checkPerms(self, user_id, guild_id):
-        with open(f'configs/{guild_id}.json', 'r') as f:
-            config = json.load(f)
-            admin_roles = config['General']['AdminRoles']
+        try:
+            with open(f'configs/{guild_id}.json', 'r') as f:
+                config = json.load(f)
+                admin_roles = config['General']['AdminRoles']
+        except FileNotFoundError:
+            return False
+
 
         with open(f'main-config.json', 'r') as f:
             main_config = json.load(f)
