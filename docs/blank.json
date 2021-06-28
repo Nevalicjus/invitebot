@@ -1,1 +1,10 @@
-{}
+{
+  "General": {
+    "DeleteInvocations": 0,
+    "AdminRoles": [],
+    "ServerLog": 0,
+    "Prefix": "i!",
+    "WelcomeMessage": "None"
+  },
+  "Invites": {}
+}
