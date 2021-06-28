@@ -13,32 +13,57 @@ class Other(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+# old
+#    @commands.Cog.listener()
+#    #------------------------------
+#    # Create config file for guild on guild join
+#    #------------------------------
+#    async def on_guild_join(self, guild):
+#        self.log(guild.id, f"Joined new guild - {guild.name} [{guild.id}]")
+#        braces = "{}"
+#        #creates config file
+#        os.system(f"touch configs/{guild.id}.json && echo {braces} > configs/{guild.id}.json")
+#        await asyncio.sleep(5)
+#        try:
+#            with open(f'configs/{guild.id}.json', 'r') as f:
+#                config = json.load(f)
+#        except FileNotFoundError:
+#            self.log(0, f"Config for guild {guild.name}[{guild.id}] couldn't be created.")
+#
+#        #creates config data
+#        config['General'] = {}
+#        config['Invites'] = {}
+#
+#        config['General']['DeleteInvocations'] = 0
+#        config['General']['AdminRoles'] = []
+#        config['General']['ServerLog'] = 0
+#        config['General']['Prefix'] = "i!"
+#        config['General']['WelcomeMessage'] = "None"
+#
+#        for invite in await guild.invites():
+#            config['Invites'][f'{invite.code}'] = {}
+#            config['Invites'][f'{invite.code}']['name'] = "None"
+#            config['Invites'][f'{invite.code}']['roles'] = []
+#            config['Invites'][f'{invite.code}']['uses'] = invite.uses
+#            config['Invites'][f'{invite.code}']['welcome'] = "None"
+#
+#        with open(f'configs/{guild.id}.json', 'w') as f:
+#            json.dump(config, f, indent = 4)
+
     @commands.Cog.listener()
     #------------------------------
     # Create config file for guild on guild join
     #------------------------------
     async def on_guild_join(self, guild):
         self.log(guild.id, f"Joined new guild - {guild.name} [{guild.id}]")
-        braces = "{}"
-        #creates config file
-        os.system(f"touch configs/{guild.id}.json && echo {braces} > configs/{guild.id}.json")
-        await asyncio.sleep(5)
+
         try:
-            with open(f'configs/{guild.id}.json', 'r') as f:
+            with open(f'docs/blank.json', 'r') as f:
                 config = json.load(f)
         except FileNotFoundError:
-            self.log(0, f"Config for guild {guild.name}[{guild.id}] couldn't be created.")
+            self.log(0, f"You are missing a blank example config file under docs/blank.json")
 
-        #creates config data
-        config['General'] = {}
-        config['Invites'] = {}
-
-        config['General']['DeleteInvocations'] = 0
-        config['General']['AdminRoles'] = []
-        config['General']['ServerLog'] = 0
-        config['General']['Prefix'] = "i!"
-        config['General']['WelcomeMessage'] = "None"
-
+        #creates invites data
         for invite in await guild.invites():
             config['Invites'][f'{invite.code}'] = {}
             config['Invites'][f'{invite.code}']['name'] = "None"
