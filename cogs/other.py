@@ -539,7 +539,7 @@ class Other(commands.Cog):
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
         now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | InviteBot made with \u2764\ufe0f by Nevalicjus")
+        embed.set_footer(text = f"Support Server - https://n3v.live/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
