@@ -539,7 +539,7 @@ class Other(commands.Cog):
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
         now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://n3v.live/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
+        embed.set_footer(text = f"Support Server - https://n3v.xyz/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
@@ -592,14 +592,14 @@ class Other(commands.Cog):
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
         now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://n3v.live/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
+        embed.set_footer(text = f"Support Server - https://n3v.xyz/invitebot-dc | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
         embed.add_field(name = "i!**help**", value = "Sends you the bot's help page", inline = False)
         embed.add_field(name = "i!**info**", value = "Sends you this message", inline = False)
-        embed.add_field(name = "[https://n3v.live/]", value = "Bot's Main Page", inline = False)
-        embed.add_field(name = "[https://docs.n3v.live/]", value = "Bot's Documentation Page", inline = False)
-        embed.add_field(name = "[https://n3v.live/invitebot-gh]", value = "Bot's GitHub page", inline = False)
+        embed.add_field(name = "[https://n3v.xyz/]", value = "Bot's Main Page", inline = False)
+        embed.add_field(name = "[https://docs.n3v.xyz/]", value = "Bot's Documentation Page", inline = False)
+        embed.add_field(name = "[https://n3v.xyz/invitebot-gh]", value = "Bot's GitHub page", inline = False)
         await ctx.send(embed = embed)
 
     @commands.command()
@@ -611,7 +611,7 @@ class Other(commands.Cog):
             await ctx.message.delete(delay=3)
 
         self.log(ctx.guild.id, f"Invite to the bot requested by {ctx.message.author}[{ctx.message.author.id}] on {ctx.message.channel}")
-        embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://n3v.live/invitebot")
+        embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://n3v.xyz/invitebot")
         await ctx.send(embed = embed)
 
     def log(self, guild_id, log_msg: str):

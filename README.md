@@ -1,7 +1,7 @@
-<a target="https://n3v.live/invitebot" href="https://n3v.live/invitebot"><img src="https://n3v.live/icons/bot-invite-blue.svg"></a>
+<a target="https://n3v.xyz/invitebot" href="https://n3v.xyz/invitebot"><img src="https://n3v.xyz/icons/bot-invite-blue.svg"></a>
 <a href="https://discord.gg/96vwUWGddh"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
-<img src="https://n3v.live/icons/license-MIT-yellow.svg">
-<a target="https://docs.n3v.live" href="https://docs.n3v.live"><img src="https://n3v.live/icons/read-the-docs-00BDD6.svg"></a>
+<img src="https://n3v.xyz/icons/license-MIT-yellow.svg">
+<a target="https://docs.n3v.xyz" href="https://docs.n3v.xyz"><img src="https://n3v.xyz/icons/read-the-docs-00BDD6.svg"></a>
 
 # InviteBot
 InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
@@ -9,7 +9,7 @@ InviteBot is a simple discord.py bot that connects invites to roles, and adds th
 If you run into a bug please report it to me :)
 
 ## Usage
-If you want to use the bot 'out of the box', I host it publically [here](https://n3v.live/invitebot).</br>
+If you want to use the bot 'out of the box', I host it publically [here](https://n3v.xyz/invitebot).</br>
 Be aware that as the bot is under developement, some issues can arise if you use the public version hosted by me (up to when it's 'finished').
 
 ### If you want to selfhost:
@@ -50,10 +50,10 @@ Be aware that as the bot is under developement, some issues can arise if you use
 The bot prints it's actions on the console, and also writes them to a [logfile](https://github.com/Nevalicjus/invitebot/blob/main/main-config.json#L4), so you can view them later
 
 ## Contributing
-If you want to contribute, join the [Discord Support Server](https://n3v.live/inviebot-dc) and see **§ Contributing** on #info📜.
+If you want to contribute, join the [Discord Support Server](https://n3v.xyz/inviebot-dc) and see **§ Contributing** on #info📜.
 
 ## Contact
-You can contact me on Discord - find me on the [Support Server](https://n3v.live/invitebot-dc)/[Twitter](https://twitter.com/maciejbromirski)
+You can contact me on Discord - find me on the [Support Server](https://n3v.xyz/invitebot-dc)/[Twitter](https://twitter.com/maciejbromirski)
 
 ## Thanks
 Great thanks to Piotr Młynarski for the first version of the algorithm
