@@ -649,6 +649,10 @@ class Other(commands.Cog):
         for role in member.roles:
             if role.id in admin_roles:
                 isAble += 1
+        if member.guild_permissions.administrator == True:
+            isAble += 1
+        if member.guild_permissions.manage_guild == True:
+            isAble += 1
 
         if isAble >= 1:
             return True
