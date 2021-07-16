@@ -528,11 +528,8 @@ class Other(commands.Cog):
     # Request help
     #------------------------------
     async def help(self, ctx):
-        try:
-            if self.checkInvos(ctx.guild.id) == 1:
-                await ctx.message.delete(delay=3)
-        except:
-            pass
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
 
         failsafe = 0
 
@@ -543,6 +540,7 @@ class Other(commands.Cog):
 
         if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
             await ctx.send(embed = embed)
             return
 
@@ -564,6 +562,7 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**switchconfig**", value = "**Only for Server Owner**\nAliases - switchcnfg, switchconf\nLoads a saved config in place of the current one, after saving the currently used config", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
             await ctx.send(embed = embed)
             return
 
@@ -576,6 +575,7 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+            embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
             await ctx.send(embed = embed)
 
     @commands.command()
@@ -583,11 +583,8 @@ class Other(commands.Cog):
     # Get info
     #------------------------------
     async def info(self, ctx):
-        try:
-            if self.checkInvos(ctx.guild.id) == 1:
-                await ctx.message.delete(delay=3)
-        except:
-            pass
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
 
         embed = discord.Embed(title = f"**InviteBot Help**", color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
@@ -660,9 +657,12 @@ class Other(commands.Cog):
 
     def checkInvos(self, guild_id):
         try:
-            with open(f'configs/{guild_id}.json', 'r') as f:
-                config = json.load(f)
-                delinvos = config['General']['DeleteInvocations']
+            try:
+                with open(f'configs/{guild_id}.json', 'r') as f:
+                    config = json.load(f)
+                    delinvos = config['General']['DeleteInvocations']
+            except FileNotFoundError:
+                return False
 
             if delinvos == 1:
                 return True
