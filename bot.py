@@ -45,42 +45,19 @@ async def on_ready():
     log("Status service started")
     log(f"InviteBot ready")
 
-@client.event
-async def on_command_error(ctx, exception):
-    with open('main-config.json', 'r') as f:
-        config = json.load(f)
-        owners = config['OwnerUsers']
-    log(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}]\n caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n")
-    traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
-    print("\n")
-    trace = ""
-    for line in traceback.format_exception(type(exception), exception, exception.__traceback__):
-        trace += line
-    for owner in owners:
-        recipient = client.get_user(owner)
-        await recipient.send(f"There was an error that happened in {ctx.guild.name}[{ctx.guild.id}] caused by {ctx.message.content}, which was run by {ctx.author.name}[{ctx.author.id}]:\n ```{trace}```")
-
 @client.command(help="Loads a cog.")
 @commands.is_owner()
 async def load(ctx, extension):
-    try:
-        client.load_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} was loaded')
-        log(f'{extension} was loaded')
-    except:
-        await ctx.send(f'There was a problem loading {extension}')
-        log(f'There was a problem loading {extension}')
+    client.load_extension(f'cogs.{extension}')
+    await ctx.send(f'{extension} was loaded')
+    log(f'{extension} was loaded')
 
 @client.command(help="Unloads a cog.")
 @commands.is_owner()
 async def unload(ctx, extension):
-    try:
-        client.unload_extension(f'cogs.{extension}')
-        await ctx.send(f'{extension} was unloaded')
-        log(f'{extension} was unloaded')
-    except:
-        await ctx.send(f'There was a problem unloading {extension}')
-        log(f'There was a problem unloading {extension}')
+    client.unload_extension(f'cogs.{extension}')
+    await ctx.send(f'{extension} was unloaded')
+    log(f'{extension} was unloaded')
 
     #deleting invo
     if delinvos == True:
