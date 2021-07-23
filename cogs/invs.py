@@ -180,6 +180,20 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
+    @add.error
+    async def add_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+            elif error.param.name == "role":
+                await ctx.send("Your command is missing a required argument: a valid Discord role (Role meention or Role ID)")
+        if isinstance(error, commands.RoleNotFound):
+            await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
+
     @commands.command(aliases = ['invdel', 'invrem', 'invr'])
     async def remove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -213,6 +227,16 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
+    @remove.error
+    async def remove_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
+
     @commands.command(aliases = ['invn', 'rename'])
     async def name(self, ctx, invite: discord.Invite, name: str):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -241,6 +265,18 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
+    @name.error
+    async def name_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+            elif error.param.name == "name":
+                await ctx.send("Your command is missing a required argument: a name for your invite")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
+
     @commands.command(aliases = ['invw'])
     async def welcome(self, ctx, invite: discord.Invite, welcome: str):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -268,6 +304,18 @@ class Invs(commands.Cog):
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
+
+    @welcome.error
+    async def welcome_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+            elif error.param.name == "name":
+                await ctx.send("Your command is missing a required argument: a welcome message to be tied with your invite")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
 
     @commands.command(aliases = ['invlist', 'invls'])
     async def list(self, ctx):
@@ -357,6 +405,20 @@ class Invs(commands.Cog):
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
+
+    @make.error
+    async def make_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "channel":
+                await ctx.send("Your command is missing a required argument: a valid channel (Channel mention or Channel ID)")
+        if isinstance(error, commands.ChannelNotFound):
+            await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.RoleNotFound):
+            await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
 
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
