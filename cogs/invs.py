@@ -55,6 +55,9 @@ class Invs(commands.Cog):
         with open(f'configs/{member.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
+        if invites['Invites'][f"{invite}"]["roles"] == []:
+            return
+
         for x in invites['Invites'][f"{invite}"]["roles"]:
             try:
                 role = member.guild.get_role(x)
