@@ -362,6 +362,16 @@ class Other(commands.Cog):
         await ctx.send(embed = embed)
         await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
 
+    @addmod.error
+    async def addmod_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "role":
+                await ctx.send("Your command is missing a required argument: a valid Discord role (Role meention or Role ID)")
+        if isinstance(error, commands.RoleNotFound):
+            await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
+
+        #await self.errorLog()
+
     @commands.command()
     #------------------------------
     # Remove role.id from adminrole for no further permission verification
@@ -392,6 +402,14 @@ class Other(commands.Cog):
         await ctx.send(embed = embed)
         await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
 
+    @delmod.error
+    async def delmod_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "role":
+                await ctx.send("Your command is missing a required argument: a valid Discord role (Role meention or Role ID)")
+        if isinstance(error, commands.RoleNotFound):
+            await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
+
     @commands.command(aliases = ['elog'])
     #------------------------------
     # Enable server logging
@@ -411,6 +429,14 @@ class Other(commands.Cog):
         await ctx.send(f"Enabled log on channel {channel}")
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
+
+    @enablelog.error
+    async def enablelog_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "channel":
+                await ctx.send("Your command is missing a required argument: a valid channel (Channel mention or Channel ID)")
+        if isinstance(error, commands.ChannelNotFound):
+            await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
 
     @commands.command(aliases = ['dlog'])
     #------------------------------
@@ -468,6 +494,12 @@ class Other(commands.Cog):
 
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
+
+    @delinvos.error
+    async def make_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "choice":
+                await ctx.send("Please provide an option for the setting (yes/no)")
 
     @commands.command()
     #------------------------------
