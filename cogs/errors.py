@@ -16,11 +16,11 @@ class CommandErrorHandler(commands.Cog):
             config = json.load(f)
             owners = config['OwnerUsers']
 
-        # This prevents any commands with local handlers being handled here in on_command_error.
+        # prevents local error handlers in global
         if hasattr(ctx.command, 'on_error'):
             return
 
-        # This prevents any cogs with an overwritten cog_command_error being handled here.
+        # prevents local-to-cog error handlers in global
         cog = ctx.cog
         if cog:
             if cog._get_overridden_method(cog.cog_command_error) is not None:
@@ -29,8 +29,8 @@ class CommandErrorHandler(commands.Cog):
         #ignored = (commands.CommandNotFound, )
         ignored = (0)
 
-        # Allows us to check for original exceptions raised and sent to CommandInvokeError.
-        # If nothing is found. We keep the exception passed to on_command_error.
+        # check for original exceptions raised and sent to CommandInvokeError.
+        # if none, exception is passed
         error = getattr(error, 'original', error)
 
         temp_trace = ""
