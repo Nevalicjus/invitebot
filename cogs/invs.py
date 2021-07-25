@@ -369,9 +369,10 @@ class Invs(commands.Cog):
             return
 
         bot_member = ctx.guild.get_member(self.client.user.id)
-        if bot_member.top_role < role:
-            await ctx.send("I cannot assign this role to users (Bot's role is below the role you want to assign)")
-            return
+        if role != 0:
+            if bot_member.top_role < role:
+                await ctx.send("I cannot assign this role to users (Bot's role is below the role you want to assign)")
+                return
 
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             invites = json.load(f)
