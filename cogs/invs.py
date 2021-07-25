@@ -55,8 +55,13 @@ class Invs(commands.Cog):
         with open(f'configs/{member.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
-        if invites['Invites'][f"{invite}"]["roles"] == []:
-            return
+        try:
+            if invites['Invites'][f"{invite}"]["roles"] == []:
+                return
+        except KeyError:
+                await self.log(invite.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite.code}, Guild: {member.guild.id}, Member: {member}")
+                return
+
 
         for x in invites['Invites'][f"{invite}"]["roles"]:
             try:
