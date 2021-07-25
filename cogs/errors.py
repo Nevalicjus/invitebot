@@ -53,6 +53,8 @@ class CommandErrorHandler(commands.Cog):
 
 
         # return if we ignore an exception
+        #ignored = (commands.CommandNotFound, )
+        #ignored = (0)
         #if isinstance(error, ignored):
         #    return
 
