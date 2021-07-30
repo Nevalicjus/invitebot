@@ -98,7 +98,7 @@ async def status_task():
             members += guild.member_count
         await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
         await asyncio.sleep(20)
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://n3v.xyz/invitebot-dc"))
+        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://invitebot.xyz"))
         await asyncio.sleep(20)
 
 

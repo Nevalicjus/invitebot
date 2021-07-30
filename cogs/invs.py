@@ -94,7 +94,7 @@ class Invs(commands.Cog):
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
                             recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
-                            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
@@ -102,7 +102,7 @@ class Invs(commands.Cog):
                         elif invites['General']['WelcomeMessage'] != "None":
                             recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
-                            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
@@ -114,7 +114,7 @@ class Invs(commands.Cog):
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
                             recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite.code}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
-                            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
@@ -122,7 +122,7 @@ class Invs(commands.Cog):
                         elif invites['General']['WelcomeMessage'] != "None":
                             recipient = self.client.get_user(member.id)
                             embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
-                            embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
@@ -480,7 +480,7 @@ class Invs(commands.Cog):
 
     def constructResponseEmbedBase(self, desc):
         embed = discord.Embed(title = f"**InviteBot**", description = desc, color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://nevalicjus.github.io/docs/invitebot.png")
+        embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
         now = datetime.datetime.now()
         embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
