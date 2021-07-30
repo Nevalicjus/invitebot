@@ -59,7 +59,7 @@ class Invs(commands.Cog):
             if invites['Invites'][f"{invite}"]["roles"] == []:
                 return
         except KeyError:
-                await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite.code}, Guild: {member.guild.id}, Member: {member}")
+                await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
                 return
 
 
