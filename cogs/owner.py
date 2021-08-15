@@ -127,6 +127,7 @@ class Owner(commands.Cog):
                 except FileNotFoundError:
                     self.log(0, f"Guild {guild.id} had no configuration present")
                     noconf_guild_ids.append(guild.id)
+                    
         if mode == 1:
             self.log(0, " === REGEN CONF REGEN MISSING === ")
             noconf_guild_ids = []
@@ -154,7 +155,8 @@ class Owner(commands.Cog):
 
                     with open(f'configs/{guild.id}.json', 'w') as f:
                         json.dump(config, f, indent = 4)
-                        
+
+        self.log(0, f"Regenerated configs in mode {mode}. Guilds with no present configurations {noconf_guild_ids}")
         #if mode == 2:
         #    self.log(0, " === REGEN CONF REGEN ALL === ")
         #    noconf_guild_ids = []
