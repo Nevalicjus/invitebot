@@ -105,6 +105,70 @@ class Owner(commands.Cog):
 
         self.log(0, f"{ctx.author}[{ctx.author.id}]: {log_entry}")
 
+    @commands.command(help = "regens not present configs")
+    #------------------------------
+    # Regenerate config files for servers that do now have them
+    #------------------------------
+    async def regenconf(self, ctx, mode = 0):
+        if self.checkOwner(ctx.message.author.id) == False:
+            return
+
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if mode == 0:
+            self.log(0, " === REGEN CONF DRY RUN === ")
+            noconf_guild_ids = []
+            for guild in client.guilds:
+                bots_guild_ids.append(guild.id)
+                try:
+                    with open(f'configs/{guild.id}.json', 'r') as f:
+                        config = json.load(f)
+                except FileNotFoundError:
+                    self.log(0, f"Guild {guild.id} had no configuration present")
+                    noconf_guild_ids.append(guild.id)
+        if mode == 1:
+            self.log(0, " === REGEN CONF REGEN MISSING === ")
+            noconf_guild_ids = []
+            for guild in client.guilds:
+                bots_guild_ids.append(guild.id)
+                try:
+                    with open(f'configs/{guild.id}.json', 'r') as f:
+                        config = json.load(f)
+                except FileNotFoundError:
+                    self.log(0, f"Guild {guild.id} had no configuration present")
+                    noconf_guild_ids.append(guild.id)
+
+                    try:
+                        with open(f'docs/blank.json', 'r') as f:
+                            config = json.load(f)
+                    except FileNotFoundError:
+                        self.log(0, f"You are missing a blank example config file under docs/blank.json")
+
+                    for invite in await guild.invites():
+                        config['Invites'][f'{invite.code}'] = {}
+                        config['Invites'][f'{invite.code}']['name'] = "None"
+                        config['Invites'][f'{invite.code}']['roles'] = []
+                        config['Invites'][f'{invite.code}']['uses'] = invite.uses
+                        config['Invites'][f'{invite.code}']['welcome'] = "None"
+
+                    with open(f'configs/{guild.id}.json', 'w') as f:
+                        json.dump(config, f, indent = 4)
+                        
+        #if mode == 2:
+        #    self.log(0, " === REGEN CONF REGEN ALL === ")
+        #    noconf_guild_ids = []
+        #    for guild in client.guilds:
+        #        bots_guild_ids.append(guild.id)
+        #       try:
+        #           with open(f'configs/{guild.id}.json', 'r') as f:
+        #               config = json.load(f)
+        #       except FileNotFoundError:
+        #           self.log(0, f"Guild {guild.id} had no configuration present")
+        #           noconf_guild_ids.append(guild.id)
+
+
+
 
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
