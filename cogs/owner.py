@@ -168,8 +168,6 @@ class Owner(commands.Cog):
         #           noconf_guild_ids.append(guild.id)
 
 
-
-
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
             config = json.load(f)
