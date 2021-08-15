@@ -6,6 +6,7 @@ import asyncio
 import datetime
 import traceback
 import sys
+import pathlib
 intents = discord.Intents.default()
 intents.members = True
 
@@ -119,24 +120,18 @@ class Owner(commands.Cog):
         if mode == 0:
             self.log(0, " === REGEN CONF DRY RUN === ")
             noconf_guild_ids = []
-            for guild in client.guilds:
-                bots_guild_ids.append(guild.id)
-                try:
-                    with open(f'configs/{guild.id}.json', 'r') as f:
-                        config = json.load(f)
-                except FileNotFoundError:
+            for guild in self.client.guilds:
+                #pathcurrconf = Path(f"{Path.cwd()}/configs/{guild.id}")
+                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() == False:
                     self.log(0, f"Guild {guild.id} had no configuration present")
                     noconf_guild_ids.append(guild.id)
-                    
+
         if mode == 1:
             self.log(0, " === REGEN CONF REGEN MISSING === ")
             noconf_guild_ids = []
-            for guild in client.guilds:
-                bots_guild_ids.append(guild.id)
-                try:
-                    with open(f'configs/{guild.id}.json', 'r') as f:
-                        config = json.load(f)
-                except FileNotFoundError:
+            for guild in self.client.guilds:
+                #pathcurrconf = Path(f"{Path.cwd()}/configs/{guild.id}")
+                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() == False:
                     self.log(0, f"Guild {guild.id} had no configuration present")
                     noconf_guild_ids.append(guild.id)
 
@@ -145,16 +140,19 @@ class Owner(commands.Cog):
                             config = json.load(f)
                     except FileNotFoundError:
                         self.log(0, f"You are missing a blank example config file under docs/blank.json")
-
-                    for invite in await guild.invites():
-                        config['Invites'][f'{invite.code}'] = {}
-                        config['Invites'][f'{invite.code}']['name'] = "None"
-                        config['Invites'][f'{invite.code}']['roles'] = []
-                        config['Invites'][f'{invite.code}']['uses'] = invite.uses
-                        config['Invites'][f'{invite.code}']['welcome'] = "None"
+                    try:
+                        for invite in await guild.invites():
+                            config['Invites'][f'{invite.code}'] = {}
+                            config['Invites'][f'{invite.code}']['name'] = "None"
+                            config['Invites'][f'{invite.code}']['roles'] = []
+                            config['Invites'][f'{invite.code}']['uses'] = invite.uses
+                            config['Invites'][f'{invite.code}']['welcome'] = "None"
+                    except:
+                        pass
 
                     with open(f'configs/{guild.id}.json', 'w') as f:
                         json.dump(config, f, indent = 4)
+
 
         self.log(0, f"Regenerated configs in mode {mode}. Guilds with no present configurations {noconf_guild_ids}")
         #if mode == 2:
