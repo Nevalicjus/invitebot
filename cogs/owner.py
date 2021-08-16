@@ -167,7 +167,7 @@ class Owner(commands.Cog):
         #           self.log(0, f"Guild {guild.id} had no configuration present")
         #           noconf_guild_ids.append(guild.id)
 
-    @commands.command
+    @commands.command()
     #
     # Sends guilds stats
     #
@@ -175,7 +175,7 @@ class Owner(commands.Cog):
         members = 0
         for guild in client.guilds:
             members += guild.member_count
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
+        #await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
         await ctx.send(constructResponseEmbedBase(f"I'm on {len(self.client.guilds)} with {members} members"
 
 
