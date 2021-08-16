@@ -176,7 +176,7 @@ class Owner(commands.Cog):
         for guild in client.guilds:
             members += guild.member_count
         #await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
-        await ctx.send(constructResponseEmbedBase(f"I'm on {len(self.client.guilds)} with {members} members"
+        await ctx.send(embed = self.constructResponseEmbedBase(f"I'm on {len(self.client.guilds)} with {members} members"))
 
 
     def log(self, guild_id, log_msg: str):
