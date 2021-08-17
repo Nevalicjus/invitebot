@@ -109,7 +109,6 @@ async def status_task():
             await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://invitebot.xyz"))
             await asyncio.sleep(30)
         except:
-            await asyncio.sleep(30)
             pass
 
 
