@@ -42,6 +42,8 @@ async def on_ready():
     """
     print(f"\033[34m{ascii}\033[0m")
     log("InviteBot started")
+    loaded_cogs = await loadall()
+    log(f"Cogs named: {loaded_cogs} were loaded")
     client.loop.create_task(status_task())
     log("Status service started")
     log(f"InviteBot ready")
@@ -83,9 +85,13 @@ async def reload(ctx, extension):
     if delinvos == 1:
         await ctx.message.delete(delay=5)
 
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
+async def loadall():
+    loaded_cogs = ""
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            client.load_extension(f'cogs.{filename[:-3]}')
+            loaded_cogs += f"{filename[:-3]} "
+    return loaded_cogs
 
 def log(log_msg: str):
     print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: " + log_msg)
