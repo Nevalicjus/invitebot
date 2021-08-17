@@ -38,7 +38,7 @@ async def on_ready():
  | . ` |/ _ \ \ / /   | | | '_ \ \ / /  _ < / _ \| __|
  | |\  |  __/\ V /   _| |_| | | \ V /| |_) | (_) | |_
  |_| \_|\___| \_/   |_____|_| |_|\_/ |____/ \___/ \__|
-                                                      
+
     """
     print(f"\033[34m{ascii}\033[0m")
     log("InviteBot started")
@@ -95,12 +95,16 @@ def log(log_msg: str):
 async def status_task():
     while True:
         members = 0
-        for guild in client.guilds:
-            members += guild.member_count
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
-        await asyncio.sleep(20)
-        await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://invitebot.xyz"))
-        await asyncio.sleep(20)
+        try:
+            for guild in client.guilds:
+                members += guild.member_count
+            await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=f"on {len(client.guilds)} guilds with {members} members"))
+            await asyncio.sleep(30)
+            await client.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name="i!help | https://invitebot.xyz"))
+            await asyncio.sleep(30)
+        except:
+            await asyncio.sleep(30)
+            pass
 
 
 client.run(token)
