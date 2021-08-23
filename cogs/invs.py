@@ -59,7 +59,9 @@ class Invs(commands.Cog):
             if invites['Invites'][f"{invite}"]["roles"] == []:
                 return
         except KeyError:
-                await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
+                # its the cool 1-inv escp, but we dont get member here due to sth, has to be fixed in the parent func
+                # NoneType gets thrown here || await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
+                await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
                 return
 
 
