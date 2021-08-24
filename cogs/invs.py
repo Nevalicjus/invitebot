@@ -384,7 +384,12 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
-        invite = await channel.create_invite(max_age = age, max_uses = uses)
+        try:
+            invite = await channel.create_invite(max_age = age, max_uses = uses)
+        except discord.HTTPException as msg_ex:
+            if msg_ex.code == 50013 and msg_ex.status == 403:
+                await ctx.send("Bot is missing permissions to create an invite.\n[https://docs.invitebot.xyz/error-helpers/#bot-is-missing-permissions-to-create-an-invite]")
+                return
 
         invites['Invites'][f"{invite.code}"] = {}
         invites['Invites'][f"{invite.code}"]['name'] = name
