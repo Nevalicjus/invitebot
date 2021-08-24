@@ -204,7 +204,7 @@ class Invs(commands.Cog):
 
         #await self.errorLog()
 
-    @commands.command(aliases = ['invdel', 'invrem', 'invr'])
+    @commands.command(aliases = ['invrem', 'invr'])
     async def remove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
@@ -339,6 +339,10 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
+        if len(invites['Invites']) == 0:
+            await ctx.send("You have no invites")
+            return
+
         no_fields = 0
 
         embed = discord.Embed(title = f"**Invite List**", color = discord.Colour.from_rgb(119, 137, 218))
@@ -435,6 +439,32 @@ class Invs(commands.Cog):
             await ctx.send("Invite you are trying to use is invalid or expired")
 
         #await self.errorLog()
+
+    @commands.command(aliases = ['invdel', 'invd'])
+    async def delete(self, ctx, invite: discord.Invite):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        try:
+            await invite.delete()
+            self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] deleted invite {invite.code}")
+            await self.serverLog(ctx.guild.id, "inv_deleted", f"{ctx.author}[`{ctx.author.id}`] deleted invite {invite.code}")
+        except discord.HTTPException as msg_ex:
+            if msg_ex.code == 50013 and msg_ex.status == 403:
+                await ctx.send("Bot is missing permissions to delete an invite.")
+                return
+
+    @delete.error
+    async def delete_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
 
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
