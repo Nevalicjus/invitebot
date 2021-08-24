@@ -578,9 +578,10 @@ class Other(commands.Cog):
 
         elif ctx.message.author.id == ctx.guild.owner_id:
             embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
-            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
+            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
             embed.add_field(name = "i!**make #channel (name) (@role) (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
+            embed.add_field(name = "i!**delete <delete>**", value = "Aliases - invdel, invd\nDeletes <invite>", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**addmod @role**", value = "**Only for Server Owner**\nAdds @role to Admin Roles", inline = False)
             embed.add_field(name = "i!**delmod @role**", value = "**Only for Server Owner**\nRemoves @role from Admin Roles", inline = False)
@@ -600,9 +601,10 @@ class Other(commands.Cog):
 
         else:
             embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
-            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invdel, invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
+            embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
             embed.add_field(name = "i!**make #channel (name) (@role) (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
+            embed.add_field(name = "i!**delete <delete>**", value = "Aliases - invdel, invd\nDeletes <invite>", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
