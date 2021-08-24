@@ -4,7 +4,7 @@
 <a target="https://docs.invitebot.xyz" href="https://docs.invitebot.xyz"><img src="https://invitebot.xyz/icons/read-the-docs-00BDD6.svg"></a>
 
 # InviteBot
-InviteBot is a simple discord.py bot that connects invites to roles, and adds then on_member_join
+InviteBot is a simple discord.py bot that connects invites to roles, and adds them on_member_join
 
 If you run into a bug please report it to me :)
 
