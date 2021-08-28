@@ -12,7 +12,7 @@ If you run into a bug please report it to me :)
 If you want to use the bot 'out of the box', I host it publically [here](https://invitebot.xyz/invite).</br>
 
 ## Selhosting
-If you want to self-host the bot, see [the self-hosting documentation](https://docs.invitebot.xyz/self-hsoting)
+If you want to self-host the bot, see [the self-hosting documentation](https://docs.invitebot.xyz/self-hsot)
 
 ## Contributing
 If you want to contribute, join the [Discord Support Server](https://invitebot.xyz/support) and see **§ Contributing** on #info📜.
