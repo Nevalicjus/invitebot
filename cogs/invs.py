@@ -64,14 +64,17 @@ class Invs(commands.Cog):
                 await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
                 return
 
-
-        for x in invites['Invites'][f"{invite}"]["roles"]:
-            try:
-                role = member.guild.get_role(x)
-                await member.add_roles(role)
-                self.log(member.guild.id, f"Found invite role: {role.name} and role was added")
-            except KeyError:
-                self.log(member.guild.id, f"No role for invite {invite}")
+        try:
+            roles = []
+            rolenames = []
+            for role_id in invites['Invites'][f"{invite}"]["roles"]:
+                role = member.guild.get_role(role_id)
+                roles.append(role)
+                rolenames.append(role.name)
+            await member.add_roles(*roles)
+            self.log(member.guild.id, f"Found invite roles: {rolenames} and roles were added")
+        except KeyError:
+            self.log(member.guild.id, f"No role for invite {invite}")
 
     async def find_used_invite(self, member):
         found_code = ''
