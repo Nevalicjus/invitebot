@@ -7,6 +7,7 @@ import datetime
 import traceback
 import sys
 import pathlib
+import time
 intents = discord.Intents.default()
 intents.members = True
 
@@ -53,6 +54,54 @@ class Owner(commands.Cog):
         now = datetime.datetime.now()
         embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')}  |  InviteBot made with \u2764\ufe0f by Nevalicjus")
         await ctx.send(embed = embed)
+
+    @commands.command()
+    #------------------------------
+    # Get info about all your bot's guilds
+    #------------------------------
+    async def allserverinfo(self, ctx):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+        if self.checkOwner(ctx.message.author.id) == False:
+            return
+
+        self.log(0, f"{ctx.author} requested server info for all guilds")
+
+        guildsfp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        counter = 0
+        with open(f'temp/{guildsfp}.txt', 'a') as f:
+            start_time = time.time()
+            for guild in self.client.guilds:
+                try:
+                    f.write(f'Guild [{counter}]\nName: {guild.name}\nID: {guild.id}\nOwner: {guild.owner.name} [{guild.owner.id}]\nCreation Date: {guild.created_at}\nRegion: {guild.region}\n')
+                    f.write(f'Members: {guild.member_count}\nRoles: {len(guild.roles)}\nInvites: {len(await guild.invites())}\nChannels:\n  Categories: {len(guild.categories)}\n  Text: {len(guild.text_channels)}\n  Voice: {len(guild.voice_channels)}\n')
+
+                    if guild.premium_tier != 0:
+                        f.write(f'Boost Status: {guild.premium_tier}\n')
+                    if guild.rules_channel != None:
+                        f.write(f'Rules: {guild.rules_channel}\n')
+                    if guild.icon != None:
+                        f.write(f'IconURL: {guild.icon_url}\n')
+                    if guild.splash != None:
+                        f.write(f'SplashURL: {guild.splash_url}\n')
+                    if guild.banner != None:
+                        f.write(f'BannerURL: {guild.banner_url}\n')
+                    if guild.description != None:
+                        f.write(f'Description: {guild.description}\n')
+
+                except discord.HTTPException as msg_ex:
+                    if msg_ex.code == 50013 and msg_ex.status == 403:
+                        f.write(f'Guild [{counter}]\nName: {guild.name}\nID: {guild.id}\nOwner: {guild.owner.name} [{guild.owner.id}]\nCreation Date: {guild.created_at}\nRegion: {guild.region}\n')
+                        f.write(f'Guild Permissions Restricted\n')
+
+                f.write('\n')
+                counter += 1
+
+            f.close()
+            end_time = time.time()
+
+        self.log(0, f"{ctx.author} server info report for all guilds elapsed {end_time - start_time} seconds and was saved under {guildsfp}")
+        await ctx.send(f"Report Generated in {end_time - start_time}s", file = discord.File(fp = f'temp/{guildsfp}.txt', filename = f'temp/{guildsfp}.txt'))
 
     @commands.command()
     #------------------------------

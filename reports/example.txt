@@ -1,0 +1,19 @@
+Guild [COUNTER]
+Name: NAME
+ID: ID
+Owner: OWNER [OWNER_ID]
+Creation Date: CREATION_DATE
+Region: REGION
+Members: MEMBER_COUNT
+Roles: LEN(ROLES)
+Invites: LEN(INVITES)
+Channels:
+  Categories: LEN(CATEGORIES)
+  Text LEN(TEXT_CHANNELS
+  Voice: LEN(VOICE_CHANNELS)
+Boost Status: BOOST_STATUS
+Rules: RULES_CHANNEL
+IconURL: ICON_URL
+SplashURL: SPLASH_URL
+BannerURL: BANNER_URL
+Description: SERVER_DESCRIPTION
