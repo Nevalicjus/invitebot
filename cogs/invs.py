@@ -79,6 +79,8 @@ class Invs(commands.Cog):
     async def find_used_invite(self, member):
         found_code = ''
         invite_list = await member.guild.invites()
+        if await member.guild.vanity_invite() != None:
+            invite_list.append(await member.guild.vanity_invite())
         uses = {}
 
         with open(f'configs/{member.guild.id}.json', 'r') as f:
