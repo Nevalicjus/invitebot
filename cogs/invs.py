@@ -96,7 +96,7 @@ class Invs(commands.Cog):
                 if uses[f"{invite.code}"] != curr_uses[f"{invite.code}"]:
                     if invites['Invites'][f"{invite.code}"]['name'] != "None":
                         self.log(invite.guild.id, f"User {member.name}[{member.id}] joined with invite {invite.code} named {invites['Invites'][invite.code]['name']}")
-                        await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named".format(member.id, member.id, invite.code, invites['Invites'][invite.code]['name']))
+                        await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named {3}".format(member.id, member.id, invite.code, invites['Invites'][invite.code]['name']))
 
                         if invites['Invites'][f"{invite.code}"]['welcome'] != "None":
                             recipient = self.client.get_user(member.id)
