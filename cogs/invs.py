@@ -79,8 +79,13 @@ class Invs(commands.Cog):
     async def find_used_invite(self, member):
         found_code = ''
         invite_list = await member.guild.invites()
-        if await member.guild.vanity_invite() != None:
-            invite_list.append(await member.guild.vanity_invite())
+        try:
+            if await member.guild.vanity_invite() != None:
+                invite_list.append(await member.guild.vanity_invite())
+        except discord.HTTPException as msg_ex:
+            if msg_ex.code == 50013 and msg_ex.status == 403:
+                await ctx.send("Bot is missing permissions to see if vanity url is available")
+                pass
         uses = {}
 
         with open(f'configs/{member.guild.id}.json', 'r') as f:
