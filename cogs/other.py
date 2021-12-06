@@ -101,10 +101,13 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        #checks for owner
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
 
         guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
@@ -134,10 +137,13 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        #checks for owner
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
 
         if specific not in [-1, 0]:
             guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
@@ -261,10 +267,13 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        #checks for owner
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
 
         if target_config == 0:
             embed = self.constructResponseEmbedBase(f"You didn't pick any config to delete. To view configs use `i!lscnfgs`")
@@ -302,10 +311,13 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        #checks for owner
-        if ctx.author.id == ctx.guild.owner_id:
-            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
-                config = json.load(f)
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
 
         if target_config == 0:
             embed = self.constructResponseEmbedBase(f"You didn't pick any config to switch. To view configs use `i!lscnfgs`")
@@ -340,8 +352,8 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id != ctx.guild.owner_id:
-            embed = self.constructResponseEmbedBase("You are not the server owner")
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
@@ -380,8 +392,8 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id != ctx.guild.owner_id:
-            embed = self.constructResponseEmbedBase("You are not the server owner")
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
@@ -418,9 +430,10 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id != ctx.guild.owner_id:
-            embed = self.constructResponseEmbedBase("You are not the server owner")
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
+            return
 
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             config = json.load(f)
@@ -446,9 +459,10 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if ctx.author.id != ctx.guild.owner_id:
-            embed = self.constructResponseEmbedBase("You are not the server owner")
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
+            return
 
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             config = json.load(f)
@@ -466,7 +480,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -509,7 +523,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -659,7 +673,7 @@ class Other(commands.Cog):
             with open(f'{logfile}', 'a') as f:
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: " + log_msg + "\n")
 
-    def checkPerms(self, user_id, guild_id):
+    def checkPerms(self, user_id, guild_id, addscopes = []):
         try:
             with open(f'configs/{guild_id}.json', 'r') as f:
                 config = json.load(f)
@@ -677,6 +691,14 @@ class Other(commands.Cog):
         guild = self.client.get_guild(guild_id)
         member = guild.get_member(user_id)
 
+        if "owner_only" in addscopes:
+            if user_id == guild.owner_id:
+                return True
+
+        if "owner_users_only" in addscopes:
+            if user_id in owners:
+                return True
+
         if user_id in owners:
             isAble += 1
         if user_id == guild.owner_id:
@@ -684,10 +706,13 @@ class Other(commands.Cog):
         for role in member.roles:
             if role.id in admin_roles:
                 isAble += 1
-        if member.guild_permissions.administrator == True:
-            isAble += 1
-        if member.guild_permissions.manage_guild == True:
-            isAble += 1
+
+        if "admin" in addscopes:
+            if member.guild_permissions.administrator == True:
+                isAble += 1
+        if "manage_guild" in addscopes:
+            if member.guild_permissions.manage_guild == True:
+                isAble += 1
 
         if isAble >= 1:
             return True
