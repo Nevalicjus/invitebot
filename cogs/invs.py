@@ -18,7 +18,10 @@ class Invs(commands.Cog):
         with open(f'configs/{invite.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
-        invites['Invites'][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None"}
+        if invite.max_uses == 1:
+            invites['Invites'][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {"1use": True}}
+        else:
+            invites['Invites'][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {}}
 
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
@@ -30,19 +33,34 @@ class Invs(commands.Cog):
     async def on_invite_delete(self, invite):
         with open(f'configs/{invite.guild.id}.json', 'r') as f:
             invites = json.load(f)
-            inv_name = invites['Invites'][invite.code]['name']
 
-        del invites['Invites'][f"{invite.code}"]
+        # if invite is a 1use, marked it as used so addinvroles can read roles and then delete the inv
+        if "1use" in list(invites['Invites'][f"{invite.code}"]["tags"].keys()):
+            if invites['Invites'][f"{invite.code}"]["tags"]["1use"] == True:
+                invites['Invites'][f"{invite.code}"]["tags"]["1use"] = "used"
+
+                inv_name = invites['Invites'][invite.code]['name']
+                if inv_name != "None":
+                    self.log(invite.guild.id, f"Invite {inv_name} - {invite.code} marked as 1use was deleted")
+                    await self.serverLog(invite.guild.id, "inv_deleted", "Invite {0} - https://discord.gg/{1} | Invite Channel - <#{2}>\nInviter - {3}\nMax Age - {4} | Uses - {5}".format(inv_name, invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
+                else:
+                    self.log(invite.guild.id, f'Invite {invite.code} marked as 1use was deleted')
+                    await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
+
+        else:
+            del invites['Invites'][f"{invite.code}"]
+
+            inv_name = invites['Invites'][invite.code]['name']
+            if inv_name != "None":
+                self.log(invite.guild.id, f"Invite {inv_name} - {invite.code} was deleted")
+                await self.serverLog(invite.guild.id, "inv_deleted", "Invite {0} - https://discord.gg/{1} | Invite Channel - <#{2}>\nInviter - {3}\nMax Age - {4} | Uses - {5}".format(inv_name, invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
+            else:
+                self.log(invite.guild.id, f'Invite {invite.code} was deleted')
+                await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
+
 
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
-
-        if inv_name != "None":
-            self.log(invite.guild.id, f"Invite {inv_name} - {invite.code} was deleted")
-            await self.serverLog(invite.guild.id, "inv_deleted", "Invite {0} - https://discord.gg/{1} | Invite Channel - <#{2}>\nInviter - {3}\nMax Age - {4} | Uses - {5}".format(inv_name, invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
-        else:
-            self.log(invite.guild.id, f'Invite {invite.code} was deleted')
-            await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
 
 
     @commands.Cog.listener()
@@ -61,7 +79,7 @@ class Invs(commands.Cog):
         except KeyError:
                 # its the cool 1-inv escp, but we dont get member here due to sth, has to be fixed in the parent func
                 # NoneType gets thrown here || await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
-                await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
+                #await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
                 return
 
         try:
@@ -75,6 +93,42 @@ class Invs(commands.Cog):
             self.log(member.guild.id, f"Found invite roles: {rolenames} and roles were added")
         except KeyError:
             self.log(member.guild.id, f"No role for invite {invite}")
+
+        try:
+            with open(f'configs/{member.guild.id}.json', 'r') as f:
+                invites = json.load(f)
+            if invites["Invites"][f"{invite}"]["tags"]["1use"] == "used":
+
+                inv_name = invites['Invites'][invite]['name']
+                if inv_name != "None":
+                    self.log(member.guild.id, f'Invite {inv_name} - {invite} marked as 1use was used')
+                    await self.serverLog(member.guild.id, "inv_used", f"Invite {inv_name} - https://discord.gg/{invite}")
+                else:
+                    self.log(member.guild.id, f'Invite {invite} marked as 1use was used')
+                    await self.serverLog(member.guild.id, "inv_used", f"Invite - https://discord.gg/{invite}")
+
+                del invites['Invites'][f"{invite}"]
+
+                with open(f'configs/{member.guild.id}.json', 'w') as f:
+                    json.dump(invites, f, indent = 4)
+        except KeyError:
+            pass
+
+        with open(f'configs/{member.guild.id}.json', 'r') as f:
+            invites = json.load(f)
+
+        # run the same code for retrieving used invites in find_used_invite to clearup unused 1use invites in this join
+        invite_list = await member.guild.invites()
+        srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
+        if len(invites['Invites']) != len(srv_invites):
+            for invite in list(invites['Invites'].keys()):
+                if invite not in list(srv_invites.keys()):
+                    del invites['Invites'][f"{invite}"]
+                    break
+
+        with open(f'configs/{member.guild.id}.json', 'w') as f:
+            json.dump(invites, f, indent = 4)
+
 
     async def find_used_invite(self, member):
         found_code = ''
@@ -118,6 +172,8 @@ class Invs(commands.Cog):
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
+                        found_code = invite.code
+                        break
 
                     else:
                         self.log(invite.guild.id, f"User {member.name}[{member.id}] joined with invite {invite.code}")
@@ -138,8 +194,9 @@ class Invs(commands.Cog):
                             now = datetime.datetime.now()
                             embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
                             await recipient.send(embed = embed)
+                        found_code = invite.code
+                        break
 
-                    found_code = invite.code
             except KeyError:
                 with open(f'configs/{member.guild.id}.json', 'r') as f:
                     invites = json.load(f)
@@ -164,6 +221,14 @@ class Invs(commands.Cog):
 
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
+
+        if found_code == "":
+            srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
+            if len(invites['Invites']) != len(srv_invites):
+                for invite in list(invites['Invites'].keys()):
+                    if invite not in list(srv_invites.keys()):
+                        found_code = invite
+                        break
 
         return found_code
 
@@ -413,6 +478,9 @@ class Invs(commands.Cog):
             invites['Invites'][f"{invite.code}"]['roles'] = []
         invites['Invites'][f"{invite.code}"]['uses'] = uses
         invites['Invites'][f"{invite.code}"]['welcome'] = "None"
+        invites['Invites'][f"{invite.code}"]['tags'] = {}
+        if uses == 1:
+            invites['Invites'][f"{invite.code}"]['tags']['1use'] = True
 
         if name == "None":
             if role == 0:
@@ -559,7 +627,7 @@ class Invs(commands.Cog):
             em_color = discord.Colour.from_rgb(67, 181, 129)
         if type in ["member_joined", "inv_rename", "inv_welcome"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
-        if type in ["inv_deleted", "inv_removed"]:
+        if type in ["inv_deleted", "inv_removed", "inv_used"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
 
         embed = discord.Embed(title = f"**InviteBot Logging**", color = em_color)
@@ -581,6 +649,8 @@ class Invs(commands.Cog):
             embed.add_field(name = "Invite Changed Welcome Message", value = log_msg, inline = False)
         if type == "inv_deleted":
             embed.add_field(name = "Invite Deleted", value = log_msg, inline = False)
+        if type == "inv_used":
+            embed.add_field(name = "Invite marked as 1use Used", value = log_msg, inline = False)
         if type == "inv_removed":
             embed.add_field(name = "Invite-Role Link Removed", value = log_msg, inline = False)
 
