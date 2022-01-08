@@ -473,6 +473,9 @@ class Invs(commands.Cog):
         embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
 
         for inv in invites['Invites']:
+            if "1use" in list(invites['Invites'][f"{inv}"]["tags"].keys()):
+                if invites['Invites'][f"{inv}"]["tags"]["1use"] == "used":
+                    continue
             about = ''
             for invrole in invites['Invites'][f"{inv}"]["roles"]:
                 role = ctx.guild.get_role(invrole)
