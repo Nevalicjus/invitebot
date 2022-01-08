@@ -161,7 +161,7 @@ class Invs(commands.Cog):
         for invite in invite_list:
             uses[f"{invite.code}"] = invite.uses
             try:
-                if uses[f"{invite.code}"] != curr_uses[f"{invite.code}"]:
+                if (uses[f"{invite.code}"] != curr_uses[f"{invite.code}"]) and (uses[f"{invite.code}"] != 0):
                     if invites['Invites'][f"{invite.code}"]['name'] != "None":
                         self.log(invite.guild.id, f"User {member.name}[{member.id}] joined with invite {invite.code} named {invites['Invites'][invite.code]['name']}")
                         await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named {3}".format(member.id, member.id, invite.code, invites['Invites'][invite.code]['name']))
