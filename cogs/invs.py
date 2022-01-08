@@ -231,13 +231,51 @@ class Invs(commands.Cog):
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
-        if found_code == "":
-            srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
-            if len(invites['Invites']) != len(srv_invites):
-                for invite in list(invites['Invites'].keys()):
-                    if invite not in list(srv_invites.keys()):
-                        found_code = invite
-                        break
+        srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
+        if len(invites['Invites']) != len(srv_invites):
+            for invite in list(invites['Invites'].keys()):
+                if invite not in list(srv_invites.keys()):
+                    if invites['Invites'][f"{invite}"]['name'] != "None":
+                        self.log(member.guild.id, f"User {member.name}[{member.id}] joined with invite {invite} named {invites['Invites'][invite]['name']}")
+                        await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}` named {3}".format(member.id, member.id, invite, invites['Invites'][invite]['name']))
+
+                        if invites['Invites'][f"{invite}"]['welcome'] != "None":
+                            recipient = self.client.get_user(member.id)
+                            embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
+                            now = datetime.datetime.now()
+                            embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+                            await recipient.send(embed = embed)
+
+                        elif invites['General']['WelcomeMessage'] != "None":
+                            recipient = self.client.get_user(member.id)
+                            embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
+                            now = datetime.datetime.now()
+                            embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+                            await recipient.send(embed = embed)
+
+                    else:
+                        self.log(member.guild.id, f"User {member.name}[{member.id}] joined with invite {invite}")
+                        await self.serverLog(member.guild.id, "member_joined", "Member <@{0}>[`{1}`] joined with invite `{2}`".format(member.id, member.id, invite))
+
+                        if invites['Invites'][f"{invite}"]['welcome'] != "None":
+                            recipient = self.client.get_user(member.id)
+                            embed = discord.Embed(title = f"**InviteBot**", description = invites['Invites'][f"{invite}"]['welcome'], color = discord.Colour.from_rgb(119, 137, 218))
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
+                            now = datetime.datetime.now()
+                            embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+                            await recipient.send(embed = embed)
+
+                        elif invites['General']['WelcomeMessage'] != "None":
+                            recipient = self.client.get_user(member.id)
+                            embed = discord.Embed(title = f"**InviteBot**", description = invites['General']['WelcomeMessage'], color = discord.Colour.from_rgb(119, 137, 218))
+                            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
+                            now = datetime.datetime.now()
+                            embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | InviteBot made with \u2764\ufe0f by Nevalicjus")
+                            await recipient.send(embed = embed)
+                    found_code = invite
+                    break
 
         return found_code
 
