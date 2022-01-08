@@ -569,6 +569,101 @@ class Invs(commands.Cog):
 
         #await self.errorLog()
 
+    @commands.command(aliases = ['invmm'])
+    @commands.cooldown(1.0, 30.0, commands.BucketType.guild)
+    async def massmake(self, ctx, num: int, channel: discord.TextChannel, name: str = "None", role: discord.Role = 0, uses: int = 0, age: int = 0):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        bot_member = ctx.guild.get_member(self.client.user.id)
+        if role != 0:
+            if bot_member.top_role < role:
+                await ctx.send("I cannot assign this role to users (Bot's role is below the role you want to assign)")
+                return
+
+        if num > 20:
+            await ctx.send("For rate limiting reasons, you can create a maximum of 20 invites at a time")
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            invites = json.load(f)
+
+        genned_invs = []
+
+        for i in range(0, int(num)):
+            await asyncio.sleep(1)
+            inv_name = f"{name}-{i}"
+
+            try:
+                invite = await channel.create_invite(max_age = age, max_uses = uses)
+            except discord.HTTPException as msg_ex:
+                if msg_ex.code == 50013 and msg_ex.status == 403:
+                    await ctx.send("Bot is missing permissions to create an invite.\n[https://docs.invitebot.xyz/error-helpers/#bot-is-missing-permissions-to-create-an-invite]")
+                    return
+
+            with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+                invites = json.load(f)
+
+            invites['Invites'][f"{invite.code}"] = {}
+            invites['Invites'][f"{invite.code}"]['name'] = inv_name
+            if role != 0:
+                invites['Invites'][f"{invite.code}"]['roles'] = [role.id]
+            else:
+                invites['Invites'][f"{invite.code}"]['roles'] = []
+            invites['Invites'][f"{invite.code}"]['uses'] = uses
+            invites['Invites'][f"{invite.code}"]['welcome'] = "None"
+            invites['Invites'][f"{invite.code}"]['tags'] = {}
+            if uses == 1:
+                invites['Invites'][f"{invite.code}"]['tags']['1use'] = True
+
+            if name == "None":
+                if role == 0:
+                    #await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel}, age: {age} and uses: {uses}")
+                    self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel}n, age: {age} and uses: {uses}")
+                    await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3} with {4} on join, age: {5} and uses: {6}".format(ctx.author.id, ctx.author.id, invite.code, channel, role, invite.max_age, invite.max_uses))
+                else:
+                    #await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                    self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                    await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2}` in {3}, age: {4} and uses: {5}".format(ctx.author.id, ctx.author.id, invite.code, channel, invite.max_age, invite.max_uses))
+            else:
+                if role == 0:
+                    #await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
+                    self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel}, age: {age} and uses: {uses}")
+                    await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4}, age: {5} and uses: {6}".format(ctx.author.id, ctx.author.id, invite.code, name, channel, invite.max_age, invite.max_uses))
+                else:
+                    #await ctx.send(f"{ctx.author}[`{ctx.author.id}`] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                    self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] created an invite https://discord.gg/{invite.code} named {name} in {channel} with {role} on join, age: {age} and uses: {uses}")
+                    await self.serverLog(ctx.guild.id, "inv_made", "<@{0}>[`{1}`] created invite `https://discord.gg/{2} named {3}` in {4} with {5} on join, age: {6} and uses: {7}".format(ctx.author.id, ctx.author.id, invite.code, name, channel, role, invite.max_age, invite.max_uses))
+
+            genned_invs.append(f"Invite `{inv_name}` - <https://discord.gg/{invite.code}>\n")
+            with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+                json.dump(invites, f, indent = 4)
+
+        await ctx.send(f"Generated {num} invites:\n{''.join(line for line in genned_invs)}")
+
+    @massmake.error
+    async def massmake_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "num":
+                await ctx.send("Your command is missing a required argument: a valid integer")
+            if error.param.name == "channel":
+                await ctx.send("Your command is missing a required argument: a valid channel (Channel mention or Channel ID)")
+        if isinstance(error, commands.ChannelNotFound):
+            await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.RoleNotFound):
+            await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f"You are trying to use this command too fast. Cooldown is 30s and you can run your command in {self.massmake.get_cooldown_retry_after(ctx)}")
+
+        #await self.errorLog()
+
+
     @commands.command(aliases = ['invdel', 'invd'])
     async def delete(self, ctx, invite: discord.Invite):
         if self.checkInvos(ctx.guild.id) == 1:
