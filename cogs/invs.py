@@ -58,8 +58,6 @@ class Invs(commands.Cog):
                     await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
 
         else:
-            del invites['Invites'][f"{invite.code}"]
-
             inv_name = invites['Invites'][invite.code]['name']
             if inv_name != "None":
                 self.log(invite.guild.id, f"Invite {inv_name} - {invite.code} was deleted")
@@ -67,7 +65,7 @@ class Invs(commands.Cog):
             else:
                 self.log(invite.guild.id, f'Invite {invite.code} was deleted')
                 await self.serverLog(invite.guild.id, "inv_deleted", "Invite - https://discord.gg/{0} | Invite Channel - <#{1}>\nInviter - {2}\nMax Age - {3} | Uses - {4}".format(invite.code, invite.channel.id, invite.inviter, invite.max_age, invite.uses))
-
+            del invites['Invites'][f"{invite.code}"]
 
         with open(f'configs/{invite.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
