@@ -126,6 +126,16 @@ class Invs(commands.Cog):
         except KeyError:
             pass
 
+        srv_invites = {f"{inv.code}": {"inviter": inv.inviter.id} for inv in await member.guild.invites()}
+        if f"{invite}" in list(srv_invites.keys()):
+            await self.analytics_add(member.guild.id, member.id, srv_invites[f"{invite}"]["inviter"], 1)
+        else:
+            # landing here means 1use invite was used
+            # this is #1 not usefule to track as I cant imagine anyone wanting to create an invite with 1 use for inviting as many poor souls as he can
+            # and #2 this would mena we have to mark the inviter in the invites dict in config as 1use invites won't fetch us inviter.ids as the invite doesnt exist on remote
+            # it can certainly be done, but at this very moment I do not see the need to
+            pass
+
         #with open(f'configs/{member.guild.id}.json', 'r') as f:
         #    invites = json.load(f)
         #
