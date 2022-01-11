@@ -71,13 +71,13 @@ class Other(commands.Cog):
 
         #creates invites data
         for invite in await guild.invites():
-            config['Invites'][f'{invite.code}'] = {}
-            config['Invites'][f'{invite.code}']['name'] = "None"
-            config['Invites'][f'{invite.code}']['roles'] = []
-            config['Invites'][f'{invite.code}']['uses'] = invite.uses
-            config['Invites'][f'{invite.code}']['welcome'] = "None"
+            config["Invites"][f"{invite.code}"] = {}
+            config["Invites"][f"{invite.code}"]["name"] = "None"
+            config["Invites"][f"{invite.code}"]["roles"] = []
+            config["Invites"][f"{invite.code}"]["uses"] = invite.uses
+            config["Invites"][f"{invite.code}"]["welcome"] = "None"
 
-        with open(f'configs/{guild.id}.json', 'w') as f:
+        with open(f"configs/{guild.id}.json", 'w') as f:
             json.dump(config, f, indent = 4)
 
     @commands.Cog.listener()
