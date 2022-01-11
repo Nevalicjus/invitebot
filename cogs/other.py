@@ -527,6 +527,73 @@ class Other(commands.Cog):
                 await ctx.send("Please provide an option for the setting (yes/no)")
 
     @commands.command()
+    async def analytics(self, ctx, choice):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        if choice in ["true", "yes", "y", "allow", "enable", "1"]:
+            choice = True
+        if choice in ["false", "no", "n", "deny", "disable", "0"]:
+            choice = False
+        if choice not in [True, False]:
+            embed = self.constructResponseEmbedBase("This is not a valid input")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        config['General']['Analytics'] = choice
+
+        if choice == True:
+            embed = self.constructResponseEmbedBase("You've successfully enabled Invite Analytics")
+            await ctx.send(embed = embed)
+            await self.serverLog(ctx.guild.id, "delinvos", f"Invite Analytics has been enabled")
+        if choice == False:
+            embed = self.constructResponseEmbedBase("You've successfully disabled Invite Analytics")
+            await ctx.send(embed = embed)
+            await self.serverLog(ctx.guild.id, "delinvos", f"Invite Analytics has been disabled")
+
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
+
+    @analytics.error
+    async def analytics_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "choice":
+                await ctx.send("Please provide an option for the setting (yes/no)")
+
+    @commands.command()
+    async def analyticschannel(self, ctx, channel: discord.TextChannel):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+            embed = self.constructResponseEmbedBase("You are not permitted to run this command")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        config['General']['AnalyticsLog'] = channel.id
+        await ctx.send(f"Enabled Invite Analytics log on channel {channel}")
+        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+            json.dump(config, f, indent = 4)
+
+    @analyticschannel.error
+    async def analyticschannel_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "channel":
+                await ctx.send("Your command is missing a required argument: a valid channel (Channel mention or Channel ID)")
+        if isinstance(error, commands.ChannelNotFound):
+            await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
+
+    @commands.command()
     #------------------------------
     # Change bot's server-prefix
     #------------------------------
