@@ -710,6 +710,40 @@ class Invs(commands.Cog):
         if isinstance(error, commands.BadInviteArgument):
             await ctx.send("Invite you are trying to use is invalid or expired")
 
+    async def analytics_add(self, guild_id, user_id, inviter_id, num):
+        if f"{guild_id}.json" not in os.listdir("users/"):
+            users_blank = {}
+            with open(f"users/{guild_id}.json", 'w') as f:
+                json.dump(users_blank, f, indent = 4)
+        with open(f"users/{guild_id}.json", 'r') as f:
+            users = json.load(f)
+
+        if f"{inviter_id}" not in list(users.keys()):
+            users[f"{inviter_id}"] = {}
+            users[f"{inviter_id}"]["NumberOfInvited"] = 0
+        else:
+            users[f"{inviter_id}"]["NumberOfInvited"] += num
+
+        with open(f"users/{guild_id}.json", 'w') as f:
+            json.dump(users, f, indent = 4)
+
+        with open(f"configs/{guild_id}.json", 'r') as f:
+            config = json.load(f)
+
+        if (config["General"]["Analytics"] == True) and (config["General"]["AnalyticsLog"] != 0):
+            guild = self.client.get_guild(guild_id)
+            analytics_channel = self.client.get_channel(config["General"]["AnalyticsLog"])
+            joiner = guild.get_member(user_id)
+            inviter = guild.get_member(inviter_id)
+
+            if users[f"{inviter_id}"]["NumberOfInvited"] == 1:
+                flex = "person"
+            else:
+                flex = "people"
+            embed = self.constructResponseEmbedBase(f"User {joiner.mention} was invited by {inviter.mention}\n{inviter.mention} has altogether invited {users[f'{inviter_id}']['NumberOfInvited']} {flex} 🎉")
+            await analytics_channel.send(embed = embed)
+
+
     def log(self, guild_id, log_msg: str):
         with open('main-config.json', 'r') as f:
             config = json.load(f)
