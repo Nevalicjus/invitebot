@@ -82,24 +82,27 @@ class Invs(commands.Cog):
         with open(f'configs/{member.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
-        try:
-            if invites['Invites'][f"{invite}"]["roles"] == []:
-                return
-        except KeyError:
-                # its the cool 1-inv escp, but we dont get member here due to sth, has to be fixed in the parent func
-                # NoneType gets thrown here || await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
-                #await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
-                return
+        #try:
+        #    if invites['Invites'][f"{invite}"]["roles"] == []:
+        #        return
+        #except KeyError:
+        #        # its the cool 1-inv escp, but we dont get member here due to sth, has to be fixed in the parent func
+        #        # NoneType gets thrown here || await self.log(member.guild.id, f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: {member.guild.id}, Member: {member}")
+        #        #await self.log('0', f"There was this wild log here with a misdone configuration I have no mind for rn. Details:\nInvite Code: {invite}, Guild: '0', Member: {member}")
+        #        return
 
         try:
-            roles = []
-            rolenames = []
-            for role_id in invites['Invites'][f"{invite}"]["roles"]:
-                role = member.guild.get_role(role_id)
-                roles.append(role)
-                rolenames.append(role.name)
-            await member.add_roles(*roles)
-            self.log(member.guild.id, f"Found invite roles: {rolenames} and roles were added")
+            if invites['Invites'][f"{invite}"]["roles"] != []:
+                roles = []
+                rolenames = []
+                for role_id in invites['Invites'][f"{invite}"]["roles"]:
+                    role = member.guild.get_role(role_id)
+                    roles.append(role)
+                    rolenames.append(role.name)
+                await member.add_roles(*roles)
+                self.log(member.guild.id, f"Found invite roles: {rolenames} and roles were added")
+            else:
+                self.log(member.guild.id, f"No role for invite {invite}")
         except KeyError:
             self.log(member.guild.id, f"No role for invite {invite}")
 
