@@ -475,7 +475,14 @@ class Invs(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             invites = json.load(f)
 
-        if len([i for i in list(invites['Invites'].keys()) if invites['Invites'][i]['tags']['1use'] != "used"]) == 0:
+        l = []
+        for inv in list(invites['Invites'].keys()):
+            if "1use" in list(invites['Invites'][f"{inv}"]["tags"].keys()):
+                if invites['Invites'][f"{inv}"]['tags']['1use'] != "used":
+                    l.append(inv)
+            else:
+                l.append(inv)
+        if len(l) == 0:
             await ctx.send("You have no invites")
             return
 
