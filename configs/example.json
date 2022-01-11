@@ -4,7 +4,9 @@
     "AdminRoles": [],
     "ServerLog": 0,
     "Prefix": "i!",
-    "WelcomeMessage": "None"
+    "WelcomeMessage": "None",
+    "Analytics": false,
+    "AnalyticsLog": 0
   },
   "Invites": {
     "example-invite-code": {
