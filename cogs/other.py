@@ -57,11 +57,17 @@ class Other(commands.Cog):
     async def on_guild_join(self, guild):
         self.log(guild.id, f"Joined new guild - {guild.name} [{guild.id}]")
 
-        try:
-            with open(f'docs/blank.json', 'r') as f:
-                config = json.load(f)
-        except FileNotFoundError:
-            self.log(0, f"You are missing a blank example config file under docs/blank.json")
+        config = {}
+        config["General"] = {}
+        config["General"]["DeleteInvocations"] = 0
+        config["General"]["AdminRoles"] = []
+        config["General"]["ServerLog"] = 0
+        config["General"]["Prefix"] = "i!"
+        config["General"]["WelcomeMessage"] = "None"
+        config["General"]["Analytics"] = False
+        config["General"]["AnalyticsLog"] = 0
+
+        config["Invites"] = {}
 
         #creates invites data
         for invite in await guild.invites():
