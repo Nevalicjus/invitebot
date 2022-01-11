@@ -80,6 +80,11 @@ class Other(commands.Cog):
         with open(f"configs/{guild.id}.json", 'w') as f:
             json.dump(config, f, indent = 4)
 
+        if f"{guild.id}.json" not in os.listdir("users/"):
+            users_blank = {}
+            with open(f"users/{guild.id}.json", 'w') as f:
+                json.dump(users_blank, f, indent = 4)
+
     @commands.Cog.listener()
     #------------------------------
     # Delete the config file when leaving guild
