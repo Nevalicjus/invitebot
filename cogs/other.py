@@ -568,7 +568,7 @@ class Other(commands.Cog):
                 await ctx.send("Please provide an option for the setting (yes/no)")
 
     @commands.command()
-    async def analyticschannel(self, ctx, channel: discord.TextChannel):
+    async def analyticslog(self, ctx, channel: discord.TextChannel):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
@@ -585,8 +585,8 @@ class Other(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
 
-    @analyticschannel.error
-    async def analyticschannel_err_handler(self, ctx, error):
+    @analyticslog.error
+    async def analyticslog_err_handler(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             if error.param.name == "channel":
                 await ctx.send("Your command is missing a required argument: a valid channel (Channel mention or Channel ID)")
