@@ -594,6 +594,36 @@ class Other(commands.Cog):
             await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
 
     @commands.command()
+    async def analyticsuser(self, ctx, inviter: discord.Member):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay=3)
+
+        with open(f"users/{ctx.guild.id}.json", 'r') as f:
+            users = json.load(f)
+
+        if f"{inviter.id}" in list(users.keys()):
+            numofinvitedby = users[f"{inviter.id}"]
+
+            flex = "people"
+            if numofinvitedby == 1:
+                flex = "person"
+            embed = self.constructResponseEmbedBase(f"{inviter.mention} has invited {numofinvitedby} {flex} 🎉")
+        else:
+            embed = self.constructResponseEmbedBase(f"{inviter.mention} hans't invited anyone yet")
+
+        await ctx.send(embed = embed)
+
+    @analyticsuser.error
+    async def analyticsuser_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "inviter":
+                await ctx.send("Your command is missing a required argument: a valid user (User mention or User ID)")
+        if isinstance(error, commands.MemberNotFound):
+            await ctx.send("User you are trying to mention or provide ID of doesn't exist")
+        if isinstance(error, commands.UserNotFound):
+            await ctx.send("User you are trying to mention or provide ID of doesn't exist")
+
+    @commands.command()
     #------------------------------
     # Change bot's server-prefix
     #------------------------------
