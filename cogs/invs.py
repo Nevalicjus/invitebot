@@ -136,21 +136,21 @@ class Invs(commands.Cog):
             # it can certainly be done, but at this very moment I do not see the need to
             pass
 
-        #with open(f'configs/{member.guild.id}.json', 'r') as f:
-        #    invites = json.load(f)
-        #
-        ## run the same code for retrieving used invites in find_used_invite to clearup unused 1use invites in this join
+        with open(f'configs/{member.guild.id}.json', 'r') as f:
+            invites = json.load(f)
+
+        # run the same code for retrieving used invites in find_used_invite to clearup unused 1use invites in this join
         #print("Running 1use clearer")
-        #invite_list = await member.guild.invites()
-        #srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
-        #if len(invites['Invites']) != len(srv_invites):
-        #    for invite in list(invites['Invites'].keys()):
-        #        if invite not in list(srv_invites.keys()):
-        #            del invites['Invites'][f"{invite}"]
-        #            break
-        #
-        #with open(f'configs/{member.guild.id}.json', 'w') as f:
-        #    json.dump(invites, f, indent = 4)
+        invite_list = await member.guild.invites()
+        srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
+        if len(invites['Invites']) != len(srv_invites):
+            for invite in list(invites['Invites'].keys()):
+                if invite not in list(srv_invites.keys()):
+                    del invites['Invites'][f"{invite}"]
+                    break
+
+        with open(f'configs/{member.guild.id}.json', 'w') as f:
+            json.dump(invites, f, indent = 4)
 
 
     async def find_used_invite(self, member):
