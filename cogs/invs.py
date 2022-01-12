@@ -246,7 +246,7 @@ class Invs(commands.Cog):
             json.dump(invites, f, indent = 4)
 
         srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
-        if len(invites['Invites']) != len(srv_invites):
+        if (len(invites['Invites']) != len(srv_invites)) and (found_code == ""):
             for invite in list(invites['Invites'].keys()):
                 if invite not in list(srv_invites.keys()):
                     if invites['Invites'][f"{invite}"]['name'] != "None":
