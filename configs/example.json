@@ -13,7 +13,8 @@
       "name": "None",
       "roles": [0, 1],
       "uses": 0,
-      "welcome": "None"
+      "welcome": "None",
+      "tags": {}
     }
   }
 }
