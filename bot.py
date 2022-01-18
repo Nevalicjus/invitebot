@@ -32,7 +32,7 @@ client.remove_command('help')
 @client.event
 async def on_ready():
     ascii = """
-  _   _              _____            _           _    
+  _   _              _____            _           _
  | \ | |            |_   _|          | |         | |
  |  \| | _____   __   | |  _ ____   _| |__   ___ | |_
  | . ` |/ _ \ \ / /   | | | '_ \ \ / / '_ \ / _ \| __|
@@ -62,10 +62,6 @@ async def unload(ctx, extension):
     await ctx.send(f'{extension} was unloaded')
     log(f'{extension} was unloaded')
 
-    #deleting invo
-    if delinvos == True:
-        await ctx.message.delete(delay=5)
-
 @client.command(help="Reloads a cog")
 @commands.is_owner()
 async def reload(ctx, extension):
@@ -81,9 +77,6 @@ async def reload(ctx, extension):
         client.load_extension(f'cogs.{extension}')
         await ctx.send(f'{extension} was reloaded')
         log(f'{extension} was reloaded')
-    #deleting invo
-    if delinvos == 1:
-        await ctx.message.delete(delay=5)
 
 async def loadall():
     loaded_cogs = ""
