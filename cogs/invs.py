@@ -135,7 +135,15 @@ class Invs(commands.Cog):
         except KeyError:
             pass
 
-        srv_invites = {f"{inv.code}": {"inviter": inv.inviter.id} for inv in await member.guild.invites()}
+        srv_invites = {}
+        for inv in await member.guild.invites():
+            try:
+                srv_invites[f"{inv.code}"] = {"inviter": inv.inviter.id}
+            except:
+                # landing here probably means there is a desync between invites fetched at the start of iterating and through it
+                # i have no idea what could cause that
+                pass
+        #srv_invites = {f"{inv.code}": {"inviter": inv.inviter.id} for inv in await member.guild.invites()}
         if f"{invite}" in list(srv_invites.keys()):
             await self.analytics_add(member.guild.id, member.id, srv_invites[f"{invite}"]["inviter"], 1)
         else:
@@ -151,6 +159,7 @@ class Invs(commands.Cog):
         # run the same code for retrieving used invites in find_used_invite to clearup unused 1use invites in this join
         #print("Running 1use clearer")
         invite_list = await member.guild.invites()
+        srv_invites = {}
         srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
         if len(invites['Invites']) != len(srv_invites):
             for invite in list(invites['Invites'].keys()):
