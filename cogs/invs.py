@@ -99,6 +99,15 @@ class Invs(commands.Cog):
                     role = member.guild.get_role(role_id)
                     roles.append(role)
                     rolenames.append(role.name)
+
+                # community server & rule screening checkpart
+                if ("COMMUNITY" in member.guild.features) and ("WELCOME_SCREEN_ENABLED" in member.guild.features):
+                    if "awaitrules" in list(invites["Invites"][f"{invite}"]["tags"].keys()):
+                        if (invites["General"]["AwaitRulesAccept"] == True) or (invites["Invites"][f"{invite}"]["tags"]["awaitrules"] == True):
+                            while member.pending == True:
+                                # awaiting user rules acceptance
+                                await asyncio.sleep(3)
+
                 await member.add_roles(*roles)
                 self.log(member.guild.id, f"Found invite roles: {rolenames} and roles were added")
             else:

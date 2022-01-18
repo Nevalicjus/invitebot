@@ -6,7 +6,8 @@
     "Prefix": "i!",
     "WelcomeMessage": "None",
     "Analytics": false,
-    "AnalyticsLog": 0
+    "AnalyticsLog": 0,
+    "AwaitRulesAccept": true
   },
   "Invites": {
     "example-invite-code": {
@@ -14,7 +15,10 @@
       "roles": [0, 1],
       "uses": 0,
       "welcome": "None",
-      "tags": {}
+      "tags": {
+        "1use": true,
+        "awaitrules": true
+      }
     }
   }
 }
