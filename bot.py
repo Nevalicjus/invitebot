@@ -32,21 +32,21 @@ client.remove_command('help')
 @client.event
 async def on_ready():
     ascii = """
-  _   _              _____            ____        _
- | \ | |            |_   _|          |  _ \      | |
- |  \| | _____   __   | |  _ ____   _| |_) | ___ | |_
- | . ` |/ _ \ \ / /   | | | '_ \ \ / /  _ < / _ \| __|
+  _   _              _____            _           _    
+ | \ | |            |_   _|          | |         | |
+ |  \| | _____   __   | |  _ ____   _| |__   ___ | |_
+ | . ` |/ _ \ \ / /   | | | '_ \ \ / / '_ \ / _ \| __|
  | |\  |  __/\ V /   _| |_| | | \ V /| |_) | (_) | |_
- |_| \_|\___| \_/   |_____|_| |_|\_/ |____/ \___/ \__|
+ |_| \_|\___| \_/   |_____|_| |_|\_/ |_.__/ \___/ \__|
 
     """
     print(f"\033[34m{ascii}\033[0m")
-    log("InviteBot started")
+    log("Invitebot started")
     loaded_cogs = await loadall()
     log(f"Cogs named: {loaded_cogs} were loaded")
     client.loop.create_task(status_task())
     log("Status service started")
-    log(f"InviteBot ready")
+    log(f"Invitebot ready")
 
 @client.command(help="Loads a cog.")
 @commands.is_owner()
