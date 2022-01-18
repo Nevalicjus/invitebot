@@ -196,6 +196,7 @@ class Owner(commands.Cog):
                             config['Invites'][f'{invite.code}']['roles'] = []
                             config['Invites'][f'{invite.code}']['uses'] = invite.uses
                             config['Invites'][f'{invite.code}']['welcome'] = "None"
+                            config['Invites'][f'{invite.code}']['tags'] = {}
                     except:
                         pass
 
