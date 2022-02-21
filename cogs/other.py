@@ -603,6 +603,14 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
+        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+            config = json.load(f)
+
+        if config["General"]["Analytics"] == False:
+            embed = self.constructResponseEmbedBase("Analytics are disabled on this server")
+            await ctx.send(embed = embed)
+            return
+
         with open(f"users/{ctx.guild.id}.json", 'r') as f:
             users = json.load(f)
 
