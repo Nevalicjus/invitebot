@@ -76,6 +76,7 @@ class Other(commands.Cog):
             config["Invites"][f"{invite.code}"]["roles"] = []
             config["Invites"][f"{invite.code}"]["uses"] = invite.uses
             config["Invites"][f"{invite.code}"]["welcome"] = "None"
+            config["Invites"][f"{invite.code}"]["tags"] = {}
 
         with open(f"configs/{guild.id}.json", 'w') as f:
             json.dump(config, f, indent = 4)
