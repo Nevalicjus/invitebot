@@ -569,7 +569,7 @@ class Other(commands.Cog):
                 await ctx.send("Please provide an option for the setting (yes/no)")
 
     @commands.command()
-    async def analyticslog(self, ctx, channel: discord.TextChannel):
+    async def analyticslog(self, ctx, channel: discord.TextChannel = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
 
@@ -581,8 +581,12 @@ class Other(commands.Cog):
         with open(f'configs/{ctx.guild.id}.json', 'r') as f:
             config = json.load(f)
 
-        config['General']['AnalyticsLog'] = channel.id
-        await ctx.send(f"Enabled Invite Analytics log on channel {channel}")
+        if channel == "None":
+            config['General']['AnalyticsLog'] = 0
+            await ctx.send(f"Disabled Invite Analytics log on channel {channel}")
+        else:
+            config['General']['AnalyticsLog'] = channel.id
+            await ctx.send(f"Enabled Invite Analytics log on channel {channel}")
         with open(f'configs/{ctx.guild.id}.json', 'w') as f:
             json.dump(config, f, indent = 4)
 
