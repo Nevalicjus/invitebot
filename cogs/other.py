@@ -705,7 +705,7 @@ class Other(commands.Cog):
         now = datetime.datetime.now()
         embed.set_footer(text = f"Support Server - https://invitebot.xyz/support | Invitebot made with \u2764\ufe0f by Nevalicjus")
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
             embed.add_field(name = "i!**analyticsuser @user**", value = "Sends you how many people did @user invite to the server", inline = False)
