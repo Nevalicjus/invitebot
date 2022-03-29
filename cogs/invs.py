@@ -40,9 +40,12 @@ class Invs(commands.Cog):
         srv_invites = {f"{inv.code}": {"uses": inv.uses} for inv in invite_list}
         if len(invites['Invites']) != len(srv_invites):
             for inv in list(invites['Invites'].keys()):
-                if (inv not in list(srv_invites.keys())) and (invites['Invites'][inv]["tags"]["1use"] == "used"):
-                    del invites['Invites'][f"{inv}"]
-                    break
+                try:
+                    if (inv not in list(srv_invites.keys())) and (invites['Invites'][inv]["tags"]["1use"] == "used"):
+                        del invites['Invites'][f"{inv}"]
+                        break
+                except KeyError:
+                    pass
 
         # if invite is a 1use, marked it as used so addinvroles can read roles and then delete the inv
         if "1use" in list(invites['Invites'][f"{invite.code}"]["tags"].keys()):
