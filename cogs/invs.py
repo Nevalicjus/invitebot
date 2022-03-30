@@ -264,7 +264,7 @@ class Invs(commands.Cog):
                 except KeyError:
                     invites['Invites'][f"{invite_code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None"}
 
-        with open(f'configs/{invite.guild.id}.json', 'w') as f:
+        with open(f'configs/{member.guild.id}.json', 'w') as f:
             json.dump(invites, f, indent = 4)
 
         srv_invites = {f"{invite.code}": {"uses": invite.uses} for invite in invite_list}
