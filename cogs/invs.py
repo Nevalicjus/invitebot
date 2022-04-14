@@ -126,7 +126,7 @@ class Invs(commands.Cog):
         for inv in await member.guild.invites():
             try:
                 srv_invites[f"{inv.code}"] = {"inviter": inv.inviter.id}
-            except:
+            except KeyError:
                 # landing here probably means there is a desync between invites fetched at the start of iterating and through it
                 # i have no idea what could cause that
                 pass
@@ -552,7 +552,7 @@ class Invs(commands.Cog):
             if no_fields == 25:
                 await ctx.send(embed = embed)
                 no_fields = 0
-                for i in range(25):
+                for _ in range(25):
                     embed.remove_field(0)
         if no_fields != 0:
             await ctx.send(embed = embed)
@@ -670,7 +670,7 @@ class Invs(commands.Cog):
                     return
 
             with open(f"configs/{ctx.guild.id}.json", "r") as f:
-                invites = json.load(f)
+                config = json.load(f)
 
             config["Invites"][f"{invite.code}"] = {}
             config["Invites"][f"{invite.code}"]["name"] = inv_name
@@ -797,13 +797,16 @@ class Invs(commands.Cog):
             with open(f"{config['LogFile']}", "a") as f:
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [INVROLES]: {log_msg}\n")
 
-    def checkPerms(self, user_id, guild_id, addscopes = []):
+    def checkPerms(self, user_id, guild_id, addscopes = None):
         with open(f"configs/{guild_id}.json", "r") as f:
             config = json.load(f)
             admin_roles = config["General"]["AdminRoles"]
-        with open(f"main-config.json", "r") as f:
+        with open("main-config.json", "r") as f:
             main_config = json.load(f)
             owners = main_config['OwnerUsers']
+
+        if addscopes is None:
+            addscopes = []
 
         isAble = 0
 
@@ -811,7 +814,7 @@ class Invs(commands.Cog):
         member = guild.get_member(user_id)
 
         if "owner_only" in addscopes:
-            if user_id == guild.owner_id:
+            if user_id == guild.owner.id:
                 return True
 
         if "owner_users_only" in addscopes:
@@ -820,7 +823,7 @@ class Invs(commands.Cog):
 
         if user_id in owners:
             isAble += 1
-        if user_id == guild.owner_id:
+        if user_id == guild.owner.id:
             isAble += 1
         for role in member.roles:
             if role.id in admin_roles:
@@ -854,42 +857,42 @@ class Invs(commands.Cog):
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
         return embed
 
-    async def serverLog(self, guild_id, type, log_msg):
+    async def serverLog(self, guild_id, log_type, log_msg):
         with open(f"configs/{guild_id}.json", "r") as f:
             config = json.load(f)
             log_channel_id = config["General"]["ServerLog"]
         if log_channel_id == 0:
             return False
 
-        if type in ["inv_created", "inv_added", "inv_made"]:
+        if log_type in ["inv_created", "inv_added", "inv_made"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["member_joined", "inv_rename", "inv_welcome", "inv_awaitrules"]:
+        if log_type in ["member_joined", "inv_rename", "inv_welcome", "inv_awaitrules"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
-        if type in ["inv_deleted", "inv_removed", "inv_used"]:
+        if log_type in ["inv_deleted", "inv_removed", "inv_used"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
 
         embed = discord.Embed(title = "**Invitebot Logging**", color = em_color)
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-        if type == "inv_created":
+        if log_type == "inv_created":
             embed.add_field(name = "Invite Created", value = log_msg, inline = False)
-        if type == "inv_added":
+        if log_type == "inv_added":
             embed.add_field(name = "Invite-Role Link Added", value = log_msg, inline = False)
-        if type == "inv_made":
+        if log_type == "inv_made":
             embed.add_field(name = "Invite Made", value = log_msg, inline = False)
-        if type == "member_joined":
+        if log_type == "member_joined":
             embed.add_field(name = "Member Joined", value = log_msg, inline = False)
-        if type == "inv_rename":
+        if log_type == "inv_rename":
             embed.add_field(name = "Invite Renamed", value = log_msg, inline = False)
-        if type == "inv_welcome":
+        if log_type == "inv_welcome":
             embed.add_field(name = "Invite Changed Welcome Message", value = log_msg, inline = False)
-        if type == "inv_awaitrules":
+        if log_type == "inv_awaitrules":
             embed.add_field(name = "Invite Changed Await Rules status", value = log_msg, inline = False)
-        if type == "inv_deleted":
+        if log_type == "inv_deleted":
             embed.add_field(name = "Invite Deleted", value = log_msg, inline = False)
-        if type == "inv_used":
+        if log_type == "inv_used":
             embed.add_field(name = "Invite marked as 1use Used", value = log_msg, inline = False)
-        if type == "inv_removed":
+        if log_type == "inv_removed":
             embed.add_field(name = "Invite-Role Link Removed", value = log_msg, inline = False)
 
         log_channel = self.client.get_channel(log_channel_id)

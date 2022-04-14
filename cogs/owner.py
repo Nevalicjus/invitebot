@@ -135,7 +135,7 @@ class Owner(commands.Cog):
             return
 
         with open("file.txt", "r") as f:
-            file = json.load(f)
+            _ = json.load(f)
 
     @commands.command()
     #------------------------------
@@ -237,7 +237,7 @@ class Owner(commands.Cog):
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OWNER-UTILITES]: {log_msg}\n")
 
     def checkOwner(self, user_id):
-        with open(f"main-config.json", "r") as f:
+        with open("main-config.json", "r") as f:
             main_config = json.load(f)
             owners = main_config["OwnerUsers"]
 

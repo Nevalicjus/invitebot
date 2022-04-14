@@ -147,11 +147,9 @@ class Other(commands.Cog):
             for inv in saved_config["Invites"]:
                 about = ""
                 for invrole in saved_config["Invites"][f"{inv}"]["roles"]:
-                    try:
-                        role = ctx.guild.get_role(invrole)
-                        about += f"{role.name}\n"
-                    except:
-                        about += "ErrorFetchingRole\n"
+                    role = ctx.guild.get_role(invrole)
+                    about += f"{role.name}\n"
+
                 about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
                 if about != '':
                     if saved_config["Invites"][f"{inv}"]["name"] != "None":
@@ -242,9 +240,6 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        with open(f"configs/{ctx.guild.id}.json", "r") as f:
-            config = json.load(f)
-
         if target_config == 0:
             embed = self.constructResponseEmbedBase("You didn't pick any config to delete. To view configs use `i!lscnfgs`")
             await ctx.send(embed = embed)
@@ -285,9 +280,6 @@ class Other(commands.Cog):
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
-
-        with open(f"configs/{ctx.guild.id}.json", "r") as f:
-            config = json.load(f)
 
         if target_config == 0:
             embed = self.constructResponseEmbedBase("You didn't pick any config to switch. To view configs use `i!lscnfgs`")
@@ -708,7 +700,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        embed = discord.Embed(title = f"**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed = discord.Embed(title = "**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
@@ -780,7 +772,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        embed = discord.Embed(title = f"**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed = discord.Embed(title = "**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
         embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
@@ -818,7 +810,7 @@ class Other(commands.Cog):
             with open(f"{config['LogFile']}", "a") as f:
                 f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: {log_msg}\n")
 
-    def checkPerms(self, user_id, guild_id, addscopes = []):
+    def checkPerms(self, user_id, guild_id, addscopes = None):
         try:
             with open(f"configs/{guild_id}.json", "r") as f:
                 config = json.load(f)
@@ -826,9 +818,12 @@ class Other(commands.Cog):
         except FileNotFoundError:
             return False
 
-        with open(f"main-config.json", "r") as f:
+        with open("main-config.json", "r") as f:
             main_config = json.load(f)
             owners = main_config["OwnerUsers"]
+
+        if addscopes is None:
+            addscopes = []
 
         isAble = 0
 
@@ -836,7 +831,7 @@ class Other(commands.Cog):
         member = guild.get_member(user_id)
 
         if "owner_only" in addscopes:
-            if user_id == guild.owner_id:
+            if user_id == guild.owner.id:
                 return True
 
         if "owner_users_only" in addscopes:
@@ -845,7 +840,7 @@ class Other(commands.Cog):
 
         if user_id in owners:
             isAble += 1
-        if user_id == guild.owner_id:
+        if user_id == guild.owner.id:
             isAble += 1
         for role in member.roles:
             if role.id in admin_roles:
@@ -878,7 +873,8 @@ class Other(commands.Cog):
                 return False
 
         except KeyError:
-            self.failSaveConfig
+            # this should also regen config
+            return False
 
     def constructResponseEmbedBase(self, desc):
         embed = discord.Embed(title = "**Invitebot**", description = desc, timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
@@ -886,40 +882,40 @@ class Other(commands.Cog):
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
         return embed
 
-    async def serverLog(self, guild_id, type: str, log_msg):
+    async def serverLog(self, guild_id, log_type, log_msg):
         with open(f"configs/{guild_id}.json", "r") as f:
             config = json.load(f)
             log_channel_id = config["General"]["ServerLog"]
         if log_channel_id == 0:
             return
 
-        if type in ["mod_added", "cnfg_save"]:
+        if log_type in ["mod_added", "cnfg_save"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["delinvos", "prefix_change", "cnfg_switch", "g_awaitrules", "g_welcome"]:
+        if log_type in ["delinvos", "prefix_change", "cnfg_switch", "g_awaitrules", "g_welcome"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
-        if type in ["mod_deleted", "cnfg_del"]:
+        if log_type in ["mod_deleted", "cnfg_del"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
 
-        embed = discord.Embed(title = f"**Invitebot Logging**", timestamp = datetime.datetime.utcnow(), color = em_color)
+        embed = discord.Embed(title = "**Invitebot Logging**", timestamp = datetime.datetime.utcnow(), color = em_color)
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-        if type == "mod_added":
+        if log_type == "mod_added":
             embed.add_field(name = "Admin Role Added", value = log_msg, inline = False)
-        if type == "delinvos":
+        if log_type == "delinvos":
             embed.add_field(name = "Invocation Deletion", value = log_msg, inline = False)
-        if type == "mod_deleted":
+        if log_type == "mod_deleted":
             embed.add_field(name = "Admin Role Removed", value = log_msg, inline = False)
-        if type == "prefix_change":
+        if log_type == "prefix_change":
             embed.add_field(name = "Prefix Changed", value = log_msg, inline = False)
-        if type == "cnfg_save":
+        if log_type == "cnfg_save":
             embed.add_field(name = "Saved Config Created", value = log_msg, inline = False)
-        if type == "cnfg_switch":
+        if log_type == "cnfg_switch":
             embed.add_field(name = "Current Config Switch", value = log_msg, inline = False)
-        if type == "cnfg_del":
+        if log_type == "cnfg_del":
             embed.add_field(name = "Saved Config Deleted", value = log_msg, inline = False)
-        if type == "g_welcome":
+        if log_type == "g_welcome":
             embed.add_field(name = "Changed Global Welcome Message", value = log_msg, inline = False)
-        if type == "g_awaitrules":
+        if log_type == "g_awaitrules":
             embed.add_field(name = "Changed Global Await Rules status", value = log_msg, inline = False)
 
         log_channel = self.client.get_channel(log_channel_id)
