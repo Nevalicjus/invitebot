@@ -25,17 +25,11 @@ class CommandErrorHandler(commands.Cog):
             if cog._get_overridden_method(cog.cog_command_error) is not None:
                 return
 
-        #ignored = (commands.CommandNotFound, )
-        ignored = (0)
-
         # check for original exceptions raised and sent to CommandInvokeError.
         # if none, exception is passed
         error = getattr(error, "original", error)
 
-        temp_trace = ""
-        for line in traceback.format_exception(type(error), error, error.__traceback__):
-            temp_trace += line
-        trace = temp_trace[:-1]
+        trace = "".join(l for l in traceback.format_exception(type(error), error, error.__traceback__))[:-1]
         for owner in config["OwnerUsers"]:
             recipient = self.client.get_user(owner)
             try:

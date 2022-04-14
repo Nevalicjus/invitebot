@@ -6,26 +6,30 @@ import datetime
 import discord
 from discord.ext import commands
 
+with open("main-config.json", "r") as mc:
+    config = json.load(mc)
     token = config["DiscordToken"]
     logFile = config["LogFile"]
     delinvos = config["DeleteOwnerCommandsInvos"]
 
-def get_prefix(client, message):
+def get_prefix(cl, message):
     try:
-        with open(f"configs/{message.guild.id}.json", "r") as f:
-            config = json.load(f)
-            prefix = config["General"]["Prefix"]
+        with open(f"configs/{message.guild.id}.json", "r") as gc:
+            guild_config = json.load(gc)
+            prefix = guild_config["General"]["Prefix"]
     except:
-        prefix = "i!"
+        prefix = config["Prefix"]
 
     return prefix
 
+intents = discord.Intents.default()
+intents.members = True
 client = commands.Bot(command_prefix = get_prefix, intents = intents)
 client.remove_command("help")
 
 @client.event
 async def on_ready():
-    ascii = """
+    ascii_art = """
   _   _              _____            _           _
  | \ | |            |_   _|          | |         | |
  |  \| | _____   __   | |  _ ____   _| |__   ___ | |_
@@ -34,7 +38,7 @@ async def on_ready():
  |_| \_|\___| \_/   |_____|_| |_|\_/ |_.__/ \___/ \__|
 
     """
-    print(f"\033[34m{ascii}\033[0m\nThanks for using my bot! If you like it, consider supporting me on kofi - https://ko-fi.com/nevalicjus")
+    print(f"\033[34m{ascii_art}\033[0m\nThanks for using my bot! If you like it, consider supporting me on kofi - https://ko-fi.com/nevalicjus")
     log("Invitebot started")
     loaded_cogs = await loadall()
     log(f"Cogs named: {loaded_cogs} were loaded")
@@ -82,8 +86,8 @@ async def loadall():
 
 def log(log_msg: str):
     print(f"[{datetime.datetime.now()}] [\033[1;31mINTERNAL\033[0;0m]: {log_msg}")
-    with open(f"{logFile}", "a") as f:
-        f.write(f"[{datetime.datetime.now()}] [INTERNAL]: {log_msg}\n")
+    with open(f"{logFile}", "a") as lf:
+        lf.write(f"[{datetime.datetime.now()}] [INTERNAL]: {log_msg}\n")
 
 async def status_task():
     while True:
