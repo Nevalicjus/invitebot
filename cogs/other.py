@@ -31,8 +31,6 @@ class Other(commands.Cog):
         config["General"]["AnalyticsLog"] = 0
 
         config["Invites"] = {}
-
-        #creates invites data
         for invite in await guild.invites():
             config["Invites"][f"{invite.code}"] = {}
             config["Invites"][f"{invite.code}"]["name"] = "None"
@@ -46,7 +44,7 @@ class Other(commands.Cog):
 
         if f"{guild.id}.json" not in os.listdir("users/"):
             users_blank = {}
-            with open(f"users/{guild.id}.json", 'w') as f:
+            with open(f"users/{guild.id}.json", "w") as f:
                 json.dump(users_blank, f, indent = 4)
 
     @commands.Cog.listener()
@@ -56,114 +54,114 @@ class Other(commands.Cog):
     async def on_guild_remove(self, guild):
         self.log(guild.id, f"Left guild - {guild.name} [{guild.id}]")
 
-        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+        guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
         if str(guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {guild.id}')
+            os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {guild.id}")
 
         #saves config
-        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        os.system(f'cp {os.getenv("PWD")}/configs/{guild.id}.json {os.getenv("PWD")}/saved-configs/{guild.id}/{savefp}.json')
+        savefp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        os.system(f"cp {os.getenv('PWD')}/configs/{guild.id}.json {os.getenv('PWD')}/saved-configs/{guild.id}/{savefp}.json")
 
         #removes config file on guild leave
         os.system(f"rm configs/{guild.id}.json")
 
-    @commands.command(aliases = ['savecnfg', 'sconf'])
+    @commands.command(aliases = ["savecnfg", "sconf"])
     #------------------------------
     # Saves the current config
     #------------------------------
     async def saveconfig(self, ctx):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+        guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+            os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {ctx.guild.id}")
 
-        with open(f'main-config.json', 'r') as f:
+        with open("main-config.json", "r") as f:
             config = json.load(f)
 
-        if len(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}')) >= config['MaxSavedConfigs']:
+        if len(os.listdir(f"{os.getenv('PWD')}/saved-configs/{ctx.guild.id}")) >= config["MaxSavedConfigs"]:
             embed = self.constructResponseEmbedBase(f"Saved Config couldn't be created, Max Saved Configurations number: {config['MaxSavedConfigs']} reached.")
             await ctx.send(embed = embed)
             return
 
-        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
+        savefp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        os.system(f"cp {os.getenv('PWD')}/configs/{ctx.guild.id}.json {os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{savefp}.json")
 
-        await self.serverLog(ctx.guild.id, "cnfg_save", "Saved Config was created, at {0} by {1}[`{2}`]".format(datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y'), ctx.author, ctx.author.id))
+        await self.serverLog(ctx.guild.id, "cnfg_save", f"Saved Config was created, at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')} by <@{ctx.author.id}>[`{ctx.author.id}`]")
         embed = self.constructResponseEmbedBase(f"Your Saved Config was created, at {datetime.datetime.now().strftime('%H:%M:%S | %d/%m/%Y')}")
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ['lscnfgs', 'lsconf'])
+    @commands.command(aliases = ["lscnfgs", "lsconf"])
     #------------------------------
     # Lists Saved Configs
     #------------------------------
     async def listconfigs(self, ctx, specific: int = -1):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if specific not in [-1, 0]:
-            guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+            guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
 
             if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-                os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
-                embed = self.constructResponseEmbedBase(f"You had no configurations saved")
+                os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {ctx.guild.id}")
+                embed = self.constructResponseEmbedBase("You had no configurations saved")
                 await ctx.send(embed = embed)
                 return
 
-            guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True)
+            guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse = True)
             fetched_config = guilds_configs[specific - 1]
 
-            with open(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{fetched_config}', 'r') as f:
+            with open(f"{os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{fetched_config}", "r") as f:
                 saved_config = json.load(f)
 
-            embed = discord.Embed(title = f"**Saved Config\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", color = discord.Colour.from_rgb(119, 137, 218))
-            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | Invitebot made with \u2764\ufe0f by Nevalicjus")
+            embed = discord.Embed(title = f"**Saved Config\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+            embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-            for setting in saved_config['General']:
+            for setting in saved_config["General"]:
                 embed.add_field(name = f"{setting}:", value = f"{saved_config['General'][setting]}", inline = False)
 
             await ctx.send(embed = embed)
 
-            embed = discord.Embed(title = f"**Saved Config's Invites\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", color = discord.Colour.from_rgb(119, 137, 218))
-            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | Invitebot made with \u2764\ufe0f by Nevalicjus")
+            embed = discord.Embed(title = f"**Saved Config's Invites\n{fetched_config[17:19]}:{fetched_config[14:16]}:{fetched_config[11:13]} | {fetched_config[8:10]}/{fetched_config[5:7]}/{fetched_config[0:4]}**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+            embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
             no_fields = 0
-            for inv in saved_config['Invites']:
-                about = ''
-                for invrole in saved_config['Invites'][f"{inv}"]["roles"]:
+            for inv in saved_config["Invites"]:
+                about = ""
+                for invrole in saved_config["Invites"][f"{inv}"]["roles"]:
                     try:
                         role = ctx.guild.get_role(invrole)
                         about += f"{role.name}\n"
                     except:
-                        about += f"ErrorFetchingRole\n"
+                        about += "ErrorFetchingRole\n"
                 about += f"Uses - {saved_config['Invites'][inv]['uses']}\n"
                 if about != '':
-                    if saved_config['Invites'][f'{inv}']['name'] != "None":
+                    if saved_config["Invites"][f"{inv}"]["name"] != "None":
                         embed.add_field(name = f"{saved_config['Invites'][inv]['name']}", value = about, inline = True)
                     else:
                         embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
-                    no_fields +=1
+                    no_fields += 1
                 if no_fields == 25:
                     await ctx.send(embed = embed)
                     no_fields = 0
@@ -176,35 +174,35 @@ class Other(commands.Cog):
 
         if specific == 0:
 
-            with open(f'{os.getenv("PWD")}/configs/{ctx.guild.id}.json', 'r') as f:
+            with open(f"{os.getenv('PWD')}/configs/{ctx.guild.id}.json", "r") as f:
                 config = json.load(f)
 
-            embed = discord.Embed(title = f"**Current Config**", color = discord.Colour.from_rgb(119, 137, 218))
-            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | Invitebot made with \u2764\ufe0f by Nevalicjus")
+            embed = discord.Embed(title = "**Current Config**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+            embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-            for setting in config['General']:
+            for setting in config["General"]:
                 embed.add_field(name = f"{setting}:", value = f"{config['General'][setting]}", inline = False)
 
             await ctx.send(embed = embed)
 
-            embed = discord.Embed(title = f"**Current Config's Invites**", color = discord.Colour.from_rgb(119, 137, 218))
-            embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-            embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | Invitebot made with \u2764\ufe0f by Nevalicjus")
+            embed = discord.Embed(title = "**Current Config's Invites**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+            embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+            embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
             no_fields = 0
-            for inv in config['Invites']:
-                about = ''
-                for invrole in config['Invites'][f"{inv}"]["roles"]:
+            for inv in config["Invites"]:
+                about = ""
+                for invrole in config["Invites"][f"{inv}"]["roles"]:
                     role = ctx.guild.get_role(invrole)
                     about += f"{role.name}\n"
                 about += f"Uses - {config['Invites'][inv]['uses']}\n"
                 if about != '':
-                    if config['Invites'][f'{inv}']['name'] != "None":
+                    if config["Invites"][f"{inv}"]["name"] != "None":
                         embed.add_field(name = f"{config['Invites'][inv]['name']}", value = about, inline = True)
                     else:
                         embed.add_field(name = f"https://discord.gg/{inv}", value = about, inline = True)
-                    no_fields +=1
+                    no_fields += 1
                 if no_fields == 25:
                     await ctx.send(embed = embed)
                     no_fields = 0
@@ -215,106 +213,106 @@ class Other(commands.Cog):
 
             return
 
-        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+        guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
 
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
+            os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {ctx.guild.id}")
 
-        embed = discord.Embed(title = f"**Saved Configs**", color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-        embed.set_footer(text = f"Support Server - https://discord.gg/wsEU32a3ke | Invitebot made with \u2764\ufe0f by Nevalicjus")
-        embed.add_field(name = f"Config 0", value = f"Currently used Config", inline = False)
+        embed = discord.Embed(title = "**Saved Configs**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+        embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
+        embed.add_field(name = "Config 0", value = "Currently used Config", inline = False)
 
         i = 0
-        for config in sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True):
+        for config in sorted(os.listdir(f"{os.getenv('PWD')}/saved-configs/{ctx.guild.id}/"), reverse = True):
             i += 1
             config_name: str = config
             embed.add_field(name = f"Config {i} saved on:", value = f"{config_name[11:13]}:{config_name[14:16]}:{config_name[17:19]} | {config_name[8:10]}/{config_name[5:7]}/{config_name[0:4]}", inline = False)
 
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ['removeconfig', 'delcnfg', 'delconf', 'remconf'])
+    @commands.command(aliases = ["removeconfig", "delcnfg", "delconf", "remconf"])
     #------------------------------
     # Deletes a Saved Config
     #------------------------------
     async def deleteconfig(self, ctx, target_config: int = 0):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if target_config == 0:
-            embed = self.constructResponseEmbedBase(f"You didn't pick any config to delete. To view configs use `i!lscnfgs`")
+            embed = self.constructResponseEmbedBase("You didn't pick any config to delete. To view configs use `i!lscnfgs`")
             await ctx.send(embed = embed)
             return
 
-        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+        guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
 
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
-            embed = self.constructResponseEmbedBase(f"You had no configurations saved")
+            os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {ctx.guild.id}")
+            embed = self.constructResponseEmbedBase("You had no configurations saved")
             await ctx.send(embed = embed)
             return
 
-        guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True)
+        guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse = True)
 
         try:
-            os.system(f'rm {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]}')
-            await self.serverLog(ctx.guild.id, "cnfg_del", "Saved Config {0} was deleted by {1}[`{2}`]".format(guilds_configs[target_config - 1], ctx.author, ctx.author.id))
+            os.system(f"rm {os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]}")
+            await self.serverLog(ctx.guild.id, "cnfg_del", f"Saved Config {guilds_configs[target_config - 1]} was deleted by <@{ctx.author.id}>[`{ctx.author.id}`]")
             embed = self.constructResponseEmbedBase(f"Saved Config {guilds_configs[target_config - 1]} was successfully deleted")
             await ctx.send(embed = embed)
             return
 
         except FileNotFoundError:
-            embed = self.constructResponseEmbedBase(f"No Saved Config from this date exists")
+            embed = self.constructResponseEmbedBase("No Saved Config from this date exists")
             await ctx.send(embed = embed)
             return
 
-    @commands.command(aliases = ['switchcnfg', 'switchconf'])
+    @commands.command(aliases = ["switchcnfg", "switchconf"])
     #------------------------------
     # Switch the chosen config with the current one
     #------------------------------
     async def switchconfig(self, ctx, target_config: int = 0):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if target_config == 0:
-            embed = self.constructResponseEmbedBase(f"You didn't pick any config to switch. To view configs use `i!lscnfgs`")
+            embed = self.constructResponseEmbedBase("You didn't pick any config to switch. To view configs use `i!lscnfgs`")
             await ctx.send(embed = embed)
             return
 
-        guilds_with_saved_cnfgs = os.listdir(f'{os.getenv("PWD")}/saved-configs/')
+        guilds_with_saved_cnfgs = os.listdir(f"{os.getenv('PWD')}/saved-configs/")
 
         if str(ctx.guild.id) not in guilds_with_saved_cnfgs:
-            os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {ctx.guild.id}')
-            embed = self.constructResponseEmbedBase(f"You had no configurations saved")
+            os.system(f"cd {os.getenv('PWD')}/saved-configs/ && mkdir {ctx.guild.id}")
+            embed = self.constructResponseEmbedBase("You had no configurations saved")
             await ctx.send(embed = embed)
             return
 
-        guilds_configs = sorted(os.listdir(f'{os.getenv("PWD")}/saved-configs/{ctx.guild.id}/'), reverse=True)
+        guilds_configs = sorted(os.listdir(f"{os.getenv('PWD')}/saved-configs/{ctx.guild.id}/"), reverse = True)
 
-        savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-        os.system(f'cp {os.getenv("PWD")}/configs/{ctx.guild.id}.json {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{savefp}.json')
+        savefp = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        os.system(f"cp {os.getenv('PWD')}/configs/{ctx.guild.id}.json {os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{savefp}.json && chmod +r {os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{savefp}.json")
 
-        os.system(f'mv {os.getenv("PWD")}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]} {os.getenv("PWD")}/configs/{ctx.guild.id}.json')
+        os.system(f"mv {os.getenv('PWD')}/saved-configs/{ctx.guild.id}/{guilds_configs[target_config - 1]} {os.getenv('PWD')}/configs/{ctx.guild.id}.json")
 
-        await self.serverLog(ctx.guild.id, "cnfg_switch", "{0}[`{1}`], switched current config for the one created on:\n{2}:{3}:{4} | {5}/{6}/{7}, and the previous config was saved".format(ctx.message.author, ctx.message.author.id, guilds_configs[target_config - 1][11:13], guilds_configs[target_config - 1][14:16], guilds_configs[target_config - 1][17:19], guilds_configs[target_config - 1][8:10], guilds_configs[target_config - 1][5:7], guilds_configs[target_config - 1][0:4]))
+        await self.serverLog(ctx.guild.id, "cnfg_switch", f"<@{ctx.message.author.id}>[`{ctx.message.author.id}`], switched current config for the one created on:\n{guilds_configs[target_config - 1][11:13]}:{guilds_configs[target_config - 1][14:16]}:{guilds_configs[target_config - 1][17:19]} | {guilds_configs[target_config - 1][8:10]}/{guilds_configs[target_config - 1][5:7]}/{guilds_configs[target_config - 1][0:4]}, and the previous config was saved")
         embed = self.constructResponseEmbedBase(f"Your Current Config was switched, for the one created on:\n{guilds_configs[target_config - 1][11:13]}:{guilds_configs[target_config - 1][14:16]}:{guilds_configs[target_config - 1][17:19]} | {guilds_configs[target_config - 1][8:10]}/{guilds_configs[target_config - 1][5:7]}/{guilds_configs[target_config - 1][0:4]},\n and previous Current Config was saved")
         await ctx.send(embed = embed)
 
@@ -325,29 +323,29 @@ class Other(commands.Cog):
     async def addmod(self, ctx, role: discord.Role):
         #checks for invo deletion
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        admin_roles = config['General']['AdminRoles']
+        admin_roles = config["General"]["AdminRoles"]
 
         if role.id in admin_roles:
             embed = self.constructResponseEmbedBase("This role was already an admin role")
             await ctx.send(embed = embed)
 
         admin_roles.append(role.id)
-        config['General']['AdminRoles'] = admin_roles
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        config["General"]["AdminRoles"] = admin_roles
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
         embed = self.constructResponseEmbedBase(f"Added role {role.name} as an admin role")
         await ctx.send(embed = embed)
-        await self.serverLog(ctx.guild.id, "mod_added", "Admin role <@{0}> added".format(role.id))
+        await self.serverLog(ctx.guild.id, "mod_added", f"Admin role <@{role.id}> added")
 
     @addmod.error
     async def addmod_err_handler(self, ctx, error):
@@ -365,29 +363,29 @@ class Other(commands.Cog):
     #------------------------------
     async def delmod(self, ctx, role: discord.Role):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        admin_roles = config['General']['AdminRoles']
+        admin_roles = config["General"]["AdminRoles"]
 
         if role.id not in admin_roles:
             embed = self.constructResponseEmbedBase("This role wasn't an admin role")
             await ctx.send(embed = embed)
 
         admin_roles.remove(role.id)
-        config['General']['AdminRoles'] = admin_roles
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        config["General"]["AdminRoles"] = admin_roles
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
         embed = self.constructResponseEmbedBase(f"Removed role {role.name} as an admin role")
         await ctx.send(embed = embed)
-        await self.serverLog(ctx.guild.id, "mod_deleted", "Admin role <@{0}> removed".format(role.id))
+        await self.serverLog(ctx.guild.id, "mod_deleted", f"Admin role <@{role.id}> removed")
 
     @delmod.error
     async def delmod_err_handler(self, ctx, error):
@@ -397,25 +395,26 @@ class Other(commands.Cog):
         if isinstance(error, commands.RoleNotFound):
             await ctx.send("Role you are trying to mention or provide ID of doesn't exist")
 
-    @commands.command(aliases = ['elog'])
+    @commands.command(aliases = ["elog"])
     #------------------------------
     # Enable server logging
     #------------------------------
     async def enablelog(self, ctx, channel: discord.TextChannel):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        config['General']['ServerLog'] = channel.id
-        await ctx.send(f"Enabled log on channel {channel}")
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        config["General"]["ServerLog"] = channel.id
+        embed = self.constructResponseEmbedBase(f"Enabled log on channel {channel}")
+        await ctx.send(embed = embed)
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @enablelog.error
@@ -426,25 +425,26 @@ class Other(commands.Cog):
         if isinstance(error, commands.ChannelNotFound):
             await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
 
-    @commands.command(aliases = ['dlog'])
+    @commands.command(aliases = ["dlog"])
     #------------------------------
     # Disable server logging
     #------------------------------
     async def disablelog(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        config['General']['ServerLog'] = 0
-        await ctx.send(f"Disabled log")
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        config["General"]["ServerLog"] = 0
+        embed = self.constructResponseEmbedBase("Disabled log")
+        await ctx.send(embed = embed)
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @commands.command()
@@ -453,7 +453,7 @@ class Other(commands.Cog):
     #------------------------------
     async def delinvos(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             await ctx.send("You are not permitted to run this command")
@@ -468,32 +468,32 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         config['General']['DeleteInvocations'] = choice
         if choice == 1:
             embed = self.constructResponseEmbedBase("You've successfully enabled Invocation Deletion")
             await ctx.send(embed = embed)
-            await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been enabled")
+            await self.serverLog(ctx.guild.id, "delinvos", "Invocation Deletion has been enabled")
         if choice == 0:
             embed = self.constructResponseEmbedBase("You've successfully disabled Invocation Deletion")
             await ctx.send(embed = embed)
-            await self.serverLog(ctx.guild.id, "delinvos", f"Invocation Deletion has been disabled")
+            await self.serverLog(ctx.guild.id, "delinvos", "Invocation Deletion has been disabled")
 
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @delinvos.error
-    async def make_err_handler(self, ctx, error):
+    async def delinvos_err_handler(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             if error.param.name == "choice":
-                await ctx.send("Please provide an option for the setting (yes/no)")
+                await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
     async def analytics(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             await ctx.send("You are not permitted to run this command")
@@ -508,49 +508,49 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        config['General']['Analytics'] = choice
+        config["General"]["Analytics"] = choice
 
         if choice == True:
             embed = self.constructResponseEmbedBase("You've successfully enabled Invite Analytics")
             await ctx.send(embed = embed)
-            await self.serverLog(ctx.guild.id, "delinvos", f"Invite Analytics has been enabled")
+            await self.serverLog(ctx.guild.id, "delinvos", "Invite Analytics has been enabled")
         if choice == False:
             embed = self.constructResponseEmbedBase("You've successfully disabled Invite Analytics")
             await ctx.send(embed = embed)
-            await self.serverLog(ctx.guild.id, "delinvos", f"Invite Analytics has been disabled")
+            await self.serverLog(ctx.guild.id, "delinvos", "Invite Analytics has been disabled")
 
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @analytics.error
     async def analytics_err_handler(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             if error.param.name == "choice":
-                await ctx.send("Please provide an option for the setting (yes/no)")
+                await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
     async def analyticslog(self, ctx, channel: discord.TextChannel = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if channel == "None":
-            config['General']['AnalyticsLog'] = 0
+            config["General"]["AnalyticsLog"] = 0
             await ctx.send(f"Disabled Invite Analytics log on channel {channel}")
         else:
-            config['General']['AnalyticsLog'] = channel.id
+            config["General"]["AnalyticsLog"] = channel.id
             await ctx.send(f"Enabled Invite Analytics log on channel {channel}")
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @analyticslog.error
@@ -564,9 +564,9 @@ class Other(commands.Cog):
     @commands.command()
     async def analyticsuser(self, ctx, inviter: discord.Member):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if config["General"]["Analytics"] == False:
@@ -574,10 +574,10 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        with open(f"users/{ctx.guild.id}.json", 'r') as f:
+        with open(f"users/{ctx.guild.id}.json", "r") as f:
             users = json.load(f)
 
-        if f"{inviter.id}" in list(users.keys()):
+        if f"{inviter.id}" in users:
             numofinvitedby = users[f"{inviter.id}"]
 
             flex = "people"
@@ -605,13 +605,13 @@ class Other(commands.Cog):
     #------------------------------
     async def prefix(self, ctx, new_prefix: str = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             await ctx.send("You are not permitted to run this command")
             return
 
-        with open(f'configs/{ctx.guild.id}.json', 'r') as f:
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
         if new_prefix == "None":
@@ -620,13 +620,13 @@ class Other(commands.Cog):
             return
 
 
-        config['General']['Prefix'] = new_prefix
+        config["General"]["Prefix"] = new_prefix
 
         embed = self.constructResponseEmbedBase(f"You've successfully changed the prefix to `{new_prefix}`")
         await ctx.send(embed = embed)
         await self.serverLog(ctx.guild.id, "prefix_change", f"Prefix was changed to {new_prefix}")
 
-        with open(f'configs/{ctx.guild.id}.json', 'w') as f:
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
     @commands.command(aliases = ['h'])
@@ -635,14 +635,11 @@ class Other(commands.Cog):
     #------------------------------
     async def help(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
-        failsafe = 0
-
-        embed = discord.Embed(title = f"**Invitebot Help**", color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-        now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://invitebot.xyz/support | Invitebot made with \u2764\ufe0f by Nevalicjus")
+        embed = discord.Embed(title = f"**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+        embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
         if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
@@ -710,14 +707,13 @@ class Other(commands.Cog):
     #------------------------------
     async def info(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
-        embed = discord.Embed(title = f"**Invitebot Help**", color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-        now = datetime.datetime.now()
-        embed.set_footer(text = f"Support Server - https://invitebot.xyz/support | Invitebot made with \u2764\ufe0f by Nevalicjus")
+        embed = discord.Embed(title = f"**Invitebot Help**", timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+        embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-        embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
+        embed.add_field(name = "i!**invite**", value = "Sends you the bot's invite", inline = False)
         embed.add_field(name = "i!**help**", value = "Sends you the bot's help page", inline = False)
         embed.add_field(name = "i!**info**", value = "Sends you this message", inline = False)
         embed.add_field(name = "[https://invitebot.xyz/]", value = "Bot's Main Page", inline = False)
@@ -732,37 +728,35 @@ class Other(commands.Cog):
     #------------------------------
     async def invite(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
-            await ctx.message.delete(delay=3)
+            await ctx.message.delete(delay = 3)
 
         self.log(ctx.guild.id, f"Invite to the bot requested by {ctx.message.author}[{ctx.message.author.id}] on {ctx.message.channel}")
         embed = self.constructResponseEmbedBase("**Invite the bot here:**\nhttps://invitebot.xyz/invite")
         await ctx.send(embed = embed)
 
     def log(self, guild_id, log_msg: str):
-        with open('main-config.json', 'r') as f:
+        with open("main-config.json", "r") as f:
             config = json.load(f)
-            logfile = config['LogFile']
         if guild_id == 0:
-            print(f"[{datetime.datetime.now()}] [\033[34mOTHER\033[0m]: " + log_msg)
-            with open(f'{logfile}', 'a') as f:
-                f.write(f"[{datetime.datetime.now()}] [OTHER]: " + log_msg + "\n")
+            print(f"[{datetime.datetime.now()}] [\033[34mOTHER\033[0m]: {log_msg}")
+            with open(f"{config['LogFile']}", "a") as f:
+                f.write(f"[{datetime.datetime.now()}] [OTHER]: {log_msg}\n")
         else:
-            print(f"[{datetime.datetime.now()}] [{guild_id}] [\033[34mOTHER\033[0m]: " + log_msg)
-            with open(f'{logfile}', 'a') as f:
-                f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: " + log_msg + "\n")
+            print(f"[{datetime.datetime.now()}] [{guild_id}] [\033[34mOTHER\033[0m]: {log_msg}")
+            with open(f"{config['LogFile']}", "a") as f:
+                f.write(f"[{datetime.datetime.now()}] [{guild_id}] [OTHER]: {log_msg}\n")
 
     def checkPerms(self, user_id, guild_id, addscopes = []):
         try:
-            with open(f'configs/{guild_id}.json', 'r') as f:
+            with open(f"configs/{guild_id}.json", "r") as f:
                 config = json.load(f)
-                admin_roles = config['General']['AdminRoles']
+                admin_roles = config["General"]["AdminRoles"]
         except FileNotFoundError:
             return False
 
-
-        with open(f'main-config.json', 'r') as f:
+        with open(f"main-config.json", "r") as f:
             main_config = json.load(f)
-            owners = main_config['OwnerUsers']
+            owners = main_config["OwnerUsers"]
 
         isAble = 0
 
@@ -800,9 +794,9 @@ class Other(commands.Cog):
     def checkInvos(self, guild_id):
         try:
             try:
-                with open(f'configs/{guild_id}.json', 'r') as f:
+                with open(f"configs/{guild_id}.json", "r") as f:
                     config = json.load(f)
-                    delinvos = config['General']['DeleteInvocations']
+                    delinvos = config["General"]["DeleteInvocations"]
             except FileNotFoundError:
                 return False
 
@@ -815,30 +809,27 @@ class Other(commands.Cog):
             self.failSaveConfig
 
     def constructResponseEmbedBase(self, desc):
-        embed = discord.Embed(title = f"**Invitebot**", description = desc, color = discord.Colour.from_rgb(119, 137, 218))
-        embed.set_thumbnail(url="https://invitebot.xyz/icons/invitebot-logo.png")
-        now = datetime.datetime.now()
-        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | Invitebot made with \u2764\ufe0f by Nevalicjus")
-
+        embed = discord.Embed(title = "**Invitebot**", description = desc, timestamp = datetime.datetime.utcnow(), color = discord.Colour.from_rgb(119, 137, 218))
+        embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
+        embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
         return embed
 
     async def serverLog(self, guild_id, type: str, log_msg):
-        with open(f'configs/{guild_id}.json', 'r') as f:
+        with open(f"configs/{guild_id}.json", "r") as f:
             config = json.load(f)
-            log_channel_id = config['General']['ServerLog']
+            log_channel_id = config["General"]["ServerLog"]
         if log_channel_id == 0:
             return
 
         if type in ["mod_added", "cnfg_save"]:
             em_color = discord.Colour.from_rgb(67, 181, 129)
-        if type in ["delinvos", "prefix_change", "cnfg_switch"]:
+        if type in ["delinvos", "prefix_change", "cnfg_switch", "g_awaitrules", "g_welcome"]:
             em_color = discord.Colour.from_rgb(250, 166, 26)
         if type in ["mod_deleted", "cnfg_del"]:
             em_color = discord.Colour.from_rgb(240, 71, 71)
 
-        embed = discord.Embed(title = f"**Invitebot Logging**", color = em_color)
-        now = datetime.datetime.now()
-        embed.set_footer(text = f"{now.strftime('%H:%M')} / {now.strftime('%d/%m/%y')} | Invitebot made with \u2764\ufe0f by Nevalicjus")
+        embed = discord.Embed(title = f"**Invitebot Logging**", timestamp = datetime.datetime.utcnow(), color = em_color)
+        embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
         if type == "mod_added":
             embed.add_field(name = "Admin Role Added", value = log_msg, inline = False)
@@ -854,10 +845,13 @@ class Other(commands.Cog):
             embed.add_field(name = "Current Config Switch", value = log_msg, inline = False)
         if type == "cnfg_del":
             embed.add_field(name = "Saved Config Deleted", value = log_msg, inline = False)
+        if type == "g_welcome":
+            embed.add_field(name = "Changed Global Welcome Message", value = log_msg, inline = False)
+        if type == "g_awaitrules":
+            embed.add_field(name = "Changed Global Await Rules status", value = log_msg, inline = False)
 
         log_channel = self.client.get_channel(log_channel_id)
         await log_channel.send(embed = embed)
-
 
 def setup(client):
     client.add_cog(Other(client))
