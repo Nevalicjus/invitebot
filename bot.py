@@ -20,7 +20,7 @@ def get_prefix(cl, message):
     except:
         prefix = config["Prefix"]
 
-    return prefix
+    return [f"<@{cl.user.id}> ", prefix]
 
 intents = discord.Intents.default()
 intents.members = True
