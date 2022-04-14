@@ -721,7 +721,7 @@ class Invs(commands.Cog):
         if isinstance(error, commands.BadInviteArgument):
             await ctx.send("Invite you are trying to use is invalid or expired")
         if isinstance(error, commands.CommandOnCooldown):
-            await ctx.send(f"You are trying to use this command too fast. Cooldown is 30s and you can run your command in {self.massmake.get_cooldown_retry_after(ctx)}")
+            await ctx.send(f"You are trying to use this command too fast. Cooldown is 30s and you can run your command in {round(error.retry_after)}s")
 
         #await self.errorLog()
 
