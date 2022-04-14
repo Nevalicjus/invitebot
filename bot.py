@@ -40,7 +40,7 @@ async def on_ready():
  |_| \_|\___| \_/   |_____|_| |_|\_/ |_.__/ \___/ \__|
 
     """
-    print(f"\033[34m{ascii}\033[0m")
+    print(f"\033[34m{ascii}\033[0m\nThanks for using my bot! If you like it, consider supporting me on kofi - https://ko-fi.com/nevalicjus")
     log("Invitebot started")
     loaded_cogs = await loadall()
     log(f"Cogs named: {loaded_cogs} were loaded")

@@ -794,6 +794,7 @@ class Other(commands.Cog):
         embed.add_field(name = "[https://docs.invitebot.xyz/]", value = "Bot's Documentation Page", inline = False)
         embed.add_field(name = "[https://invitebot.xyz/github]", value = "Bot's GitHub page", inline = False)
         embed.add_field(name = "[https://invitebot.xyz/topgg]", value = "Bot's Top.gg page", inline = False)
+        embed.add_field(name = "[https://n3v.xyz/kofi]", value = "Support Me ☕", inline = False)
         await ctx.send(embed = embed)
 
     @commands.command()
