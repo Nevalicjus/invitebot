@@ -449,6 +449,65 @@ class Invs(commands.Cog):
 
         #await self.errorLog()
 
+    @commands.command(aliases = ["invar"])
+    async def awaitrules(self, ctx, invite: discord.Invite, choice):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay = 3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
+            config = json.load(f)
+
+        if choice in ["true", "yes", "y", "allow", "enable", "1"]:
+            choice = True
+        if choice in ["false", "no", "n", "deny", "disable", "0"]:
+            choice = False
+        if choice not in [True, False]:
+            embed = self.constructResponseEmbedBase("This is not a valid input")
+            await ctx.send(embed = embed)
+            return
+
+        try:
+            config["Invites"][f"{invite.code}"]["tags"]["awaitrules"] = choice
+            if choice == True:
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules of invite {invite.code}")
+                await self.serverLog(ctx.guild.id, "inv_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules of invite {invite.code}")
+
+            if choice == False:
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] disable awaiting rules of invite {invite.code}")
+                await self.serverLog(ctx.guild.id, "inv_awaitrules", f"{ctx.author}[`{ctx.author.id}`] disabled awaiting rules of invite {invite.code}")
+
+        except KeyError:
+            if choice == True:
+                config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {"awaitrules": True}}
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to enable awaiting rules of a non-existent in db invite, so it was created")
+            if choice == False:
+                config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {"awaitrules": False}}
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to disable awaiting rules of a non-existent in db invite, so it was created")
+
+        if choice == True:
+            await ctx.send(f"Enabled awaiting rules of invite {invite.code}")
+        if choice == False:
+            await ctx.send(f"Disabled awaiting rules of invite {invite.code}")
+
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
+            json.dump(config, f, indent = 4)
+
+    @awaitrules.error
+    async def awaitrules_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "invite":
+                await ctx.send("Your command is missing a required argument: a valid Discord invite link or invite code")
+            elif error.param.name == "choice":
+                await ctx.send("Please provide an option for the setting (yes/no)")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+        #await self.errorLog()
+
     @commands.command(aliases = ['invlist', 'invls'])
     async def list(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
@@ -827,6 +886,8 @@ class Invs(commands.Cog):
             embed.add_field(name = "Invite Renamed", value = log_msg, inline = False)
         if type == "inv_welcome":
             embed.add_field(name = "Invite Changed Welcome Message", value = log_msg, inline = False)
+        if type == "inv_awaitrules":
+            embed.add_field(name = "Invite Changed Await Rules status", value = log_msg, inline = False)
         if type == "inv_deleted":
             embed.add_field(name = "Invite Deleted", value = log_msg, inline = False)
         if type == "inv_used":
