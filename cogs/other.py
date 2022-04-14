@@ -919,46 +919,6 @@ class Other(commands.Cog):
         log_channel = self.client.get_channel(log_channel_id)
         await log_channel.send(embed = embed)
 
-    async def failSafeConfig(self, guild_id):
-        try:
-            if str(guild_id) not in guilds_with_saved_cnfgs:
-                os.system(f'cd {os.getenv("PWD")}/saved-configs/ && mkdir {guild_id}')
-
-            savefp = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-            os.system(f'cp {os.getenv("PWD")}/configs/{guild_id}.json {os.getenv("PWD")}/saved-configs/{guild_id}/{savefp}.json')
-
-        except:
-            self.log(guild_id, f"failSaveConfig failed to create a saved config.")
-
-        braces = "{}"
-
-        os.system(f"touch configs/{guild_id}.json && echo {braces} > configs/{guild_id}.json")
-        await asyncio.sleep(3)
-        try:
-            with open(f'configs/{guild_id}.json', 'r') as f:
-                config = json.load(f)
-        except:
-            self.log(guild_id, f"failSafeConvig couldn't be created.")
-
-        #creates config data
-        config['General'] = {}
-        config['Invites'] = {}
-
-        config['General']['DeleteInvocations'] = 0
-        config['General']['AdminRoles'] = []
-        config['General']['ServerLog'] = 0
-        config['General']['Prefix'] = "i!"
-        config['General']['WelcomeMessage'] = "None"
-
-        for invite in await guild.invites():
-            config['Invites'][f'{invite.code}'] = {}
-            config['Invites'][f'{invite.code}']['name'] = "None"
-            config['Invites'][f'{invite.code}']['roles'] = []
-            config['Invites'][f'{invite.code}']['uses'] = invite.uses
-            config['Invites'][f'{invite.code}']['welcome'] = "None"
-
-        with open(f'configs/{guild_id}.json', 'w') as f:
-            json.dump(config, f, indent = 4)
 
 def setup(client):
     client.add_cog(Other(client))
