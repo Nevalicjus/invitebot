@@ -41,9 +41,11 @@ class Invs(commands.Cog):
         if len(config["Invites"]) != len(srv_invites):
             for inv in config["Invites"]:
                 try:
-                    if ((inv not in srv_invites) and (config["Invites"][inv]["tags"]["1use"] == "used")):
-                        del config["Invites"][f"{inv}"]
-                        break
+                    if "1use" in config["Invites"][f"{invite.code}"]["tags"]:
+                        if ((inv not in srv_invites) and (config["Invites"][f"{inv}"]["tags"]["1use"] == "used")):
+                            del config["Invites"][f"{inv}"]
+                            break
+
                 except KeyError:
                     pass
 
