@@ -491,6 +491,80 @@ class Other(commands.Cog):
                 await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
+    async def gawaitrules(self, ctx, choice):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay = 3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        if choice in ["true", "yes", "y", "allow", "enable", "1"]:
+            choice = True
+        if choice in ["false", "no", "n", "deny", "disable", "0"]:
+            choice = False
+        if choice not in [True, False]:
+            embed = self.constructResponseEmbedBase("This is not a valid input")
+            await ctx.send(embed = embed)
+            return
+
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
+            config = json.load(f)
+
+        config["General"]["AwaitRulesAccept"] = choice
+
+        if choice == True:
+            self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules globally")
+            await self.serverLog(ctx.guild.id, "g_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules globally")
+            embed = self.constructResponseEmbedBase("Enabled awaiting rules globally")
+            await ctx.send(embed = embed)
+        if choice == False:
+            self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules globally")
+            await self.serverLog(ctx.guild.id, "g_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules globally")
+            embed = self.constructResponseEmbedBase("Disabled awaiting rules globally")
+            await ctx.send(embed = embed)
+
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
+            json.dump(config, f, indent = 4)
+
+    @gawaitrules.error
+    async def gawaitrules_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "choice":
+                await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
+
+    @commands.command()
+    async def gwelcome(self, ctx, *, welcome):
+        if self.checkInvos(ctx.guild.id) == 1:
+            await ctx.message.delete(delay = 3)
+
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+            await ctx.send("You are not permitted to run this command")
+            return
+
+        with open(f"configs/{ctx.guild.id}.json", "r") as f:
+            config = json.load(f)
+
+        old_welcome = config["General"]["WelcomeMessage"]
+        config["General"]["WelcomeMessage"] = welcome
+        self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] changed the global welcome message from {old_welcome} to {welcome}")
+        await self.serverLog(ctx.guild.id, "g_welcome", f"{ctx.author}[`{ctx.author.id}`] changed the global welcome message from {old_welcome} to {welcome}")
+
+        embed = self.constructResponseEmbedBase(f"Changed the global welcome message from {old_welcome} to {welcome}")
+        await ctx.send(embed = embed)
+
+        with open(f"configs/{ctx.guild.id}.json", "w") as f:
+            json.dump(config, f, indent = 4)
+
+    @gwelcome.error
+    async def gwelcome_err_handler(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            if error.param.name == "welcome":
+                await ctx.send("Your command is missing a required argument: a welcome message to be used globally")
+        if isinstance(error, commands.BadInviteArgument):
+            await ctx.send("Invite you are trying to use is invalid or expired")
+
+    @commands.command()
     async def analytics(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
