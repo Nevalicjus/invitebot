@@ -186,6 +186,7 @@ class Owner(commands.Cog):
                     config["General"]["WelcomeMessage"] = "None"
                     config["General"]["Analytics"] = False
                     config["General"]["AnalyticsLog"] = 0
+                    config["General"]["AwaitRulesAccept"] = True
 
                     config["Invites"] = {}
                     for invite in await guild.invites():
