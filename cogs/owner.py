@@ -1,15 +1,9 @@
 import discord
-import os
 from discord.ext import commands
 import json
-import asyncio
 import datetime
-import traceback
-import sys
 import pathlib
 import time
-intents = discord.Intents.default()
-intents.members = True
 
 class Owner(commands.Cog):
     def __init__(self, client):

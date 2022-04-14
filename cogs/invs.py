@@ -4,10 +4,6 @@ from discord.ext import commands
 import json
 import asyncio
 import datetime
-import traceback
-import sys
-intents = discord.Intents.default()
-intents.members = True
 
 class Invs(commands.Cog):
     def __init__(self, client):
