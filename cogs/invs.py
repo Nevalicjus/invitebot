@@ -75,7 +75,6 @@ class Invs(commands.Cog):
         with open(f"configs/{invite.guild.id}.json", "w") as f:
             json.dump(config, f, indent = 4)
 
-
     @commands.Cog.listener()
     async def on_member_join(self, member):
         if member.bot is True:
@@ -282,6 +281,9 @@ class Invs(commands.Cog):
         return found_code
 
     @commands.command(aliases = ["inva"])
+    #------------------------------
+    # Add role to invite
+    #------------------------------
     async def add(self, ctx, invite: discord.Invite, role: discord.Role):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -329,6 +331,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ["invrem", "invr"])
+    #------------------------------
+    # Remove role or all roles from invite
+    #------------------------------
     async def remove(self, ctx, invite: discord.Invite, role: discord.Role = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -370,6 +375,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ["invn", "rename"])
+    #------------------------------
+    # Rename invite
+    #------------------------------
     async def name(self, ctx, invite: discord.Invite, name: str):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -409,6 +417,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ["invw"])
+    #------------------------------
+    # Set invite's welcome message
+    #------------------------------
     async def welcome(self, ctx, invite: discord.Invite, welcome: str):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -448,6 +459,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ["invar"])
+    #------------------------------
+    # Set invite's await rules setting
+    #------------------------------
     async def awaitrules(self, ctx, invite: discord.Invite, choice):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -507,6 +521,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ['invlist', 'invls'])
+    #------------------------------
+    # List invites
+    #------------------------------
     async def list(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -559,6 +576,9 @@ class Invs(commands.Cog):
             await ctx.send(embed = embed)
 
     @commands.command(aliases = ["invm"])
+    #------------------------------
+    # Make an invite
+    #------------------------------
     async def make(self, ctx, channel: discord.TextChannel, name: str = "None", role: discord.Role = 0, uses: int = 0, age: int = 0):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -636,6 +656,9 @@ class Invs(commands.Cog):
 
     @commands.command(aliases = ["invmm"])
     @commands.cooldown(1.0, 30.0, commands.BucketType.guild)
+    #------------------------------
+    # Massmake an invite
+    #------------------------------
     async def massmake(self, ctx, num: int, channel: discord.TextChannel, name: str = "None", role: discord.Role = 0, uses: int = 0, age: int = 0):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -728,6 +751,9 @@ class Invs(commands.Cog):
         #await self.errorLog()
 
     @commands.command(aliases = ["invdel", "invd"])
+    #------------------------------
+    # Delete an invite
+    #------------------------------
     async def delete(self, ctx, invite: discord.Invite):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)

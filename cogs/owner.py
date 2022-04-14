@@ -213,9 +213,9 @@ class Owner(commands.Cog):
         #           noconf_guild_ids.append(guild.id)
 
     @commands.command()
-    #
-    # Sends guilds stats
-    #
+    #------------------------------
+    # Sens guilds stats
+    #------------------------------
     async def stats(self, ctx):
         members = 0
         for guild in self.client.guilds:

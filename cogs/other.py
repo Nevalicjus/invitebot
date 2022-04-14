@@ -480,6 +480,9 @@ class Other(commands.Cog):
                 await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
+    #------------------------------
+    # Change global await rules setting
+    #------------------------------
     async def gawaitrules(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -523,6 +526,9 @@ class Other(commands.Cog):
                 await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
+    #------------------------------
+    # Change global welcome message
+    #------------------------------
     async def gwelcome(self, ctx, *, welcome):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -554,6 +560,9 @@ class Other(commands.Cog):
             await ctx.send("Invite you are trying to use is invalid or expired")
 
     @commands.command()
+    #------------------------------
+    # Change invite analytics setting
+    #------------------------------
     async def analytics(self, ctx, choice):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -595,6 +604,9 @@ class Other(commands.Cog):
                 await ctx.send("Your command is missing a required argument: choice for the setting (yes/no)")
 
     @commands.command()
+    #------------------------------
+    # Set analytics log channel
+    #------------------------------
     async def analyticslog(self, ctx, channel: discord.TextChannel = "None"):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -625,6 +637,9 @@ class Other(commands.Cog):
             await ctx.send("Channel you are trying to mention or provide ID of doesn't exist")
 
     @commands.command()
+    #------------------------------
+    # Display invite analytics of user
+    #------------------------------
     async def analyticsuser(self, ctx, inviter: discord.Member):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
@@ -718,23 +733,26 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
             embed.add_field(name = "i!**make #channel (name) (@role) (<max_uses>) (<max_age>)**", value = "Aliases - invm\nCreates an invite for #channel and instantly adds a link to @role for it. If <max_uses> and <max_age> are specified, the invite will be created with them in mind", inline = False)
             embed.add_field(name = "i!**massmake num #channel name (@role) (<max_uses>) (<max_age>)**", value = "Aliases - invmm\nRunnable every 30s. Creates num of invites with specified parameters", inline = False)
-            embed.add_field(name = "i!**delete <delete>**", value = "Aliases - invdel, invd\nDeletes <invite>", inline = False)
+            embed.add_field(name = "i!**delete <invite>**", value = "Aliases - invdel, invd\nDeletes <invite>", inline = False)
             embed.add_field(name = "i!**name <invite> <name>**", value = "Aliases - invm, rename\nRenames specified invite", inline = False)
             embed.add_field(name = "i!**welcome <invite> <welcome_msg>**", value = "Aliases - invw\nChanges welcome message of specified invite. Use `None` as the message to remove it", inline = False)
+            embed.add_field(name = "i!**awaitrules <invite> <y/n>**", value = "Aliases - invar\nEnables or disables rules acceptance awaiting for invite\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**addmod @role**", value = "Adds @role to Admin Roles", inline = False)
             embed.add_field(name = "i!**delmod @role**", value = "Removes @role from Admin Roles", inline = False)
-            embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
+            embed.add_field(name = "i!**delinvos <y/n>**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
+            embed.add_field(name = "i!**gwelcome <welcome_msg>**", value = "Aliases - invw\nChanges global welcome message. Use `None` as the message to remove it", inline = False)
+            embed.add_field(name = "i!**gawaitrules <y/n>**", value = "Aliases - invar\nEnables or disables global rules acceptance awaiting\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "i!**enablelog #channel**", value = "Aliases - elog\nEnables log on #channel", inline = False)
             embed.add_field(name = "i!**disablelog**", value = "Aliases - dlog\nDisables log", inline = False)
             embed.add_field(name = "i!**prefix <new prefix>**", value = "Changes your guild's prefix to new prefix", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**saveconfig**", value = "Aliases - savecnfg, sconf\nSaves current full-server config to saved configs", inline = False)
             embed.add_field(name = "i!**listconfigs**", value = "Aliases - lscnfgs, lsconf\nLists your saved configs", inline = False)
-            embed.add_field(name = "i!**deleteconfig**", value = "Aliases - removeconfig, delcnfg, delconf, remconf\nDeletes a saved config", inline = False)
-            embed.add_field(name = "i!**switchconfig**", value = "Aliases - switchcnfg, switchconf\nLoads a saved config in place of the current one, after saving the currently used config", inline = False)
+            embed.add_field(name = "i!**deleteconfig <conf-id>**", value = "Aliases - removeconfig, delcnfg, delconf, remconf\nDeletes saved config with conf-id", inline = False)
+            embed.add_field(name = "i!**switchconfig <conf-id>**", value = "Aliases - switchcnfg, switchconf\nLoads saved config with conf-id in place of the current one, after saving the currently used config", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
-            embed.add_field(name = "i!**analytics <true/false>**", value = "Enables or disables Analytics", inline = False)
+            embed.add_field(name = "i!**analytics <y/n>**", value = "Enables or disables Analytics\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "i!**analyticslog (#channel)**", value = "Enables Analytics log on #channel. If #channel is not specified, disables Analytics log", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
@@ -746,11 +764,14 @@ class Other(commands.Cog):
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
             embed.add_field(name = "i!**name <invite> <name>**", value = "Aliases - invm, rename\nRenames specified invite", inline = False)
             embed.add_field(name = "i!**welcome <invite> <welcome_msg>**", value = "Aliases - invw\nChanges welcome message of specified invite. Use `None` as the message to remove it", inline = False)
+            embed.add_field(name = "i!**awaitrules <invite> <y/n>**", value = "Aliases - invar\nEnables or disables rules acceptance awaiting for invite\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
-            embed.add_field(name = "i!**delinvos y/n**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
+            embed.add_field(name = "i!**delinvos <y/n>**", value = "Enables or disables Invocation Deletion.\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "i!**prefix <new prefix>**", value = "Changes your guild's prefix to new prefix", inline = False)
+            embed.add_field(name = "i!**gwelcome <welcome_msg>**", value = "Aliases - invw\nChanges global welcome message. Use `None` as the message to remove it", inline = False)
+            embed.add_field(name = "i!**gawaitrules <y/n>**", value = "Aliases - invar\nEnables or disables global rules acceptance awaiting\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
-            embed.add_field(name = "i!**analytics <true/false>**", value = "Enables or disables Analytics", inline = False)
+            embed.add_field(name = "i!**analytics <y/n>**", value = "Enables or disables Analytics\nAcceptable input:\nyes/no, y/n, true/false, allow/deny, enable/disable, 1/0", inline = False)
             embed.add_field(name = "**----------**", value = "**----------**", inline = False)
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
