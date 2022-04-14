@@ -71,7 +71,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -107,7 +107,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -235,7 +235,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -276,7 +276,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -314,7 +314,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -354,7 +354,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -392,7 +392,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -422,7 +422,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -444,7 +444,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -484,7 +484,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -502,12 +502,12 @@ class Other(commands.Cog):
 
         config["General"]["AwaitRulesAccept"] = choice
 
-        if choice == True:
+        if choice is True:
             self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules globally")
             await self.serverLog(ctx.guild.id, "g_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules globally")
             embed = self.constructResponseEmbedBase("Enabled awaiting rules globally")
             await ctx.send(embed = embed)
-        if choice == False:
+        if choice is False:
             self.log(ctx.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules globally")
             await self.serverLog(ctx.guild.id, "g_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules globally")
             embed = self.constructResponseEmbedBase("Disabled awaiting rules globally")
@@ -527,7 +527,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -558,7 +558,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -576,11 +576,11 @@ class Other(commands.Cog):
 
         config["General"]["Analytics"] = choice
 
-        if choice == True:
+        if choice is True:
             embed = self.constructResponseEmbedBase("You've successfully enabled Invite Analytics")
             await ctx.send(embed = embed)
             await self.serverLog(ctx.guild.id, "delinvos", "Invite Analytics has been enabled")
-        if choice == False:
+        if choice is False:
             embed = self.constructResponseEmbedBase("You've successfully disabled Invite Analytics")
             await ctx.send(embed = embed)
             await self.serverLog(ctx.guild.id, "delinvos", "Invite Analytics has been disabled")
@@ -599,7 +599,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             embed = self.constructResponseEmbedBase("You are not permitted to run this command")
             await ctx.send(embed = embed)
             return
@@ -632,7 +632,7 @@ class Other(commands.Cog):
         with open(f"configs/{ctx.guild.id}.json", "r") as f:
             config = json.load(f)
 
-        if config["General"]["Analytics"] == False:
+        if config["General"]["Analytics"] is False:
             embed = self.constructResponseEmbedBase("Analytics are disabled on this server")
             await ctx.send(embed = embed)
             return
@@ -670,7 +670,7 @@ class Other(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -704,7 +704,7 @@ class Other(commands.Cog):
         embed.set_thumbnail(url = "https://invitebot.xyz/icons/invitebot-logo.png")
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             embed.add_field(name = "i!**invite**", value = "Sends you the bot invite", inline = False)
             embed.add_field(name = "i!**info**", value = "Sends you the bot's information", inline = False)
             embed.add_field(name = "i!**analyticsuser @user**", value = "Sends you how many people did @user invite to the server", inline = False)
@@ -712,7 +712,7 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        elif ((ctx.message.author.id == ctx.guild.owner_id) or (self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == True)):
+        elif ((ctx.message.author.id == ctx.guild.owner_id) or (self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is True)):
             embed.add_field(name = "i!**add <invite> @role**", value = "Aliases - inva\nAdds a link between <invite> and @role", inline = False)
             embed.add_field(name = "i!**remove <invite> (@role)**", value = "Aliases - invrem, invr\nRemoves a link between <invite> and @role or removes all invite-roles links on the invite if no role is specified", inline = False)
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
@@ -742,7 +742,7 @@ class Other(commands.Cog):
             await ctx.send(embed = embed)
             return
 
-        elif self.checkPerms(ctx.author.id, ctx.guild.id, ["manage_guild"]) == True:
+        elif self.checkPerms(ctx.author.id, ctx.guild.id, ["manage_guild"]) is True:
             embed.add_field(name = "i!**list**", value = "Aliases - invlist, invls\nLists all invite-role links for the current server", inline = False)
             embed.add_field(name = "i!**name <invite> <name>**", value = "Aliases - invm, rename\nRenames specified invite", inline = False)
             embed.add_field(name = "i!**welcome <invite> <welcome_msg>**", value = "Aliases - invw\nChanges welcome message of specified invite. Use `None` as the message to remove it", inline = False)
@@ -847,10 +847,10 @@ class Other(commands.Cog):
                 isAble += 1
 
         if "admin" in addscopes:
-            if member.guild_permissions.administrator == True:
+            if member.guild_permissions.administrator is True:
                 isAble += 1
         if "manage_guild" in addscopes:
-            if member.guild_permissions.manage_guild == True:
+            if member.guild_permissions.manage_guild is True:
                 isAble += 1
 
         if isAble >= 1:

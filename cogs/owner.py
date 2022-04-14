@@ -17,7 +17,7 @@ class Owner(commands.Cog):
     async def serverinfo(self, ctx, guild_id: int = 0):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay=3)
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         if guild_id == 0:
@@ -34,17 +34,17 @@ class Owner(commands.Cog):
         embed.add_field(name = "**Region**", value = guild.region, inline = True)
         if guild.premium_tier != 0:
             embed.add_field(name = "**Boost Status**", value = guild.premium_tier, inline = True)
-        if guild.rules_channel != None:
+        if guild.rules_channel is not None:
             embed.add_field(name = "**Rules_Channel**", value = guild.rules_channel, inline = True)
         embed.add_field(name = "**Members**", value = guild.member_count, inline = True)
         embed.add_field(name = "**Roles**", value = len(guild.roles), inline = True)
         embed.add_field(name = "**Channels**", value = f"Categories ~ {len(guild.categories)}\nText Channels ~ {len(guild.text_channels)}\nVoice Channels ~ {len(guild.voice_channels)}", inline = True)
 
-        if guild.splash != None:
+        if guild.splash is not None:
             embed.add_field(name = "**Splash URL**", value = guild.splash_url, inline = True)
-        if guild.banner != None:
+        if guild.banner is not None:
             embed.add_field(name = "**Banner URL**", value = guild.banner_url, inline = True)
-        if guild.description != None:
+        if guild.description is not None:
             embed.add_field(name = "**Guild Description**", value = guild.description, inline = True)
         now = datetime.datetime.now()
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
@@ -57,7 +57,7 @@ class Owner(commands.Cog):
     async def allserverinfo(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         self.log(0, f"{ctx.author} requested server info for all guilds")
@@ -73,15 +73,15 @@ class Owner(commands.Cog):
 
                     if guild.premium_tier != 0:
                         f.write(f"Boost Status: {guild.premium_tier}\n")
-                    if guild.rules_channel != None:
+                    if guild.rules_channel is not None:
                         f.write(f"Rules: {guild.rules_channel}\n")
-                    if guild.icon != None:
+                    if guild.icon is not None:
                         f.write(f"IconURL: {guild.icon_url}\n")
-                    if guild.splash != None:
+                    if guild.splash is not None:
                         f.write(f"SplashURL: {guild.splash_url}\n")
-                    if guild.banner != None:
+                    if guild.banner is not None:
                         f.write(f"BannerURL: {guild.banner_url}\n")
-                    if guild.description != None:
+                    if guild.description is not None:
                         f.write(f"Description: {guild.description}\n")
 
                 except discord.HTTPException as msg_ex:
@@ -105,7 +105,7 @@ class Owner(commands.Cog):
     async def ping(self, ctx):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         self.log(ctx.guild.id, f"{ctx.message.author} pinged me on {ctx.message.channel}. Latency was equal to {round(self.client.latency * 1000)}ms")
@@ -116,7 +116,7 @@ class Owner(commands.Cog):
     # Leave specified or current guild
     #------------------------------
     async def leave(self, ctx, guild_id: int = 0):
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         if guild_id == 0:
@@ -131,7 +131,7 @@ class Owner(commands.Cog):
     # Generate file not found error
     #------------------------------
     async def err(self, ctx):
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         with open("file.txt", "r") as f:
@@ -142,7 +142,7 @@ class Owner(commands.Cog):
     # Add an entry to log
     #------------------------------
     async def alog(self, ctx, log_entry):
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         if self.checkInvos(ctx.guild.id) == 1:
@@ -155,7 +155,7 @@ class Owner(commands.Cog):
     # Regenerate config files for servers that do now have them
     #------------------------------
     async def regenconf(self, ctx, mode = 0):
-        if self.checkOwner(ctx.message.author.id) == False:
+        if self.checkOwner(ctx.message.author.id) is False:
             return
 
         if self.checkInvos(ctx.guild.id) == 1:
@@ -165,7 +165,7 @@ class Owner(commands.Cog):
             self.log(0, " === REGEN CONF DRY RUN === ")
             noconf_guild_ids = []
             for guild in self.client.guilds:
-                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() == False:
+                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() is False:
                     self.log(0, f"Guild {guild.id} had no configuration present")
                     noconf_guild_ids.append(guild.id)
 
@@ -173,7 +173,7 @@ class Owner(commands.Cog):
             self.log(0, " === REGEN CONF REGEN MISSING === ")
             noconf_guild_ids = []
             for guild in self.client.guilds:
-                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() == False:
+                if pathlib.Path(f"{pathlib.Path.cwd()}/configs/{guild.id}.json").exists() is False:
                     self.log(0, f"Guild {guild.id} had no configuration present")
                     noconf_guild_ids.append(guild.id)
 

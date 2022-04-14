@@ -17,7 +17,7 @@ class Invs(commands.Cog):
 
         config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {}}
         if ("COMMUNITY" in invite.guild.features) and ("MEMBER_VERIFICATION_GATE_ENABLED" in invite.guild.features):
-            if config["General"]["AwaitRulesAccept"] == True:
+            if config["General"]["AwaitRulesAccept"] is True:
                 config["Invites"][f"{invite.code}"]["tags"]["awaitrules"] = True
         if invite.max_uses == 1:
             config["Invites"][f"{invite.code}"]["tags"]["1use"] = True
@@ -49,7 +49,7 @@ class Invs(commands.Cog):
 
         # if invite is a 1use, marked it as used so addinvroles can read roles and then delete the inv
         if "1use" in config["Invites"][f"{invite.code}"]["tags"]:
-            if config["Invites"][f"{invite.code}"]["tags"]["1use"] == True:
+            if config["Invites"][f"{invite.code}"]["tags"]["1use"] is True:
                 config["Invites"][f"{invite.code}"]["tags"]["1use"] = "used"
 
                 inv_name = config["Invites"][f"{invite.code}"]['name']
@@ -76,7 +76,7 @@ class Invs(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        if member.bot == True:
+        if member.bot is True:
             return
         await asyncio.sleep(1)
         await self.add_inv_roles(await self.find_used_invite(member), member)
@@ -96,8 +96,8 @@ class Invs(commands.Cog):
 
                 # community server & rule screening checkpart
                 if ("COMMUNITY" in member.guild.features) and ("MEMBER_VERIFICATION_GATE_ENABLED" in member.guild.features):
-                    if (config["General"]["AwaitRulesAccept"] == True) and (config["Invites"][f"{invite}"]["tags"]["awaitrules"] == True):
-                        while member.pending == True:
+                    if (config["General"]["AwaitRulesAccept"] is True) and (config["Invites"][f"{invite}"]["tags"]["awaitrules"] is True):
+                        while member.pending is True:
                             # awaiting user rules acceptance
                             await asyncio.sleep(3)
 
@@ -156,7 +156,7 @@ class Invs(commands.Cog):
         found_code = ""
         invite_list = await member.guild.invites()
         try:
-            if await member.guild.vanity_invite() != None:
+            if await member.guild.vanity_invite() is not None:
                 invite_list.append(await member.guild.vanity_invite())
         except discord.HTTPException as msg_ex:
             if msg_ex.code == 50013 and msg_ex.status == 403:
@@ -285,7 +285,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -332,7 +332,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -373,7 +373,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -412,7 +412,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -426,7 +426,7 @@ class Invs(commands.Cog):
             await self.serverLog(ctx.guild.id, "inv_welcome", f"{ctx.author}[`{ctx.author.id}`] changed the welcome message of invite {invite.code} from {old_welcome} to {welcome}")
 
         except KeyError:
-            config["Invites"][f"{invite.code}"] = {"name": f"None", "roles": [], "uses": 0, "welcome": f"{welcome}", "tags": {}}
+            config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": f"{welcome}", "tags": {}}
             self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to change the welcome message of a non-existent in db invite, so it was created")
 
         await ctx.send(f"Changed the welcome message of invite {invite.code} from {old_welcome} to {welcome}")
@@ -451,7 +451,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -469,25 +469,25 @@ class Invs(commands.Cog):
 
         try:
             config["Invites"][f"{invite.code}"]["tags"]["awaitrules"] = choice
-            if choice == True:
+            if choice is True:
                 self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] enabled awaiting rules of invite {invite.code}")
                 await self.serverLog(ctx.guild.id, "inv_awaitrules", f"{ctx.author}[`{ctx.author.id}`] enabled awaiting rules of invite {invite.code}")
 
-            if choice == False:
+            if choice is False:
                 self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] disable awaiting rules of invite {invite.code}")
                 await self.serverLog(ctx.guild.id, "inv_awaitrules", f"{ctx.author}[`{ctx.author.id}`] disabled awaiting rules of invite {invite.code}")
 
         except KeyError:
-            if choice == True:
+            if choice is True:
                 config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {"awaitrules": True}}
                 self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to enable awaiting rules of a non-existent in db invite, so it was created")
-            if choice == False:
+            if choice is False:
                 config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [], "uses": 0, "welcome": "None", "tags": {"awaitrules": False}}
                 self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] tried to disable awaiting rules of a non-existent in db invite, so it was created")
 
-        if choice == True:
+        if choice is True:
             await ctx.send(f"Enabled awaiting rules of invite {invite.code}")
-        if choice == False:
+        if choice is False:
             await ctx.send(f"Disabled awaiting rules of invite {invite.code}")
 
         with open(f"configs/{ctx.guild.id}.json", "w") as f:
@@ -510,7 +510,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin", "manage_guild"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -562,7 +562,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -594,7 +594,7 @@ class Invs(commands.Cog):
         if uses == 1:
             config['Invites'][f"{invite.code}"]["tags"]["1use"] = True
         if ("COMMUNITY" in invite.guild.features) and ("MEMBER_VERIFICATION_GATE_ENABLED" in invite.guild.features):
-            if config["General"]["AwaitRulesAccept"] == True:
+            if config["General"]["AwaitRulesAccept"] is True:
                 config["Invites"][f"{invite.code}"]["tags"]["awaitrules"] = True
 
         if name == "None":
@@ -639,7 +639,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -684,7 +684,7 @@ class Invs(commands.Cog):
             if uses == 1:
                 config["Invites"][f"{invite.code}"]["tags"]["1use"] = True
             if ("COMMUNITY" in invite.guild.features) and ("MEMBER_VERIFICATION_GATE_ENABLED" in invite.guild.features):
-                if config["General"]["AwaitRulesAccept"] == True:
+                if config["General"]["AwaitRulesAccept"] is True:
                     config["Invites"][f"{invite.code}"]["tags"]["awaitrules"] = True
 
             if name == "None":
@@ -731,7 +731,7 @@ class Invs(commands.Cog):
         if self.checkInvos(ctx.guild.id) == 1:
             await ctx.message.delete(delay = 3)
 
-        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) == False:
+        if self.checkPerms(ctx.author.id, ctx.guild.id, ["admin"]) is False:
             await ctx.send("You are not permitted to run this command")
             return
 
@@ -772,7 +772,7 @@ class Invs(commands.Cog):
         with open(f"configs/{guild_id}.json", "r") as f:
             config = json.load(f)
 
-        if (config["General"]["Analytics"] == True) and (config["General"]["AnalyticsLog"] != 0):
+        if (config["General"]["Analytics"] is True) and (config["General"]["AnalyticsLog"] != 0):
             guild = self.client.get_guild(guild_id)
             analytics_channel = self.client.get_channel(config["General"]["AnalyticsLog"])
             joiner = guild.get_member(user_id)
@@ -830,10 +830,10 @@ class Invs(commands.Cog):
                 isAble += 1
 
         if "admin" in addscopes:
-            if member.guild_permissions.administrator == True:
+            if member.guild_permissions.administrator is True:
                 isAble += 1
         if "manage_guild" in addscopes:
-            if member.guild_permissions.manage_guild == True:
+            if member.guild_permissions.manage_guild is True:
                 isAble += 1
 
         if isAble >= 1:
