@@ -162,7 +162,6 @@ class Invs(commands.Cog):
             if msg_ex.code == 50013 and msg_ex.status == 403:
                 #await ctx.send("Bot is missing permissions to see if vanity url is available")
                 self.log("0", "Bot is missing permissions to see if vanity url is available")
-                pass
         uses = {}
 
         with open(f"configs/{member.guild.id}.json", "r") as f:

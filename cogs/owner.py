@@ -46,7 +46,6 @@ class Owner(commands.Cog):
             embed.add_field(name = "**Banner URL**", value = guild.banner_url, inline = True)
         if guild.description is not None:
             embed.add_field(name = "**Guild Description**", value = guild.description, inline = True)
-        now = datetime.datetime.now()
         embed.set_footer(text = "Support Server - https://invitebot.xyz/support \nInvitebot made with \u2764\ufe0f by Nevalicjus")
         await ctx.send(embed = embed)
 
