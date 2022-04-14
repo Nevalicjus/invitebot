@@ -1,17 +1,11 @@
-import discord
 import os
-from discord.ext import commands
 import json
 import asyncio
 import datetime
-import traceback
-import sys
-intents = discord.Intents.default()
-intents.members = True
 
-with open("main-config.json", "r") as f:
-    config = json.load(f)
-    prefix = config["Prefix"]
+import discord
+from discord.ext import commands
+
     token = config["DiscordToken"]
     logFile = config["LogFile"]
     delinvos = config["DeleteOwnerCommandsInvos"]
