@@ -302,10 +302,15 @@ class Invs(commands.Cog):
 
         try:
             inv_roles = config["Invites"][f"{invite.code}"]["roles"]
-            inv_roles.append(role.id)
-            self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] added role {role.name} to invite {invite.code}")
-            await self.serverLog(ctx.guild.id, "inv_added", f"<@{ctx.author.id}>[`{ctx.author.id}`] linked role {role.name}[`{role.id}`] to {invite.code}")
-
+            if role.id not in inv_roles:
+                inv_roles.append(role.id)
+                self.log(invite.guild.id, f"{ctx.author}[{ctx.author.id}] added role {role.name} to invite {invite.code}")
+                await self.serverLog(ctx.guild.id, "inv_added", f"<@{ctx.author.id}>[`{ctx.author.id}`] linked role {role.name}[`{role.id}`] to {invite.code}")
+            else:
+                await ctx.send("This invite already has this role added")
+                with open(f"configs/{ctx.guild.id}.json", "w") as f:
+                    json.dump(config, f, indent = 4)
+                return
 
         except KeyError:
             config["Invites"][f"{invite.code}"] = {"name": "None", "roles": [role.id], "uses": 0, "welcome": "None", "tags": {}}
@@ -559,7 +564,8 @@ class Invs(commands.Cog):
             about = ""
             for invrole in config["Invites"][f"{inv}"]["roles"]:
                 role = ctx.guild.get_role(invrole)
-                about += f"{role.name}\n"
+                if role != None:
+                    about += f"{role.name}\n"
             about += f"Uses - {config['Invites'][inv]['uses']}\n"
             if about != "":
                 if config["Invites"][f"{inv}"]["name"] != "None":
