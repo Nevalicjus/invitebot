@@ -8,6 +8,8 @@ Invitebot is a simple discord.py bot that connects invites to roles, and adds th
 
 If you run into a bug please report it to me :)
 
+**NOTE**: **This version of Invitebot is outdated since September of 2022. Please use the public version available here: [https://invitebot.xyz/invite](https://invitebot.xyz/invite)**
+
 ## Usage
 If you want to use the bot 'out of the box', I host it publically [here](https://invitebot.xyz/invite).</br>
 
