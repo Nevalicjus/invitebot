@@ -1,3 +1,8 @@
+**NOTE**: **This version of Invitebot is outdated since September of 2022. Please use the public version available here: [https://invitebot.xyz/invite](https://invitebot.xyz/invite)**
+
+---
+---
+
 <a target="https://invitebot.xyz/invite" href="https://invitebot.xyz/invite"><img src="https://invitebot.xyz/icons/bot-invite-blue.svg"></a>
 <a href="https://discord.gg/96vwUWGddh"><img alt="Discord" src="https://img.shields.io/discord/788042409799712788?style=flat&logo=discord"></a>
 <img src="https://invitebot.xyz/icons/license-MIT-yellow.svg">
@@ -7,8 +12,6 @@
 Invitebot is a simple discord.py bot that connects invites to roles, and adds them on_member_join
 
 If you run into a bug please report it to me :)
-
-**NOTE**: **This version of Invitebot is outdated since September of 2022. Please use the public version available here: [https://invitebot.xyz/invite](https://invitebot.xyz/invite)**
 
 ## Usage
 If you want to use the bot 'out of the box', I host it publically [here](https://invitebot.xyz/invite).</br>
